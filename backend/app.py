@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_restful import Api
 
 import controllers.user_controller
+import controllers.schedule_controller
 from controllers.index_controller import Index
 
 app = Flask(__name__)
