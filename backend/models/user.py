@@ -1,7 +1,8 @@
 from models import db
 
 class User(db.Model):
-    id = db.Column(db.SmallInteger,
+    id = db.Column(
+        db.SmallInteger,
         unique=True,
         nullable=False,
         primary_key=True,

@@ -1,13 +1,15 @@
 from models import db
 
 class Schedule(db.Model):
-    id = db.Column(db.Integer,
+    id = db.Column(
+        db.Integer,
         unique=True,
         nullable=False,
         primary_key=True,
         autoincrement=True)
 
-    user_id = db.Column(db.SmallInteger, 
+    user_id = db.Column(
+        db.SmallInteger,
         db.ForeignKey('user.id'),
         unique=False,
         nullable=False,
