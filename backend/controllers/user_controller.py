@@ -1,5 +1,6 @@
 from models.user import User, db
 from flask_restful import Resource, reqparse
+from flask_apispec.views import MethodResource
 
 parser = reqparse.RequestParser()
 parser.add_argument('address', type=str, help='User Address')
@@ -12,7 +13,7 @@ parser.add_argument('phone_number', type=str, help='User Phone Number')
 parser.add_argument('company_email', type=str, help='User Company Email')
 parser.add_argument('personal_email', type=str, help='User Personal Email')
 
-class Register(Resource):
+class Register(MethodResource, Resource):
     def post(self):
         args = parser.parse_args()
 
