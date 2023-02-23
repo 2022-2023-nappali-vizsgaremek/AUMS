@@ -2,6 +2,7 @@ from models import db
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
+from sqlalchemy_utils import database_exists, create_database
 
 import controllers.role_controller
 import controllers.card_controller
@@ -24,6 +25,8 @@ api.add_resource(Register, '/register')
 
 with app.app_context():
     db.init_app(app)
+    if not database_exists(db.engine.url):
+        create_database(db.engine.url)
     db.create_all()
 
 if __name__ == '__main__':
