@@ -8,4 +8,7 @@ class Card(db.Model):
         primary_key=True,
         autoincrement=True)
 
-    card_number = db.Column(db.String(100), unique=True, nullable=False)
+    card_number = db.Column(
+        db.String(100),
+        unique=True,
+        nullable=False)

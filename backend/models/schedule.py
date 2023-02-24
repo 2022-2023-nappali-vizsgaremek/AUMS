@@ -16,5 +16,12 @@ class Schedule(db.Model):
         primary_key=False,
         autoincrement=False)
 
-    enter_date = db.Column(db.Date, unique=False, nullable=False)
-    leave_date = db.Column(db.Date, unique=False, nullable=True)
+    enter_date = db.Column(
+        db.Date,
+        unique=False,
+        nullable=False)
+
+    leave_date = db.Column(
+        db.Date,
+        unique=False,
+        nullable=True)

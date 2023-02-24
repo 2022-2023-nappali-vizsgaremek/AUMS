@@ -8,5 +8,12 @@ class Role(db.Model):
         primary_key=True,
         autoincrement=True)
 
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    level = db.Column(db.SmallInteger, unique=True, nullable=False)
+    name = db.Column(
+        db.String(50),
+        unique=True,
+        nullable=False)
+
+    level = db.Column(
+        db.SmallInteger,
+        unique=True,
+        nullable=False)
