@@ -4,9 +4,6 @@ from create import api, app
 from controllers.index_controller import Index
 from controllers.user_controller import Register
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost:3306/aums"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@mysql_aums:3306/aums"
-
 api.add_resource(Index, '/')
 api.add_resource(Register, '/register')
 

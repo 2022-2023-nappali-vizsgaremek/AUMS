@@ -6,6 +6,8 @@ from apispec.ext.marshmallow import MarshmallowPlugin
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
+#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost:3306/aums"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@mysql_aums:3306/aums"
 
 CORS(app)
 api = Api(app)
