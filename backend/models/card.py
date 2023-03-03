@@ -12,9 +12,8 @@ class Card(db.Model):
         db.String(100),
         unique=True,
         nullable=False)
-    
+
     def serialize(self):
         return {
             'id': self.id,
-            'card_number': self.card_number
-        }
+            'card_number': self.card_number}
