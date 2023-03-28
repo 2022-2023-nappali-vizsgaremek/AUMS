@@ -7,11 +7,10 @@ def register_new_user(args):
     password = args['password']
     first_name = args['first_name']
     last_name = args['last_name']
-    birth_date = dt.datetime.strptime(args['birth_date'], '%Y-%m-%d')
+    birth_date = args['birth_date']
     phone_number = args['phone_number']
     personal_email = args['personal_email']
     address = args['address']
-
     company_email = f'{first_name.lower()}.{last_name.lower()}@aums.com'
 
     if not username or not password or not first_name or not last_name or not birth_date or not phone_number or not personal_email or not address:
