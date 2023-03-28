@@ -11,13 +11,20 @@ def register_new_user(args):
     phone_number = args['phone_number']
     personal_email = args['personal_email']
     address = args['address']
-    company_email = f'{first_name.lower()}.{last_name.lower()}@aums.com'
+    
+    
 
-    if not username or not password or not first_name or not last_name or not birth_date or not phone_number or not personal_email or not address:
+    if not username or not password or not first_name or not birth_date or not phone_number or not personal_email or not address:
         return {
             'status': 'failed',
             'message': 'All fields are required'}, 400
+    if not last_name:
+        return{
+            'status': 'failed',
+            'message': 'The name field should consist of at least two words'
+        }, 400
 
+    company_email = f'{first_name.lower()}.{last_name.lower()}@aums.com'
     user_exists = User.query.filter_by(username=username).first()
     company_email_exists = User.query.filter_by(company_email=company_email).first()
     personal_email_exists = User.query.filter_by(personal_email=personal_email).first()
