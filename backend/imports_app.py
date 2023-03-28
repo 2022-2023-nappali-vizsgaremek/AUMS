@@ -1,7 +1,0 @@
-from waitress import serve
-import controllers.role_controller
-import controllers.card_controller
-import controllers.schedule_controller
-import controllers.user_role_controller
-import controllers.user_card_controller
-from flask_apispec.extension import FlaskApiSpec

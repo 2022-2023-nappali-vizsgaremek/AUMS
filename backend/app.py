@@ -1,30 +1,49 @@
-
 from models import db
-import imports_app as imp
+from utils.log import log
 from create import api, app
-from sqlalchemy_utils import database_exists, create_database
+from utils.close import exit_app
+import controllers.role_controller
+import controllers.schedule_controller
+import controllers.user_role_controller
+import controllers.user_card_controller
+from flask_apispec.extension import FlaskApiSpec
 
-from controllers.index_controller import Index
-from controllers.user_controller import Register
-from controllers.card_controller import Cards
+try:
+    from waitress import serve
+    from sqlalchemy_utils import database_exists
+    from sqlalchemy_utils import create_database
+except ImportError as import_error:
+    exit_app(f"Module not found: {import_error}")
 
-api.add_resource(Index, '/')
-api.add_resource(Register, '/register')
-api.add_resource(Cards, '/cards', '/cards/<int:card_id>')
+import controllers.index_controller as index_ctrl
+import controllers.user_controller as user_ctrl
+import controllers.card_controller as card_ctrl
 
-docs = imp.FlaskApiSpec(app)
-docs.register(Index)
-docs.register(Register)
-docs.register(Cards)
+api.add_resource(index_ctrl.Index, '/')
+api.add_resource(user_ctrl.Register, '/register')
+api.add_resource(card_ctrl.Cards, '/cards', '/cards/<int:card_id>')
+
+docs = FlaskApiSpec(app)
+docs.register(index_ctrl.Index)
+docs.register(user_ctrl.Register)
+docs.register(card_ctrl.Cards)
 
 with app.app_context():
     db.init_app(app)
+    engine = db.engine.url
 
     if not database_exists(db.engine.url):
         create_database(db.engine.url)
 
-    db.create_all()
+    try:
+        if not database_exists(engine):
+            create_database(engine)
+        db.create_all()
+        log.info("Db created")
+    except Exception as db_error:
+        exit_app(f"Db error: {db_error}")
 
 if __name__ == '__main__':
-    #imp.serve(app, host='0.0.0.0', port=5000)
+    log.debug("Starting app")
+    #serve(app, host='0.0.0.0', port=5000)
     app.run(debug=True, port=5000, host="0.0.0.0")
