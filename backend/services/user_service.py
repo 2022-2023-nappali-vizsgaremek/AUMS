@@ -66,4 +66,6 @@ def loginuser(args):
             'status': 'failed',
             'message': 'Invalid company email or password'}, 401
 
-    
+    return {
+        'status': 'success',
+        'message': 'User successfully logged in'}, 200

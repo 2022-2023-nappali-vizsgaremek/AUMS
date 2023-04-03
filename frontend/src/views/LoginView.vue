@@ -1,8 +1,7 @@
-<script>
+<script setup>
 import axios from 'axios';
 
-const login = async() => {
-	alert('login');
+const login = async () => {
 	const email = document.querySelector('input[name="email"]').value;
 	const password = document.querySelector('input[name="pass"]').value;
 
@@ -11,7 +10,7 @@ const login = async() => {
 		password: password
 	};
 
-	const response = await axios.post('http://10.0.14.10:5000', data)
+	const response = await axios.post('http://10.0.14.11:5000/', data)
 	.catch((error) => {
 		alert(error.response.data.message);
 	})
@@ -21,6 +20,8 @@ const login = async() => {
 
 	});
 }
+
+
 </script>
 <template>
 <div class="limiter">
