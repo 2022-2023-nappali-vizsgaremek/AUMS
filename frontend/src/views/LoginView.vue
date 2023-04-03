@@ -10,7 +10,7 @@ const login = async () => {
 		password: password
 	};
 
-	const response = await axios.post('http://10.0.14.11:5000/', data)
+	const response = await axios.post('http://10.0.14.11:5000/login', data)
 	.catch((error) => {
 		alert(error.response.data.message);
 	})

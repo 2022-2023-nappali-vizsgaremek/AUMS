@@ -1,5 +1,8 @@
-(13:16:02) INFO: App created with basic cfg
-(13:16:02) INFO: Db created
-(13:16:02) DEBUG: Starting app
-(13:16:02) WARNING:  * Debugger is active!
-(13:16:02) INFO:  * Debugger PIN: 284-890-725
+(13:21:40) INFO: App created with basic cfg
+(13:21:40) INFO: Db created
+(13:21:40) DEBUG: Starting app
+(13:21:40) WARNING:  * Debugger is active!
+(13:21:40) INFO:  * Debugger PIN: 284-890-725
+(13:21:41) INFO: 10.0.14.11 - - [03/Apr/2023 13:21:41] "OPTIONS /login HTTP/1.1" 200 -
+(13:21:41) INFO: Logging in user
+(13:21:41) INFO: 10.0.14.11 - - [03/Apr/2023 13:21:41] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
