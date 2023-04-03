@@ -1,3 +1,27 @@
+<script>
+import axios from 'axios';
+
+const login = async() => {
+	alert('login');
+	const email = document.querySelector('input[name="email"]').value;
+	const password = document.querySelector('input[name="pass"]').value;
+
+	const data = {
+		email: email,
+		password: password
+	};
+
+	const response = await axios.post('http://10.0.14.10:5000', data)
+	.catch((error) => {
+		alert(error.response.data.message);
+	})
+	.then(response => {
+		if (response)
+			alert(response.data.message);
+
+	});
+}
+</script>
 <template>
 <div class="limiter">
 		<div class="container-login100">
@@ -26,13 +50,14 @@
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
+
 					
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+				</form>
+				<div class="container-login100-form-btn">
+						<button class="login100-form-btn" @click="login">
 							Login
 						</button>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -40,5 +65,4 @@
 </template>
 <style>
 </style>
-<script>
-</script>
+

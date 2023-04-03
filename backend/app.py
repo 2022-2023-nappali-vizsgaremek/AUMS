@@ -15,17 +15,16 @@ try:
 except ImportError as import_error:
     exit_app(f"Module not found: {import_error}")
 
-import controllers.index_controller as index_ctrl
 import controllers.user_controller as user_ctrl
 import controllers.card_controller as card_ctrl
 
-api.add_resource(index_ctrl.Index, '/')
 api.add_resource(user_ctrl.Register, '/register')
+api.add_resource(user_ctrl.Login, '/')
 api.add_resource(card_ctrl.Cards, '/cards', '/cards/<int:card_id>')
 
 docs = FlaskApiSpec(app)
-docs.register(index_ctrl.Index)
 docs.register(user_ctrl.Register)
+docs.register(user_ctrl.Login)
 docs.register(card_ctrl.Cards)
 
 with app.app_context():
