@@ -1,6 +1,10 @@
 import datetime as dt
 from random import Random
 from models.user import User, db
+from flask import jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 
 def register_new_user(args):
     username = args['username']
@@ -47,3 +51,21 @@ def register_new_user(args):
     return {
         'status': 'success',
         'message': 'User successfully registered'}, 201
+
+#login_manager = LoginManager()
+
+def loginuser(args):
+    companyemail = args['company_email']
+    password = args['password']
+
+    user = User.query.filter_by(company_email=companyemail).first()
+    
+
+    if not user or password != user.password:
+        return {
+            'status': 'failed',
+            'message': 'Invalid company email or password'}, 401
+
+    return {
+        'status': 'success',
+        'message': 'User successfully logged in'}, 200

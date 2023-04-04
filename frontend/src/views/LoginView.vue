@@ -1,3 +1,29 @@
+<script setup>
+import axios from 'axios';
+
+
+const login = async () => {
+	const email = document.querySelector('input[name="email"]').value;
+	const password = document.querySelector('input[name="pass"]').value;
+
+	const data = {
+		company_email: email,
+		password: password
+	};
+
+	const response = await axios.post('http://10.0.14.11:5000/login', data)
+	.catch((error) => {
+		alert(error.response.data.message);
+	})
+	.then(response => {
+		if (response)
+			alert(response.data.message);
+
+	});
+}
+
+
+</script>
 <template>
 <div class="limiter">
 		<div class="container-login100">
@@ -6,7 +32,7 @@
 					<img src="../images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form">
+				<form class="login100-form" @submit.prevent="onSubmit">
 					<span class="login100-form-title">
 						Member Login
 					</span>
@@ -26,13 +52,14 @@
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
-					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" @click="login">
 							Login
 						</button>
 					</div>
+					
 				</form>
+				
 			</div>
 		</div>
 	</div>
@@ -40,5 +67,4 @@
 </template>
 <style>
 </style>
-<script>
-</script>
+
