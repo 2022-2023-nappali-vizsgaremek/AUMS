@@ -1,8 +1,8 @@
 import datetime as dt
+import bcrypt
 from random import Random
 from models.user import User, db
 from flask import jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -38,6 +38,8 @@ def register_new_user(args):
         return {
             'status': 'failed',
             'message': 'Personal email already exists in the database'}, 409
+
+    password =  bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     user = User(first_name=first_name, last_name=last_name, birth_date=birth_date, phone_number=phone_number, address=address, company_email=company_email, personal_email=personal_email, username=username, password=password)
     db.session.add(user)
