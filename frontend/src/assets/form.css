@@ -1,0 +1,11 @@
+
+.form-floating > .form-select {
+    height: 100px;
+    line-height: 1.25;
+  }
+  .form-floating > .form-control-plaintext {
+    padding: 30px 30px;
+  }
+  .form-floating > .form-select ~ label {
+    opacity: 0.9;
+  }
