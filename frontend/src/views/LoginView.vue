@@ -1,7 +1,6 @@
 <script setup>
 import axios from 'axios';
 
-
 const login = async () => {
 	const email = document.querySelector('input[name="email"]').value;
 	const password = document.querySelector('input[name="pass"]').value;
@@ -11,21 +10,19 @@ const login = async () => {
 		password: password
 	};
 
-	const response = await axios.post('http://10.0.14.11:5000/login', data)
+	const response = await axios.post('http://127.0.0.1:5000/login', data)
 	.catch((error) => {
 		alert(error.response.data.message);
 	})
 	.then(response => {
 		if (response)
 			alert(response.data.message);
-
 	});
 }
 
-
 </script>
 <template>
-<div class="limiter">
+	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic" data-tilt>
@@ -57,14 +54,8 @@ const login = async () => {
 							Login
 						</button>
 					</div>
-					
 				</form>
-				
 			</div>
 		</div>
 	</div>
-
 </template>
-<style>
-</style>
-

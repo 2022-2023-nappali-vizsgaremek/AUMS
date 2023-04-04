@@ -1,7 +1,8 @@
 <script setup>
-import LoginView from './views/LoginView.vue'
+  import Navigation from './components/Navigation.vue';
 </script>
 
 <template>
-  <LoginView></LoginView>
+  <Navigation />
+  <router-view />
 </template>

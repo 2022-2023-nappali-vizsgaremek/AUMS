@@ -1,10 +1,6 @@
-import datetime as dt
 import bcrypt
 from random import Random
 from models.user import User, db
-from flask import jsonify
-
-
 
 def register_new_user(args):
     username = args['username']
@@ -15,8 +11,6 @@ def register_new_user(args):
     phone_number = args['phone_number']
     personal_email = args['personal_email']
     address = args['address']
-    
-    
 
     if not username or not password or not first_name or not birth_date or not phone_number or not personal_email or not address:
         return {
