@@ -23,3 +23,9 @@ class Register(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Registering new user")
         return service.register_new_user(args)
+
+class Login(MethodResource, Resource):
+    def post(self):
+        args = parser.parse_args()
+        log.info("Logging in user")
+        return service.loginuser(args)

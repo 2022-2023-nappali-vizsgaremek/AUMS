@@ -1,11 +1,7 @@
 <script setup>
+import LoginView from './views/LoginView.vue'
 </script>
 
 <template>
-  <header>
-    <RouterView/>
-  </header>
-  <div class="container">
-    
-  </div>
+  <LoginView></LoginView>
 </template>
