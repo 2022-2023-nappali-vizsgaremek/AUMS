@@ -1,12 +1,13 @@
 <script setup>
 import axios from 'axios';
 
+
 const login = async () => {
 	const email = document.querySelector('input[name="email"]').value;
 	const password = document.querySelector('input[name="pass"]').value;
 
 	const data = {
-		email: email,
+		company_email: email,
 		password: password
 	};
 
@@ -31,7 +32,7 @@ const login = async () => {
 					<img src="../images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form">
+				<form class="login100-form" @submit.prevent="onSubmit">
 					<span class="login100-form-title">
 						Member Login
 					</span>
@@ -51,14 +52,14 @@ const login = async () => {
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
-
-					
-				</form>
-				<div class="container-login100-form-btn">
+					<div class="container-login100-form-btn">
 						<button class="login100-form-btn" @click="login">
 							Login
 						</button>
 					</div>
+					
+				</form>
+				
 			</div>
 		</div>
 	</div>

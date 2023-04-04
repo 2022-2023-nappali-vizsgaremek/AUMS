@@ -3,7 +3,6 @@ from random import Random
 from models.user import User, db
 from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 
 
 
@@ -56,12 +55,13 @@ def register_new_user(args):
 #login_manager = LoginManager()
 
 def loginuser(args):
-    company_email = args['company_email']
+    companyemail = args['company_email']
     password = args['password']
 
-    user = User.query.filter_by(company_email=company_email).first()
+    user = User.query.filter_by(company_email=companyemail).first()
+    
 
-    if not user:
+    if not user or password != user.password:
         return {
             'status': 'failed',
             'message': 'Invalid company email or password'}, 401
