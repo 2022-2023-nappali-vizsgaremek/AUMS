@@ -1,11 +1,12 @@
 from models import db
 from utils.log import log
-from create import api, app
+from create import create_app
 from utils.close import exit_app
 import controllers.role_controller
 import controllers.schedule_controller
 import controllers.user_role_controller
 import controllers.user_card_controller
+from config import MainConfig, LocalhostConfig
 from flask_apispec.extension import FlaskApiSpec
 
 try:
@@ -18,6 +19,9 @@ except ImportError as import_error:
 import controllers.user_controller as user_ctrl
 import controllers.card_controller as card_ctrl
 import controllers.index_controller as index_ctrl
+
+# Change the parameter to LocalhostConfig if you want to run locally or MainConfig if you want to run in docker
+app, api = create_app(LocalhostConfig)
 
 api.add_resource(user_ctrl.Register, '/register')
 api.add_resource(index_ctrl.Index, '/')
