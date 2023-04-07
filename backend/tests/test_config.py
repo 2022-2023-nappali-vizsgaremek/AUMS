@@ -30,4 +30,3 @@ def test_database(test_client):
     with test_client.application.app_context():
         actual_tables = sorted(str(t) for t in db.metadata.sorted_tables)
         assert actual_tables == expected_tables
-
