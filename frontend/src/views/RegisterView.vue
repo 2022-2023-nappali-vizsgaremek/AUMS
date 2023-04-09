@@ -58,7 +58,7 @@ const register = async () => {
         password: password
     };
 
-    const response = await axios.post('http://10.0.14.10:5000/register', data)
+    const response = await axios.post('https://api.proj-aums.hu/register', data)
     .catch((error) => {
         alert(error.response.data.message);
     }).then((response) => {
