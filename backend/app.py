@@ -21,7 +21,7 @@ import controllers.card_controller as card_ctrl
 import controllers.index_controller as index_ctrl
 
 # Change the parameter to LocalhostConfig if you want to run locally or MainConfig if you want to run in docker
-app, api = create_app(MainConfig)
+app, api = create_app(LocalhostConfig)
 
 api.add_resource(user_ctrl.Register, '/register')
 api.add_resource(index_ctrl.Index, '/')
