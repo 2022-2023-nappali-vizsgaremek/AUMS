@@ -2,8 +2,6 @@ import bcrypt
 from random import Random
 from models.user import User, db
 
-salt = bcrypt.gensalt()
-
 def register_new_user(args):
     username = args['username']
     password = args['password']
@@ -42,9 +40,8 @@ def register_new_user(args):
             'status': 'failed',
             'message': 'Personal email already exists in the database'}, 409
 
-    password =  bcrypt.hashpw(password.encode('utf-8'), salt)
-
-    user = User(first_name=first_name, last_name=last_name, birth_date=birth_date, phone_number=phone_number, address=address, company_email=company_email, personal_email=personal_email, username=username, password=password)
+    hashed =  bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    user = User(first_name=first_name, last_name=last_name, birth_date=birth_date, phone_number=phone_number, address=address, company_email=company_email, personal_email=personal_email, username=username, password=hashed)
     db.session.add(user)
 
     try:
@@ -57,21 +54,13 @@ def register_new_user(args):
         'status': 'success',
         'message': 'User successfully registered'}, 201
 
-
 def loginuser(args):
     companyemail = args['company_email']
     password = args['password']
 
     user = User.query.filter_by(company_email=companyemail).first()
-
-    #if bcrypt.hashpw(password.encode('utf-8'), user.password.encode('utf-8')):
-     #   print('passwords match')
-    #else:
-     #   print('passwords do not match')
-
     
-    
-    if not user or not bcrypt.hashpw(password.encode('utf-8'), user.password.encode('utf-8')):
+    if not user or not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
         return {
             'status': 'failed',
             'message': 'Invalid company email or password'}, 401

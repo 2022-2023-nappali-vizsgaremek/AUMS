@@ -2,7 +2,7 @@ from models import db
 
 class User(db.Model):
     id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         unique=True,
         nullable=False,
         primary_key=True,
@@ -49,6 +49,6 @@ class User(db.Model):
         nullable=False)
 
     password = db.Column(
-        db.String(50),
+        db.String(255),
         unique=False,
         nullable=False)
