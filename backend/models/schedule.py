@@ -9,7 +9,7 @@ class Schedule(db.Model):
         autoincrement=True)
 
     user_id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         db.ForeignKey('user.id'),
         unique=False,
         nullable=False,
