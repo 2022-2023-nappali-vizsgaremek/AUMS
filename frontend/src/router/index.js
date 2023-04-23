@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Navigation from '../components/Navigation.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +17,13 @@ const router = createRouter({
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView.vue')
-    }]
+    },
+    {
+      path: '/cards',
+      name: 'cards',
+      component: () => import('../views/CardsView.vue')
+    },
+  ]
 })
 
 export default router

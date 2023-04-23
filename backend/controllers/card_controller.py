@@ -8,12 +8,16 @@ try:
 except ImportError as ex: exit_app(f"Module not found: {ex}")
 
 parser = reqparse.RequestParser()
-parser.add_argument('card_number', type=str, location='form')
+parser.add_argument('card_number', type=str)
 
 class Cards(MethodResource, Resource):
-    def get(self):
-        log.info("Getting all cards")
-        return service.get_all_cards()
+    def get(self, card_id=None):
+        if card_id:
+            log.info(f"Getting card with ID: {card_id}")
+            return service.get_card(card_id)
+        else:
+            log.info("Getting all cards")
+            return service.get_all_cards()
 
     def post(self):
         args = parser.parse_args()
