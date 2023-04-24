@@ -26,7 +26,7 @@ app, api = create_app(LocalhostConfig)
 api.add_resource(user_ctrl.Register, '/register')
 api.add_resource(index_ctrl.Index, '/')
 api.add_resource(user_ctrl.Login, '/login')
-api.add_resource(card_ctrl.Cards, '/cards', '/cards/<int:card_id>')
+api.add_resource(card_ctrl.Cards, '/cards','/cards/<int:card_id>', '/unknown_cards', '/unknown_cards/<int:card_id>')
 
 docs = FlaskApiSpec(app)
 docs.register(user_ctrl.Register)
