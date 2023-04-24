@@ -18,7 +18,13 @@ const router = createRouter({
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView.vue')
-    }]
+    },
+    {
+      path: '/schedule',
+      name: 'schedule',
+      component: () => import('../views/ScheduleView.vue')
+    }
+  ]
 })
 
 export default router
