@@ -86,7 +86,7 @@ export default {
         cards.value = response.data;
       } catch (error) {
         if (error.response.status === 404) {
-          msg.value = "No Active Cards"
+          msg.value = "Cards not found"
           cards.value = []
         } else {
           console.error(error)

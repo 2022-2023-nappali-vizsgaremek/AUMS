@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col my-4">
       <div v-if="unknownCards.length < 1" class="alert alert-danger" role="alert">
-        <h1>No cards</h1>
+        <h1>Cards not found</h1>
       </div>
       <div v-else-if="sortedCards.length <= 9">
         <div class="alert alert-success" role="alert">
-          <h1>Unknown cards</h1>
+          <h1>Inactive cards</h1>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div v-for="unknownCard in unknownCards" :key="unknownCard.id" class="col">
