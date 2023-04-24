@@ -18,42 +18,22 @@
       return {
         events: [],
         navigatorConfig: {
-          showMonths: 3,
-          skipMonths: 3,
-          selectMode: "Week",
-          startDate: "2022-03-01",
-          selectionDay: "2022-02-28",
-          onTimeRangeSelected: args => {
-            this.config.startDate = args.day;
-          }
+            showMonths: 3,
+            skipMonths: 3,
+            selectMode: "Week",
+            startDate: "2022-05-01",
+            selectionDay: "2022-04-24"
         },
         config: {
-          viewType: "Week",
-          startDate: "2022-02-28",
-          durationBarVisible: false,
-          timeRangeSelectedHandling: "Enabled",
-          onTimeRangeSelected: async (args) => {
-            const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
-            const dp = args.control;
-            dp.clearSelection();
-            if (modal.canceled) {
-              return;
-            }
-            dp.events.add({
-              start: args.start,
-              end: args.end,
-              id: DayPilot.guid(),
-              text: modal.result
-            });
-          },
-          eventDeleteHandling: "Disabled",
-          onEventMoved: () => {
-            console.log("Event moved");
-          },
-          onEventResized: () => {
-            console.log("Event resized");
-          },
-        },
+            viewType: "Week",
+            startDate: "2022-04-24",
+            durationBarVisible: false,
+            eventDeleteHandling: "Disabled",
+            eventMoveHandling: "Disabled",
+            eventResizeHandling: "Disabled",
+            eventHoverHandling: "Disabled",
+            eventClickHandling: "Disabled"
+        }
       }
     },
     components: {
@@ -72,34 +52,28 @@
         const events = [
           {
             id: 1,
-            start: "2022-02-28T10:00:00",
-            end: "2022-02-28T11:00:00",
+            start: "2022-04-24T10:00:00",
+            end: "2022-04-24T11:00:00",
             text: "Event 1",
             backColor: "#6aa84f",
             borderColor: "#38761d",
           },
           {
             id: 2,
-            start: "2022-02-28T13:00:00",
-            end: "2022-02-28T16:00:00",
+            start: "2022-04-24T13:00:00",
+            end: "2022-04-24T16:00:00",
             text: "Event 2",
             backColor: "#f1c232",
             borderColor: "#bf9000",
           },
           {
             id: 3,
-            start: "2022-03-01T13:30:00",
-            end: "2022-03-01T16:30:00",
+            start: "2022-04-27T13:30:00",
+            end: "2022-04-27T16:30:00",
             text: "Event 3",
             backColor: "#cc4125",
             borderColor: "#990000",
-          },
-          {
-            id: 4,
-            start: "2022-03-01T10:30:00",
-            end: "2022-03-01T12:30:00",
-            text: "Event 4"
-          },
+          }
         ];
         this.calendar.update({events});
       },
