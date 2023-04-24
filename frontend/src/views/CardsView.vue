@@ -24,10 +24,11 @@
             </div>
           </div>
           <div v-else>
+            <h1 class="text-white">Active Cards</h1>
               <ul class="list-group">
                 <li v-for="card in sortedCards" :key="card.id" class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center p-2">
-                  <div>
+                  <div class="d-flex justify-content-between p-2">
+                  <div class="text-start">
                     <div>ID: {{ card.id }}</div>
                     <div>Card number: {{ card.card_number }}</div>
                   </div>
@@ -157,9 +158,13 @@
         };
 
         const response = await axios.post('http://127.0.0.1:5000/cards', data)
-        /*.catch((error) => {
-          alert(error.response.data.message)
-        }).then((response) => {
+        .catch((error) => {
+          if(error.response.status == 409)
+          {
+            alert(error.response.data.message)
+          } 
+        })
+        /*.then((response) => {
           alert(response.data.message)
         });*/
           
