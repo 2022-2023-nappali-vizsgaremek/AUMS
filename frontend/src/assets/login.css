@@ -406,9 +406,16 @@
       padding: 100px 15px 33px 15px;
     }
   }
-  @media (min-width: 576px) {
+
+  @media (max-width: 992px) {
     .login-form-btn {
-      width: 15%;
+      width: 30%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .login-form-btn {
+      width: 25%;
     }
   }
   

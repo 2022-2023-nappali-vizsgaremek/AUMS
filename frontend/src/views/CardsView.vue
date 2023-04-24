@@ -3,16 +3,21 @@
     <div class="container">
       <div class="row">
         <div class="col my-4  text-center">
-          <h1 class="mb-4 text-white">Active Cards</h1>
-          <div v-if="sortedCards.length <= 9" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div v-for="card in sortedCards" :key="card.id" class="col">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h5 class="card-title">Id: {{ card.id }}</h5>
-                  <p class="card-text">Card number: {{ card.card_number }}</p>
-                  <div>
-                    <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify Card</button>
-                    <button class="btn btn-danger" @click="deleteCard(card.id)">Delete Card</button>
+          <div v-if="msg !== 'Active Cards'" class="alert alert-danger" role="alert">
+            <h1>{{ msg }}</h1>
+          </div>
+          <div v-else-if="sortedCards.length <= 9" >
+            <h1 class="text-white">Active Cards</h1>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              <div v-for="card in sortedCards" :key="card.id" class="col">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Id: {{ card.id }}</h5>
+                    <p class="card-text">Card number: {{ card.card_number }}</p>
+                    <div>
+                      <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify Card</button>
+                      <button class="btn btn-danger" @click="deleteCard(card.id)">Delete Card</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -74,7 +79,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="closeAddCardModal">Close</button>
-                <button type="submit" class="login-form-btn">Add Card</button>
+                <button type="submit" class="btn btn-success">Add Card</button>
               </div>
             </form>
           </div>
@@ -95,13 +100,15 @@
       const selectedCardId = ref(null);
       const showAddCardModal = ref(false);
       const showModifyCardModal = ref(false);
+      const msg = ref('');
   
       const fetchCards = async () => {
         const response = await axios.get('http://127.0.0.1:5000/cards').
         catch((error) => {
-          alert(error.response.data.message)
+          msg.value = error.response.data.message
         }).then((response) => {
           cards.value = response.data;
+          msg.value = "Active Cards"
         });
       };
 
@@ -132,12 +139,13 @@
           card_number: cardNumber.value,
         };
 
-        const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data).
-        catch((error) => {
+        const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data)
+        /*
+        .catch((error) => {
           alert(error.response.data.message)
         }).then((response) => {
           alert(response.data.message)
-        });
+        });*/
 
         await fetchCards();
         closeModifyCardModal();
@@ -149,23 +157,23 @@
         };
 
         const response = await axios.post('http://127.0.0.1:5000/cards', data)
-        .catch((error) => {
+        /*.catch((error) => {
           alert(error.response.data.message)
         }).then((response) => {
           alert(response.data.message)
-        });
+        });*/
           
         await fetchCards();
         closeAddCardModal();
       };
 
       const deleteCard = async (id) => {
-        const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`).
-        catch((error) => {
+        const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`)
+        /*.catch((error) => {
           alert(error.response.data.message)
         }).then((response) => {
           alert(response.data.message)
-        });
+        });*/
 
         await fetchCards();
       };
@@ -174,6 +182,7 @@
   
       return {
         cards,
+        msg,
         sortedCards,
         showAddCardModal,
         openModifyCardModal,
