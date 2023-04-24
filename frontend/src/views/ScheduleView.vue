@@ -11,9 +11,10 @@
   
   <script>
   import {DayPilot, DayPilotCalendar, DayPilotNavigator} from '@daypilot/daypilot-lite-vue'
-  
+  var date = (new Date()).toISOString().split('T')[0];
   export default {
     name: 'Calendar',
+    
     data: function() {
       return {
         events: [],
@@ -21,13 +22,16 @@
             showMonths: 3,
             skipMonths: 3,
             selectMode: "Week",
-            startDate: "2022-05-01",
-            selectionDay: "2022-04-24"
+            startDate: date,
+            selectionDay: date,
+            onTimeRangeSelected: args => {
+              this.config.startDate = args.day;
+            }
         },
         config: {
             viewType: "Week",
-            startDate: "2022-04-24",
-            durationBarVisible: false,
+            startDate: date,
+            durationBarVisible: true,
             eventDeleteHandling: "Disabled",
             eventMoveHandling: "Disabled",
             eventResizeHandling: "Disabled",
@@ -52,24 +56,24 @@
         const events = [
           {
             id: 1,
-            start: "2022-04-24T10:00:00",
-            end: "2022-04-24T11:00:00",
+            start: "2023-04-24T10:00:00",
+            end: "2023-04-24T11:00:00",
             text: "Event 1",
             backColor: "#6aa84f",
             borderColor: "#38761d",
           },
           {
             id: 2,
-            start: "2022-04-24T13:00:00",
-            end: "2022-04-24T16:00:00",
+            start: "2023-04-24T13:00:00",
+            end: "2023-04-24T16:00:00",
             text: "Event 2",
             backColor: "#f1c232",
             borderColor: "#bf9000",
           },
           {
             id: 3,
-            start: "2022-04-27T13:30:00",
-            end: "2022-04-27T16:30:00",
+            start: "2023-04-27T13:30:00",
+            end: "2023-04-27T16:30:00",
             text: "Event 3",
             backColor: "#cc4125",
             borderColor: "#990000",
