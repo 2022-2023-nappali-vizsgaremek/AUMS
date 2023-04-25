@@ -11,4 +11,4 @@ except ImportError as ex: exit_app(f"Module not found: {ex}")
 class Schedule(MethodResource, Resource):
     def get(self):
         log.info("Getting schedule")
-        return service.get_schedule()
+        return service.get_all_schedule()
