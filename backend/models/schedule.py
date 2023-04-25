@@ -17,11 +17,18 @@ class Schedule(db.Model):
         autoincrement=False)
 
     enter_date = db.Column(
-        db.Date,
+        db.DateTime,
         unique=False,
         nullable=False)
 
     leave_date = db.Column(
-        db.Date,
+        db.DateTime,
         unique=False,
         nullable=True)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'start': self.enter_date.strftime("%Y-%m-%d %H:%M:%S"),
+            'end': self.leave_date.strftime("%Y-%m-%d %H:%M:%S") if self.leave_date else None}
