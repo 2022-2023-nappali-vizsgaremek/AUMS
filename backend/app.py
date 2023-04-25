@@ -19,6 +19,7 @@ except ImportError as import_error:
 import controllers.user_controller as user_ctrl
 import controllers.card_controller as card_ctrl
 import controllers.index_controller as index_ctrl
+import controllers.schedule_controller as schedule_ctrl
 
 # Change the parameter to LocalhostConfig if you want to run locally or MainConfig if you want to run in docker
 app, api = create_app(LocalhostConfig)
@@ -27,12 +28,14 @@ api.add_resource(user_ctrl.Register, '/register')
 api.add_resource(index_ctrl.Index, '/')
 api.add_resource(user_ctrl.Login, '/login')
 api.add_resource(card_ctrl.Cards, '/cards', '/cards/<int:card_id>')
+api.add_resource(schedule_ctrl.Schedule, '/schedule')
 
 docs = FlaskApiSpec(app)
 docs.register(user_ctrl.Register)
 docs.register(index_ctrl.Index)
 docs.register(user_ctrl.Login)
 docs.register(card_ctrl.Cards)
+docs.register(schedule_ctrl.Schedule)
 
 with app.app_context():
     db.init_app(app)

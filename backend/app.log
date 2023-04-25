@@ -1,14 +1,5 @@
-(11:45:14) INFO: App created with basic cfg
-(11:45:14) INFO: Db created
-(11:45:14) DEBUG: Starting app
-(11:45:14) WARNING:  * Debugger is active!
-(11:45:14) INFO:  * Debugger PIN: 693-906-859
-(11:50:02) INFO: 127.0.0.1 - - [15/Apr/2023 11:50:02] "OPTIONS /register HTTP/1.1" 200 -
-(11:50:02) INFO: Registering new user
-(11:50:02) INFO: 127.0.0.1 - - [15/Apr/2023 11:50:02] "[35m[1mPOST /register HTTP/1.1[0m" 201 -
-(11:51:24) INFO: 127.0.0.1 - - [15/Apr/2023 11:51:24] "OPTIONS /login HTTP/1.1" 200 -
-(11:51:24) INFO: Logging in user
-(11:51:24) INFO: 127.0.0.1 - - [15/Apr/2023 11:51:24] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
-(11:51:35) INFO: 127.0.0.1 - - [15/Apr/2023 11:51:35] "OPTIONS /login HTTP/1.1" 200 -
-(11:51:35) INFO: Logging in user
-(11:51:35) INFO: 127.0.0.1 - - [15/Apr/2023 11:51:35] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+(07:42:24) INFO: App created with basic cfg
+(07:42:24) INFO: Db created
+(07:42:24) DEBUG: Starting app
+(07:42:24) WARNING:  * Debugger is active!
+(07:42:24) INFO:  * Debugger PIN: 284-890-725

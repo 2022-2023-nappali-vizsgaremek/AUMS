@@ -25,3 +25,10 @@ class Schedule(db.Model):
         db.Date,
         unique=False,
         nullable=True)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'start': self.enter_date,
+            'end': self.leave_date}
