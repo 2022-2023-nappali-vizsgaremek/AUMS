@@ -8,7 +8,6 @@ from utils.mail.mail_settings import configure_mail
 
 # Local empty controllers
 import controllers.role_controller
-import controllers.card_controller
 import controllers.schedule_controller
 import controllers.user_role_controller
 import controllers.user_card_controller
@@ -16,6 +15,7 @@ import controllers.user_card_controller
 # Local used controllers
 import controllers.user_controller as user_ctrl
 import controllers.index_controller as index_ctrl
+import controllers.card_controller as card_ctrl
 
 try:
     # External imports
@@ -32,10 +32,12 @@ elif selected_config == "Production": app, api = create_app(config.Production)
 
 configure_mail(app)
 
-# Used controller routes (endpoints)
-api.add_resource(index_ctrl.Index, "/")
-api.add_resource(user_ctrl.Login, "/login")
-api.add_resource(user_ctrl.Register, "/register")
+api.add_resource(index_ctrl.Index, '/')
+api.add_resource(user_ctrl.Login, '/login')
+api.add_resource(user_ctrl.Register, '/register')
+api.add_resource(card_ctrl.ActiveCards, '/cards', '/cards/<int:card_number>')
+api.add_resource(card_ctrl.ActivateCard, '/activate_card/<int:uk_card_id>')
+api.add_resource(card_ctrl.UnknownCards, '/unknown_cards', '/unknown_cards/<int:uk_card_id>')
 
 # Swagger docs
 docs = FlaskApiSpec(app)
@@ -43,6 +45,9 @@ docs.register(index_ctrl.Index)
 
 docs.register(user_ctrl.Login)
 docs.register(user_ctrl.Register)
+docs.register(card_ctrl.ActiveCards)
+docs.register(card_ctrl.UnknownCards)
+docs.register(card_ctrl.ActivateCard)
 
 with app.app_context():
     """

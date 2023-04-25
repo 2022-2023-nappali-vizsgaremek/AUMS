@@ -1,10 +1,5 @@
-
-
-
-
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
-
 @font-face {
     font-family: Poppins-Regular;
     src: url('../fonts/poppins/Poppins-Regular.ttf'); 
@@ -79,7 +74,6 @@
       list-style-type: none;
   }
   
-  
   /*---------------------------------------------*/
   input {
       outline: none;
@@ -130,7 +124,6 @@
       border: none !important;
   }
   
-  
   /*//////////////////////////////////////////////////////////////////
   [ Utility ]*/
   .txt1 {
@@ -146,7 +139,6 @@
     line-height: 1.5;
     color: #666666;
   }
-  
   
   /*//////////////////////////////////////////////////////////////////
   [ login ]*/
@@ -180,7 +172,6 @@
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
-  
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -189,6 +180,18 @@
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 80px 130px 33px 95px;
+  }
+
+  /*//////////////////////////////////////////////////////////////////
+  [ General bg ]*/
+  .container-gradient {
+    width: 100%;  
+    min-height: 100vh;
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
   }
   
   /*------------------------------------------------------------------
@@ -200,7 +203,6 @@
   .login100-pic img {
     max-width: 100%;
   }
-  
   
   /*------------------------------------------------------------------
   [  ]*/
@@ -214,12 +216,10 @@
     color: #333333;
     line-height: 1.2;
     text-align: center;
-  
     width: 100%;
     display: block;
     padding-bottom: 54px;
   }
-  
   
   /*---------------------------------------------*/
   .wrap-input100 {
@@ -234,7 +234,6 @@
     font-size: 15px;
     line-height: 1.5;
     color: #666666;
-  
     display: block;
     width: 100%;
     background: #e6e6e6;
@@ -242,7 +241,6 @@
     border-radius: 25px;
     padding: 0 30px 0 68px;
   }
-  
   
   /*------------------------------------------------------------------
   [ Focus ]*/
@@ -280,7 +278,6 @@
   
   .symbol-input100 {
     font-size: 15px;
-  
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -350,15 +347,38 @@
   
   .login100-form-btn:hover {
     background: #333333;
+  } 
+
+.login-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  height: 50px;
+  border-radius: 25px;
+  background: #57b846;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+  .login-form-btn:hover {
+    background: #333333;
   }
-  
-  
+
+  .card-container {
+    max-height: 600px;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+  }
   
   /*------------------------------------------------------------------
   [ Responsive ]*/
-  
-  
-  
   @media (max-width: 992px) {
     .wrap-login100 {
       padding: 177px 90px 33px 85px;
@@ -390,5 +410,24 @@
   @media (max-width: 576px) {
     .wrap-login100 {
       padding: 100px 15px 33px 15px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .login-form-btn {
+      width: 30%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .login-form-btn {
+      width: 25%;
+    }
+  }
+  
+  @media (max-width: 575px) {
+    .login-form-btn {
+      max-width: 200px;
+      width: 100%;
     }
   }
