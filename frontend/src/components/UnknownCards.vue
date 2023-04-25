@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col my-4">
+    <div class="col my-4 mx-5">
       <div v-if="unknownCards.length < 1" class="alert alert-danger" role="alert">
         <h1>Cards not found</h1>
       </div>
@@ -15,7 +15,7 @@
                 <h5 class="card-title">Id: {{ unknownCard.id }}</h5>
                 <p class="card-text">Card number: {{ unknownCard.card_number }}</p>
                 <div>
-                  <button class="btn btn-secondary me-3" @click="activateCard(unknownCard.id)">Activate</button>
+                  <button class="btn btn-success me-3" @click="activateCard(unknownCard.id)">Activate</button>
                   <button class="btn btn-danger" @click="deleteUnknownCard(unknownCard.id)">Delete</button>
                 </div>
               </div>
@@ -25,8 +25,9 @@
       </div>
       <div v-else>
         <div class="alert alert-success" role="alert">
-          <h1>Unknown cards</h1>
+          <h1>Inactive cards</h1>
         </div>
+        <div class="card-container">
         <ul class="list-group">
           <li v-for="unknownCard in sortedCards" :key="unknownCard.id" class="list-group-item">
             <div class="d-flex justify-content-between p-2">
@@ -35,15 +36,17 @@
                 <div>Card number: {{ unknownCard.card_number }}</div>
               </div>
               <div>
+                <button class="btn btn-success me-3" @click="activateCard(unknownCard.id)">Activate</button>
                 <button class="btn btn-danger" @click="deleteUnknownCard(unknownCard.id)">Delete Card</button>
               </div>
             </div>
           </li>
         </ul>
       </div>
+      </div>
     </div>
   </div>
-  <button class="login-form-btn mt-4" @click="openAddCardModal">Add Card</button>
+  <button class="login-form-btn my-4" @click="openAddCardModal">Add Card</button>
 
   <!-- Add Card Modal -->
   <div v-if="showAddCardModal" class="modal" tabindex="-1">
@@ -134,11 +137,8 @@ export default {
     };
 
     const activateCard = async (id) => {
-      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`)
-        .then((response) => {
-          alert(response.data.message);
-          emit('cardActivated');
-        });
+      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`);
+      emit('cardActivated');
 
       await fetchUnknownCards();
     };

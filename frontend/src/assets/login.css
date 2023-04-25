@@ -370,6 +370,12 @@
   .login-form-btn:hover {
     background: #333333;
   }
+
+  .card-container {
+    max-height: 600px;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+  }
   
   /*------------------------------------------------------------------
   [ Responsive ]*/

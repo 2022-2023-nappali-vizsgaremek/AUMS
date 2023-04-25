@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col my-4">
+    <div class="col mt-4 mb-2 mx-5">
       <div v-if="msg !== 'Active Cards'" class="alert alert-danger" role="alert">
         <h1>{{ msg }}</h1>
       </div>
@@ -27,6 +27,7 @@
         <div class="alert alert-success" role="alert">
           <h1>{{ msg }}</h1>
         </div>
+        <div class="card-container">
         <ul class="list-group">
           <li v-for="card in sortedCards" :key="card.id" class="list-group-item">
             <div class="d-flex justify-content-between p-2">
@@ -35,11 +36,13 @@
                 <div>Card number: {{ card.card_number }}</div>
               </div>
               <div>
+                <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                 <button class="btn btn-danger" @click="deleteCard(card.id)">Delete Card</button>
               </div>
             </div>
           </li>
         </ul>
+        </div>
       </div>
     </div>
   </div>

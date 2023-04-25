@@ -4,6 +4,7 @@
       <div>
         <Cards ref="activeCardsComponent" />
       </div>
+      <hr/>
       <div>
         <UnknownCards @cardActivated="updateActiveCards" />
       </div>
