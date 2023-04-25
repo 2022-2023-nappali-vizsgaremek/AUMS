@@ -30,5 +30,5 @@ class Schedule(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'start': self.enter_date,
-            'end': self.leave_date}
+            'start': self.enter_date.strftime("%Y-%m-%d %H:%M:%S"),
+            'end': self.leave_date.strftime("%Y-%m-%d %H:%M:%S") if self.leave_date else None}
