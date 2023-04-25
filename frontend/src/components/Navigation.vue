@@ -7,11 +7,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <router-link class="nav-link" to="/login">Login</router-link>
-                    <router-link class="nav-link" to="/register">Register</router-link>
-                    <router-link class="nav-link" to="/schedule">Schedule</router-link><nav></nav>
+                    <router-link class="nav-link" to="/login" :class="{ 'router-link-active': $route.path === '/login' }">Login</router-link>
+                    <router-link class="nav-link" to="/register" :class="{ 'router-link-active': $route.path === '/register' }">Register</router-link>
+                    <router-link class="nav-link" to="/cards" :class="{ 'router-link-active': $route.path === '/cards' }">Cards</router-link>
+                    <router-link class="nav-link" to="/schedule" :class="{ 'router-link-active': $route.path === '/schedule' }">Schedule</router-link>
                 </div>
             </div>
         </div>
     </nav>
 </template>
+
+<style scoped>
+    .navbar-nav .router-link-active {
+    color: #4158d0;
+    font-weight: bold;
+    }
+    .navbar {
+        background-color: #e3f2fd;
+    }
+</style>

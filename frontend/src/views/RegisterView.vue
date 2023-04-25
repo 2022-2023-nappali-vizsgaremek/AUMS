@@ -85,7 +85,7 @@ const checkField = (field) => {
 </script>
 
 <template>
-    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3 container-gradient">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -132,7 +132,7 @@ const checkField = (field) => {
                                     <div class="d-flex justify-content-center">
                                         <button type="button"
                                             @click="register"
-                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register
+                                            class="login100-form-btn btn-block btn-lg gradient-custom-4">Register
                                         </button>
                                     </div>
                                 </form>

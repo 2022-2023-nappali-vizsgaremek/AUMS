@@ -10,7 +10,7 @@ class Schedule(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('user.id'),
+        db.ForeignKey("user.id"),
         unique=False,
         nullable=False,
         primary_key=False,

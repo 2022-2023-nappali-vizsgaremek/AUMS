@@ -1,9 +1,11 @@
 FROM python:3.10.7
 
+# App directory
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 
+# Port, run command
 EXPOSE 5000
 ENTRYPOINT [ "python" ]
 CMD [ "backend/app.py" ]

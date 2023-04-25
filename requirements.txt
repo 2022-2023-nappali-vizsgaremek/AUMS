@@ -1,11 +1,17 @@
+# Basic
 Flask==2.2.3
 pytest==7.3.1
 bcrypt==4.0.1
-apispec==6.0.2
 waitress==2.1.2
+Flask-Mail==0.9.1
 mysqlclient==2.1.1
+
+# API
+apispec==6.0.2
 Flask-Cors==3.0.10
 Flask-RESTful==0.3.9
 flask-apispec==0.11.4
+
+# SQLAlchemy
 Flask-SQLAlchemy==3.0.3
 SQLAlchemy-Utils==0.40.0
