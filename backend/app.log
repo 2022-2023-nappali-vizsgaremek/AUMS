@@ -1,5 +1,131 @@
-(08:18:49) INFO: App created with basic cfg
-(08:18:49) INFO: Db created
-(08:18:49) DEBUG: Starting app
-(08:18:49) WARNING:  * Debugger is active!
-(08:18:49) INFO:  * Debugger PIN: 284-890-725
+(09:53:28) INFO: App created with basic cfg
+(09:53:29) INFO: Db created
+(09:53:29) DEBUG: Starting app
+(09:53:29) WARNING:  * Debugger is active!
+(09:53:29) INFO:  * Debugger PIN: 284-890-725
+(09:53:31) INFO: Getting schedule
+(09:53:31) INFO: 127.0.0.1 - - [25/Apr/2023 09:53:31] "GET /schedule HTTP/1.1" 200 -
+(09:57:42) INFO: Getting schedule
+(09:57:42) INFO: 127.0.0.1 - - [25/Apr/2023 09:57:42] "GET /schedule HTTP/1.1" 200 -
+(09:57:47) INFO: Getting schedule
+(09:57:47) INFO: 127.0.0.1 - - [25/Apr/2023 09:57:47] "GET /schedule HTTP/1.1" 200 -
+(09:57:48) INFO: Getting schedule
+(09:57:48) INFO: 127.0.0.1 - - [25/Apr/2023 09:57:48] "GET /schedule HTTP/1.1" 200 -
+(09:58:19) INFO: Getting schedule
+(09:58:19) INFO: 127.0.0.1 - - [25/Apr/2023 09:58:19] "GET /schedule HTTP/1.1" 200 -
+(09:58:28) INFO: Getting schedule
+(09:58:28) INFO: 127.0.0.1 - - [25/Apr/2023 09:58:28] "GET /schedule HTTP/1.1" 200 -
+(09:58:30) INFO: Getting schedule
+(09:58:30) INFO: 127.0.0.1 - - [25/Apr/2023 09:58:30] "GET /schedule HTTP/1.1" 200 -
+(09:58:35) INFO: Getting schedule
+(09:58:35) INFO: 127.0.0.1 - - [25/Apr/2023 09:58:35] "GET /schedule HTTP/1.1" 200 -
+(09:58:40) INFO: Getting schedule
+(09:58:40) INFO: 127.0.0.1 - - [25/Apr/2023 09:58:40] "GET /schedule HTTP/1.1" 200 -
+(10:01:14) INFO: Getting schedule
+(10:01:14) INFO: 127.0.0.1 - - [25/Apr/2023 10:01:14] "GET /schedule HTTP/1.1" 200 -
+(10:01:17) INFO: Getting schedule
+(10:01:17) INFO: 127.0.0.1 - - [25/Apr/2023 10:01:17] "GET /schedule HTTP/1.1" 200 -
+(10:01:23) INFO: Getting schedule
+(10:01:23) INFO: 127.0.0.1 - - [25/Apr/2023 10:01:23] "GET /schedule HTTP/1.1" 200 -
+(10:01:26) INFO: Getting schedule
+(10:01:26) INFO: 127.0.0.1 - - [25/Apr/2023 10:01:26] "GET /schedule HTTP/1.1" 200 -
+(10:01:50) INFO: Getting schedule
+(10:01:50) INFO: 127.0.0.1 - - [25/Apr/2023 10:01:50] "GET /schedule HTTP/1.1" 200 -
+(10:02:56) INFO: Getting schedule
+(10:02:56) INFO: 127.0.0.1 - - [25/Apr/2023 10:02:56] "GET /schedule HTTP/1.1" 200 -
+(10:02:59) INFO: Getting schedule
+(10:02:59) INFO: 127.0.0.1 - - [25/Apr/2023 10:02:59] "GET /schedule HTTP/1.1" 200 -
+(10:03:11) INFO: Getting schedule
+(10:03:11) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:11] "GET /schedule HTTP/1.1" 200 -
+(10:03:22) INFO: Getting schedule
+(10:03:22) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:22] "GET /schedule HTTP/1.1" 200 -
+(10:03:24) INFO: Getting schedule
+(10:03:24) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:24] "GET /schedule HTTP/1.1" 200 -
+(10:03:39) INFO: Getting schedule
+(10:03:39) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:39] "GET /schedule HTTP/1.1" 200 -
+(10:03:41) INFO: Getting schedule
+(10:03:41) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:41] "GET /schedule HTTP/1.1" 200 -
+(10:03:42) INFO: Getting schedule
+(10:03:42) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:42] "GET /schedule HTTP/1.1" 200 -
+(10:03:43) INFO: Getting schedule
+(10:03:43) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:43] "GET /schedule HTTP/1.1" 200 -
+(10:03:50) INFO: Getting schedule
+(10:03:50) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:50] "GET /schedule HTTP/1.1" 200 -
+(10:03:53) INFO: Getting schedule
+(10:03:53) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:53] "GET /schedule HTTP/1.1" 200 -
+(10:03:54) INFO: Getting schedule
+(10:03:54) INFO: 127.0.0.1 - - [25/Apr/2023 10:03:54] "GET /schedule HTTP/1.1" 200 -
+(10:06:17) INFO: Getting schedule
+(10:06:17) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:17] "GET /schedule HTTP/1.1" 200 -
+(10:06:19) INFO: Getting schedule
+(10:06:19) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:19] "GET /schedule HTTP/1.1" 200 -
+(10:06:23) INFO: Getting schedule
+(10:06:23) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:23] "GET /schedule HTTP/1.1" 200 -
+(10:06:27) INFO: Getting schedule
+(10:06:27) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:27] "GET /schedule HTTP/1.1" 200 -
+(10:06:29) INFO: Getting schedule
+(10:06:29) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:29] "GET /schedule HTTP/1.1" 200 -
+(10:06:37) INFO: Getting schedule
+(10:06:37) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:37] "GET /schedule HTTP/1.1" 200 -
+(10:06:48) INFO: Getting schedule
+(10:06:48) INFO: 127.0.0.1 - - [25/Apr/2023 10:06:48] "GET /schedule HTTP/1.1" 200 -
+(10:07:01) INFO: Getting schedule
+(10:07:01) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:01] "GET /schedule HTTP/1.1" 200 -
+(10:07:04) INFO: Getting schedule
+(10:07:04) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:04] "GET /schedule HTTP/1.1" 200 -
+(10:07:30) INFO: Getting schedule
+(10:07:30) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:30] "GET /schedule HTTP/1.1" 200 -
+(10:07:34) INFO: Getting schedule
+(10:07:34) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:34] "GET /schedule HTTP/1.1" 200 -
+(10:07:37) INFO: Getting schedule
+(10:07:37) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:37] "GET /schedule HTTP/1.1" 200 -
+(10:07:40) INFO: Getting schedule
+(10:07:40) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:40] "GET /schedule HTTP/1.1" 200 -
+(10:07:42) INFO: Getting schedule
+(10:07:42) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:42] "GET /schedule HTTP/1.1" 200 -
+(10:07:51) INFO: Getting schedule
+(10:07:51) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:51] "GET /schedule HTTP/1.1" 200 -
+(10:07:56) INFO: Getting schedule
+(10:07:56) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:56] "GET /schedule HTTP/1.1" 200 -
+(10:07:59) INFO: Getting schedule
+(10:07:59) INFO: 127.0.0.1 - - [25/Apr/2023 10:07:59] "GET /schedule HTTP/1.1" 200 -
+(10:08:03) INFO: Getting schedule
+(10:08:03) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:03] "GET /schedule HTTP/1.1" 200 -
+(10:08:05) INFO: Getting schedule
+(10:08:05) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:05] "GET /schedule HTTP/1.1" 200 -
+(10:08:07) INFO: Getting schedule
+(10:08:07) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:07] "GET /schedule HTTP/1.1" 200 -
+(10:08:27) INFO: Getting schedule
+(10:08:27) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:27] "GET /schedule HTTP/1.1" 200 -
+(10:08:31) INFO: Getting schedule
+(10:08:31) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:31] "GET /schedule HTTP/1.1" 200 -
+(10:08:32) INFO: Getting schedule
+(10:08:32) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:32] "GET /schedule HTTP/1.1" 200 -
+(10:08:33) INFO: Getting schedule
+(10:08:33) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:33] "GET /schedule HTTP/1.1" 200 -
+(10:08:41) INFO: Getting schedule
+(10:08:41) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:41] "GET /schedule HTTP/1.1" 200 -
+(10:08:42) INFO: Getting schedule
+(10:08:42) INFO: 127.0.0.1 - - [25/Apr/2023 10:08:42] "GET /schedule HTTP/1.1" 200 -
+(10:09:12) INFO: Getting schedule
+(10:09:12) INFO: 127.0.0.1 - - [25/Apr/2023 10:09:12] "GET /schedule HTTP/1.1" 200 -
+(10:09:15) INFO: Getting schedule
+(10:09:15) INFO: 127.0.0.1 - - [25/Apr/2023 10:09:15] "GET /schedule HTTP/1.1" 200 -
+(10:09:20) INFO: Getting schedule
+(10:09:20) INFO: 127.0.0.1 - - [25/Apr/2023 10:09:20] "GET /schedule HTTP/1.1" 200 -
+(10:10:32) INFO: Getting schedule
+(10:10:32) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:32] "GET /schedule HTTP/1.1" 200 -
+(10:10:38) INFO: Getting schedule
+(10:10:38) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:38] "GET /schedule HTTP/1.1" 200 -
+(10:10:43) INFO: Getting schedule
+(10:10:43) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:43] "GET /schedule HTTP/1.1" 200 -
+(10:10:46) INFO: Getting schedule
+(10:10:46) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:46] "GET /schedule HTTP/1.1" 200 -
+(10:10:47) INFO: Getting schedule
+(10:10:47) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:47] "GET /schedule HTTP/1.1" 200 -
+(10:10:53) INFO: Getting schedule
+(10:10:53) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:53] "GET /schedule HTTP/1.1" 200 -
+(10:10:54) INFO: Getting schedule
+(10:10:54) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:54] "GET /schedule HTTP/1.1" 200 -
+(10:10:55) INFO: Getting schedule
+(10:10:55) INFO: 127.0.0.1 - - [25/Apr/2023 10:10:55] "GET /schedule HTTP/1.1" 200 -
