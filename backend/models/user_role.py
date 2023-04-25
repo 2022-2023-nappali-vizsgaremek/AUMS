@@ -10,7 +10,7 @@ class UserRole(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('user.id'),
+        db.ForeignKey("user.id"),
         unique=True,
         nullable=False,
         primary_key=False,
@@ -18,7 +18,7 @@ class UserRole(db.Model):
 
     role_id = db.Column(
         db.SmallInteger,
-        db.ForeignKey('role.id'),
+        db.ForeignKey("role.id"),
         unique=True,
         nullable=False,
         primary_key=False,

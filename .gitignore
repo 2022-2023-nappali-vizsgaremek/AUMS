@@ -1,9 +1,9 @@
 # Env
 .env
-.venv
 env/
-venv/
 ENV/
+.venv
+venv/
 env.bak/
 venv.bak/
 
@@ -32,5 +32,9 @@ __pycache__/
 __pypackages__/
 
 # Flask
+*.log
+app.log
+*/app.log
 instance/
 .webassets-cache
+/backend/app.log

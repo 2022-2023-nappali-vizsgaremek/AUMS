@@ -15,5 +15,5 @@ class Card(db.Model):
 
     def serialize(self):
         return {
-            'id': self.id,
-            'card_number': self.card_number}
+            "id": self.id,
+            "card_number": self.card_number}

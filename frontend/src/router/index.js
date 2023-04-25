@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'cards',
       component: () => import('../views/CardsView.vue')
     },
+    {
+      path: '/schedule',
+      name: 'schedule',
+      component: () => import('../views/ScheduleView.vue')
+    }
   ]
 })
 

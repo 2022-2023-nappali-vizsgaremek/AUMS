@@ -10,7 +10,7 @@ class UserCard(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('user.id'),
+        db.ForeignKey("user.id"),
         unique=True,
         nullable=False,
         primary_key=False,
@@ -18,7 +18,7 @@ class UserCard(db.Model):
 
     card_id = db.Column(
         db.SmallInteger,
-        db.ForeignKey('card.id'),
+        db.ForeignKey("card.id"),
         unique=True,
         nullable=False,
         primary_key=False,
