@@ -8,7 +8,6 @@ from utils.mail.mail_settings import configure_mail
 
 # Local empty controllers
 import controllers.role_controller
-import controllers.schedule_controller
 import controllers.user_role_controller
 import controllers.user_card_controller
 
@@ -16,6 +15,7 @@ import controllers.user_card_controller
 import controllers.user_controller as user_ctrl
 import controllers.index_controller as index_ctrl
 import controllers.card_controller as card_ctrl
+import controllers.schedule_controller as schedule_ctrl
 
 try:
     # External imports
@@ -35,6 +35,7 @@ configure_mail(app)
 api.add_resource(index_ctrl.Index, '/')
 api.add_resource(user_ctrl.Login, '/login')
 api.add_resource(user_ctrl.Register, '/register')
+api.add_resource(schedule_ctrl.Schedule, '/schedule')
 api.add_resource(card_ctrl.ActiveCards, '/cards', '/cards/<int:card_id>')
 api.add_resource(card_ctrl.ActivateCard, '/activate_card/<int:uk_card_id>')
 api.add_resource(card_ctrl.CardValidation, '/card_validation/<string:card_number>')
@@ -47,6 +48,7 @@ docs.register(index_ctrl.Index)
 docs.register(user_ctrl.Login)
 docs.register(user_ctrl.Register)
 docs.register(card_ctrl.ActiveCards)
+docs.register(schedule_ctrl.Schedule)
 docs.register(card_ctrl.UnknownCards)
 docs.register(card_ctrl.ActivateCard)
 docs.register(card_ctrl.CardValidation)
