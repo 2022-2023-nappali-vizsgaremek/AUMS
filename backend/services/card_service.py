@@ -15,6 +15,13 @@ def get_unknown_cards():
         return error_response('failed', 'No cards found', 404)
     return [uk_card.serialize() for uk_card in uk_cards], 200
 
+def get_card_by_number(card_number):
+    card = Card.query.filter_by(card_number=card_number).first()
+
+    if not card:
+        return error_response('failed', 'Card not found', 404)
+    return card.serialize(), 200
+
 def get_card(card_id):
     card = Card.query.filter_by(id=card_id).first()
 
@@ -29,27 +36,6 @@ def get_unknown_card(uk_card_id):
         return error_response('failed', 'Card not found', 404)
     return uk_card.serialize(), 200
 
-'''def create_new_card(args):
-    card_number = args['card_number']
-
-    if not card_number:
-        return {
-            'status': 'failed',
-            'message': 'Card number is required'}, 400
-    card = Card.query.filter_by(card_number=card_number).first()
-
-    if card:
-        return {
-            'status': 'failed',
-            'message': 'Card number already exists in the database'}, 409
-    card = Card(card_number=card_number)
-    db.session.add(card)
-    db.session.commit()
-    return {
-        'status': 'success',
-        'message': 'Card has been added to the database',
-        'data': card.card_number}, 201
-   ''' 
 def create_new_unknown_card(args):
     uk_card_number = args['uk_card_number']
 
@@ -144,6 +130,15 @@ def activate_card(uk_card_id):
         return error_response('failed', 'Internal server error', 500)
 
     return error_response('success', 'Card has been activated', 200)
+
+def validate_card(args):
+    card_number = args['card_number']
+    card = Card.query.filter_by(card_number=card_number).first()
+    
+    if not card:
+        return create_new_unknown_card({'uk_card_number': card_number})
+
+    return error_response('success', 'Card is valid', 200)
 
 def error_response(status, message, status_code):
     return {'status': status, 'message': message}, status_code

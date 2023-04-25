@@ -16,11 +16,20 @@ unknown_parser.add_argument('uk_card_number', type=str)
 parser_activate = reqparse.RequestParser()
 parser_activate.add_argument('uk_card_id', type=int)
 
+validation_parser = reqparse.RequestParser()
+validation_parser.add_argument('card_number', type=str)
+
 
 class ActivateCard(MethodResource, Resource):
     def post(self, uk_card_id):
         log.info("Activating a card")
         return service.activate_card(uk_card_id)
+    
+class CardValidation(MethodResource, Resource):
+    def post(self):
+        args = validation_parser.parse_args()
+        log.info("Registering a card")
+        return service.validate_card(args)
 
 class ActiveCards(MethodResource, Resource):
     def get(self, card_id=None):
@@ -48,11 +57,6 @@ class UnknownCards(MethodResource, Resource):
         else:
             log.info("Getting all unknown cards")
             return service.get_unknown_cards()
-
-    def post(self):
-        args = unknown_parser.parse_args()
-        log.info("Creating a new unknown card")
-        return service.create_new_unknown_card(args)
 
     def delete(self, uk_card_id):
         log.info("Deleting an unknown card")
