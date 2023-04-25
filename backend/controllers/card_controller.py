@@ -57,6 +57,11 @@ class UnknownCards(MethodResource, Resource):
         else:
             log.info("Getting all unknown cards")
             return service.get_unknown_cards()
+        
+    def post(self):
+        args = unknown_parser.parse_args()
+        log.info("Creating a new unknown card")
+        return service.create_new_unknown_card(args)
 
     def delete(self, uk_card_id):
         log.info("Deleting an unknown card")
