@@ -1,17 +1,17 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/login">AUMS</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <router-link class="nav-link" to="/login" :class="{ 'router-link-active': $route.path === '/login' }">Login</router-link>
-                    <router-link class="nav-link" to="/register" :class="{ 'router-link-active': $route.path === '/register' }">Register</router-link>
-                    <router-link class="nav-link" to="/cards" :class="{ 'router-link-active': $route.path === '/cards' }">Cards</router-link>
-                    <router-link class="nav-link" to="/schedule" :class="{ 'router-link-active': $route.path === '/schedule' }">Schedule</router-link>
-                </div>
+            <router-link class="nav-link" to="/login" :class="{ 'router-link-active': this.$route.path === '/login' } "><span data-bs-target="#navbarCollapse.show" data-bs-toggle="collapse">Login</span></router-link>
+            <router-link class="nav-link" to="/register" :class="{ 'router-link-active': this.$route.path === '/register' }"><span data-bs-target="#navbarCollapse.show" data-bs-toggle="collapse">Register</span></router-link>
+            <router-link class="nav-link" to="/cards" :class="{ 'router-link-active': this.$route.path === '/cards' }"><span data-bs-target="#navbarCollapse.show" data-bs-toggle="collapse">Cards</span></router-link>
+            <router-link class="nav-link" to="/schedule" :class="{ 'router-link-active': this.$route.path === '/schedule' }"><span data-bs-target="#navbarCollapse.show" data-bs-toggle="collapse">Schedule</span></router-link>
+            </div>
             </div>
         </div>
     </nav>
