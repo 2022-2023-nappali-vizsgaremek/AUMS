@@ -7,12 +7,39 @@
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
     </div>
+
+    <div v-if="showModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Daily Schedule Info</h5>
+          <button type="button" class="btn-close" @click="closeModal"></button>
+        </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <h5></h5>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
   </template>
   
   <script>
   import {DayPilot, DayPilotCalendar, DayPilotNavigator} from '@daypilot/daypilot-lite-vue';
   import axios from 'axios';
   var date = (new Date()).toISOString().split('T')[0];
+  const showModal = ref(false);
+  const info = ref('');
+
+  function openModal(string) {
+    info.value = string;
+    showModal.value = true;
+  }
+
   export default {
     name: 'Calendar',
     
@@ -37,7 +64,16 @@
             eventMoveHandling: "Disabled",
             eventResizeHandling: "Disabled",
             eventHoverHandling: "Disabled",
-            eventClickHandling: "Disabled"
+            eventClickHandling: "Enabled",
+            onEventClicked: args => {
+              let resp = '';
+              for (const arg in args.e.data) {
+                if (arg == 'start' || arg == 'end') {
+                  resp += arg + ': ' + args.e.data[arg].toString().split('T')[1]+ '\n';
+                }
+              }
+              openModal(resp);
+            }
         }
       }
     },
