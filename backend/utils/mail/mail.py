@@ -16,12 +16,14 @@ def send_mail(subject: str, body: str, sender_name: str, recipients: list) -> di
         body (str): Body of the email
         sender_name (str): Name of the sender
         recipients (list): List of recipients
+
+    Returns:
+        dict | None: Returns a dict with the status and message if the email was failed to send
     """
 
     message = Message(subject, body=body, sender=(sender_name, "proj.aums@gmail.com"), recipients=recipients)
 
-    try:
-        mail.send(message)
+    try: mail.send(message)
     except Exception as e:
         return {
             "status": "failed",

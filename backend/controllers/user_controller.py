@@ -21,7 +21,7 @@ parser.add_argument("company_email", type=str)
 parser.add_argument("personal_email", type=str)
 
 class Register(MethodResource, Resource):
-    def post(self):
+    def post(self) -> dict:
         """
         Registers a new user
 
@@ -34,7 +34,7 @@ class Register(MethodResource, Resource):
         return service.register_new_user(args)
 
 class Login(MethodResource, Resource):
-    def post(self):
+    def post(self) -> dict:
         """
         Logs in a user
 

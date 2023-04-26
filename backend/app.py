@@ -32,23 +32,30 @@ elif selected_config == "Production": app, api = create_app(config.Production)
 
 configure_mail(app)
 
-api.add_resource(index_ctrl.Index, '/')
-api.add_resource(user_ctrl.Login, '/login')
-api.add_resource(user_ctrl.Register, '/register')
-api.add_resource(schedule_ctrl.Schedule, '/schedule')
-api.add_resource(card_ctrl.ActiveCards, '/cards', '/cards/<int:card_id>')
-api.add_resource(card_ctrl.ActivateCard, '/activate_card/<int:uk_card_id>')
-api.add_resource(card_ctrl.CardValidation, '/card_validation/<string:card_number>')
-api.add_resource(card_ctrl.UnknownCards, '/unknown_cards', '/unknown_cards/<int:uk_card_id>')
+# Index routes
+api.add_resource(index_ctrl.Index, "/")
+# User routes
+api.add_resource(user_ctrl.Login, "/login")
+api.add_resource(user_ctrl.Register, "/register")
+# Schedule routes
+api.add_resource(schedule_ctrl.Schedule, "/schedule")
+# Card routes
+api.add_resource(card_ctrl.ActiveCards, "/cards", "/cards/<int:card_id>")
+api.add_resource(card_ctrl.ActivateCard, "/activate_card/<int:uk_card_id>")
+api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number>")
+api.add_resource(card_ctrl.UnknownCards, "/unknown_cards", "/unknown_cards/<int:uk_card_id>")
 
 # Swagger docs
 docs = FlaskApiSpec(app)
+# Index docs
 docs.register(index_ctrl.Index)
-
+# User docs
 docs.register(user_ctrl.Login)
 docs.register(user_ctrl.Register)
-docs.register(card_ctrl.ActiveCards)
+# Schedule docs
 docs.register(schedule_ctrl.Schedule)
+# Card docs
+docs.register(card_ctrl.ActiveCards)
 docs.register(card_ctrl.UnknownCards)
 docs.register(card_ctrl.ActivateCard)
 docs.register(card_ctrl.CardValidation)

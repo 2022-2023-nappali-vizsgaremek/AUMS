@@ -15,5 +15,5 @@ class UnknownCard(db.Model):
 
     def serialize(self):
         return {
-            'id': self.id,
-            'card_number': self.uk_card_number}
+            "id": self.id,
+            "card_number": self.uk_card_number}

@@ -71,7 +71,7 @@
             id: raw_events[i].id,
             start: raw_events[i].start,
             end: raw_events[i].end,
-            backColor: colors[Math.floor(Math.random() * 3) + 1]
+            backColor: colors[Math.floor(Math.random() * 50) + 1]
           }
           events.push(event);
         }

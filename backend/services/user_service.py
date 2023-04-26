@@ -19,7 +19,7 @@ def register_new_user(args: dict) -> dict:
         args (dict): A dictionary containing the arguments for user registration
 
     Returns:
-        dict: A dictionary containing the response and the status code of the request
+        dict: A dictionary containing the status and message of the registration
     """
 
     address = args["address"]
@@ -108,11 +108,12 @@ def register_new_user(args: dict) -> dict:
         return {
             "status": "failed",
             "message": str(e) }, 500
+
     return {
         "status": "success",
         "message": "User successfully registered" }, 201
 
-def login_user(args):
+def login_user(args: dict) -> dict:
     """
     Backend validation and login of a user
 

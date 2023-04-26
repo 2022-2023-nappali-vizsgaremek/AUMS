@@ -8,31 +8,58 @@ try:
 except ImportError as ex: exit_app(f"Module not found: {ex}")
 
 active_parser = reqparse.RequestParser()
-active_parser.add_argument('card_number', type=str)
+active_parser.add_argument("card_number", type=str)
 
 unknown_parser = reqparse.RequestParser()
-unknown_parser.add_argument('uk_card_number', type=str)
+unknown_parser.add_argument("uk_card_number", type=str)
 
 parser_activate = reqparse.RequestParser()
-parser_activate.add_argument('uk_card_id', type=int)
+parser_activate.add_argument("uk_card_id", type=int)
 
 validation_parser = reqparse.RequestParser()
-validation_parser.add_argument('card_number', type=str)
-
+validation_parser.add_argument("card_number", type=str)
 
 class ActivateCard(MethodResource, Resource):
-    def post(self, uk_card_id):
+    def post(self, uk_card_id: int) -> dict:
+        """
+        Activate a card
+
+        Args:
+            uk_card_id (int): The id of the card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         log.info("Activating a card")
         return service.activate_card(uk_card_id)
-    
+
 class CardValidation(MethodResource, Resource):
-    def post(self):
+    def post(self) -> dict:
+        """
+        Validate a card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         args = validation_parser.parse_args()
+
         log.info("Registering a card")
         return service.validate_card(args)
 
 class ActiveCards(MethodResource, Resource):
-    def get(self, card_id=None):
+    def get(self, card_id=None) -> dict:
+        """
+        Get all active cards
+
+        Args:
+            card_id (int, optional): The id of the card. Defaults to None.
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         if card_id:
             log.info(f"Getting active card with ID: {card_id}")
             return service.get_card(card_id)
@@ -40,29 +67,76 @@ class ActiveCards(MethodResource, Resource):
             log.info("Getting all active cards")
             return service.get_all_cards()
 
-    def patch(self, card_id):
+    def patch(self, card_id:int) -> dict:
+        """
+        Update an active card
+
+        Args:
+            card_id (int): The id of the card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         args = active_parser.parse_args()
         log.info("Updating an active card")
         return service.update_card(args, card_id)
 
-    def delete(self, card_id):
+    def delete(self, card_id:int) -> dict:
+        """
+        Delete an active card
+
+        Args:
+            card_id (int): The id of the card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         log.info("Deleting an active card")
         return service.delete_card(card_id)
-    
+
 class UnknownCards(MethodResource, Resource):
-    def get(self, card_id=None):
+    def get(self, card_id=None) -> dict:
+        """
+        Get an unknown card or all unknown cards
+
+        Args:
+            card_id (int, optional): The id of the card. Defaults to None.
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         if card_id:
             log.info(f"Getting unknown card with ID: {card_id}")
             return service.get_unknown_card(card_id)
         else:
             log.info("Getting all unknown cards")
             return service.get_unknown_cards()
-        
-    def post(self):
+
+    def post(self) -> dict:
+        """
+        Create a new unknown card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         args = unknown_parser.parse_args()
         log.info("Creating a new unknown card")
         return service.create_new_unknown_card(args)
 
-    def delete(self, uk_card_id):
+    def delete(self, uk_card_id:int) -> dict:
+        """
+        Delete an unknown card
+
+        Args:
+            uk_card_id (int): The id of the card
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         log.info("Deleting an unknown card")
         return service.delete_unknown_card(uk_card_id)

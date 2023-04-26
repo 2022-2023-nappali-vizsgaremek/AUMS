@@ -1,4 +1,4 @@
-def get_index_message():
+def get_index_message() -> dict:
     """
     Returns the message of the index page
 

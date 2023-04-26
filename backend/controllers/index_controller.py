@@ -10,6 +10,13 @@ try:
 except ImportError as ex: exit_app(f"Module not found: {ex}")
 
 class Index(MethodResource, Resource):
-    def get(self):
+    def get(self) -> dict:
+        """
+        Get index message
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
         log.info("Getting index message")
         return service.get_index_message()
