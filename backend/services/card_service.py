@@ -169,7 +169,7 @@ def activate_card(uk_card_id: int) -> dict:
 
     return _error_response("success", "Card has been activated", 200)
 
-def validate_card(args: dict) -> dict:
+def validate_card(card_number: str) -> dict:
     """
     Validate a card
 
@@ -180,7 +180,6 @@ def validate_card(args: dict) -> dict:
         tuple: The response and the status code of the request
     """
 
-    card_number = args["card_number"]
     card = _get_by_attribute(Card, "card_number", card_number, serialize=False)
 
     if card:

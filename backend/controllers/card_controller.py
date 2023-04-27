@@ -35,7 +35,7 @@ class ActivateCard(MethodResource, Resource):
         return service.activate_card(uk_card_id)
 
 class CardValidation(MethodResource, Resource):
-    def post(self) -> dict:
+    def post(self, card_number: str) -> dict:
         """
         Validate a card
 
@@ -43,10 +43,8 @@ class CardValidation(MethodResource, Resource):
             dict: A dictionary containing the response and the status code of the request
         """
 
-        args = validation_parser.parse_args()
-
         log.info("Registering a card")
-        return service.validate_card(args)
+        return service.validate_card(card_number)
 
 class ActiveCards(MethodResource, Resource):
     def get(self, card_id=None) -> dict:
@@ -95,9 +93,9 @@ class ActiveCards(MethodResource, Resource):
 
         log.info("Deleting an active card")
         return service.delete_card(card_id)
-
+    
 class UnknownCards(MethodResource, Resource):
-    def get(self, card_id=None) -> dict:
+    def get(self, uk_card_id=None) -> dict:
         """
         Get an unknown card or all unknown cards
 
@@ -108,24 +106,12 @@ class UnknownCards(MethodResource, Resource):
             dict: A dictionary containing the response and the status code of the request
         """
 
-        if card_id:
-            log.info(f"Getting unknown card with ID: {card_id}")
-            return service.get_unknown_card(card_id)
+        if uk_card_id:
+            log.info(f"Getting unknown card with ID: {uk_card_id}")
+            return service.get_unknown_card(uk_card_id)
         else:
             log.info("Getting all unknown cards")
             return service.get_unknown_cards()
-
-    def post(self) -> dict:
-        """
-        Create a new unknown card
-
-        Returns:
-            dict: A dictionary containing the response and the status code of the request
-        """
-
-        args = unknown_parser.parse_args()
-        log.info("Creating a new unknown card")
-        return service.create_new_unknown_card(args)
 
     def delete(self, uk_card_id:int) -> dict:
         """
