@@ -83,18 +83,19 @@ export default {
     const msg = ref('');
 
     const fetchCards = async () => {
-      try {
         const response = await axios.get('http://127.0.0.1:5000/cards')
-        msg.value = "Active Cards"
-        cards.value = response.data;
-      } catch (error) {
-        if (error.response.status === 404) {
-          msg.value = "Cards not found"
-          cards.value = []
-        } else {
-          console.error(error)
-        }
-      }
+        .then((response) => {
+          msg.value = "Active Cards"
+          cards.value = response.data;
+        })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            msg.value = "Cards not found"
+            cards.value = []
+          } else {
+            console.error(error)
+          }
+        });
     };
 
     const sortedCards = computed(() => {
@@ -115,13 +116,13 @@ export default {
       const data = {
         card_number: cardNumber.value,
       };
-      const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data)
+      const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data);
       await fetchCards();
       closeModifyCardModal();
     };
 
     const deleteCard = async (id) => {
-      const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`)
+      const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`);
       await fetchCards();
     };
 

@@ -124,12 +124,12 @@ export default {
     };
 
     const deleteUnknownCard = async (id) => {
-      try {
-        await axios.delete(`http://127.0.0.1:5000/unknown_cards/${id}`);
-        await fetchUnknownCards();
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await axios.delete(`http://127.0.0.1:5000/unknown_cards/${id}`).
+        catch((error) => {
+          if (error.response.status == 404) {
+            alert(error.response.data.message)
+          }
+        });
 
       await fetchUnknownCards();
     };
