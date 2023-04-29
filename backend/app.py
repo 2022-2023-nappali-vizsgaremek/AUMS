@@ -40,10 +40,12 @@ api.add_resource(user_ctrl.Register, "/register")
 # Schedule routes
 api.add_resource(schedule_ctrl.Schedule, "/schedule")
 # Card routes
-api.add_resource(card_ctrl.ActiveCards, "/cards", "/cards/<int:card_id>")
+api.add_resource(card_ctrl.ActiveCards, "/cards")
+api.add_resource(card_ctrl.ActiveCardById, "/cards/<int:card_id>")
 api.add_resource(card_ctrl.ActivateCard, "/activate_card/<int:uk_card_id>")
 api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number>")
-api.add_resource(card_ctrl.UnknownCards, "/unknown_cards", "/unknown_cards/<int:uk_card_id>")
+api.add_resource(card_ctrl.UnknownCards, "/unknown_cards")
+api.add_resource(card_ctrl.UnknownCardById, "/unknown_cards/<int:uk_card_id>")
 
 # Swagger docs
 docs = FlaskApiSpec(app)
@@ -56,6 +58,8 @@ docs.register(user_ctrl.Register)
 docs.register(schedule_ctrl.Schedule)
 # Card docs
 docs.register(card_ctrl.ActiveCards)
+docs.register(card_ctrl.ActiveCardById)
+docs.register(card_ctrl.UnknownCardById)
 docs.register(card_ctrl.UnknownCards)
 docs.register(card_ctrl.ActivateCard)
 docs.register(card_ctrl.CardValidation)

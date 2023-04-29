@@ -5,7 +5,7 @@ import services.user_service as service
 
 try:
     # External imports
-    from flask_apispec import MethodResource
+    from flask_apispec import MethodResource, doc
     from flask_restful import Resource, reqparse
 except ImportError as ex: exit_app(f"Module not found: {ex}")
 
@@ -21,6 +21,7 @@ parser.add_argument("company_email", type=str)
 parser.add_argument("personal_email", type=str)
 
 class Register(MethodResource, Resource):
+    @doc(description="Register a new user", tags=["User"])
     def post(self) -> dict:
         """
         Registers a new user
@@ -34,6 +35,7 @@ class Register(MethodResource, Resource):
         return service.register_new_user(args)
 
 class Login(MethodResource, Resource):
+    @doc(description="Login a user", tags=["User"])
     def post(self) -> dict:
         """
         Logs in a user
