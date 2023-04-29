@@ -29,8 +29,8 @@ jobs:
         sed -i 's/http:\/\/127.0.0.1:5000\/unknown_cards/https:\/\/api.proj-aums.hu\/unknown_cards/' frontend/src/components/UnknownCards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/unknown_cards\/${id}/https:\/\/api.proj-aums.hu\/unknown_cards\/${id}/' frontend/src/components/UnknownCards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/activate_card\/${id}/https:\/\/api.proj-aums.hu\/activate_card\/${id}/' frontend/src/components/UnknownCards.vue
-        sed -i 's/http:\/\/127.0.0.1:5000\/card_validation\/${id}/https:\/\/api.proj-aums.hu\/card_validation\/${id}/' frontend/src/components/UnknownCards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/cards\/${selectedCardId.value}/https:\/\/api.proj-aums.hu\/cards\/${selectedCardId.value}/' frontend/src/components/Cards.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/card_validation\/${newCardNumber.value}/https:\/\/api.proj-aums.hu\/card_validation\/${newCardNumber.value}/' frontend/src/components/UnknownCards.vue
 
         sed -i 's/http:\/\/127.0.0.1:5000\/schedule/https:\/\/api.proj-aums.hu\/schedule/' frontend/src/views/ScheduleView.vue
 
