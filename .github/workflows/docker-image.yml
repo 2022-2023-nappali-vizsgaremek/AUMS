@@ -42,7 +42,7 @@ jobs:
 
     - name: Create .env From .env.example And Set
       run: |
-        cp .env.example .env
+        cp backend/.env.example backend/.env
         echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> .env
         echo "MAIL_SERVER=${{ secrets.MAIL_SERVER }}" >> .env
         echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
