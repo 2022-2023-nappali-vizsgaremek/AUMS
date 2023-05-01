@@ -186,7 +186,7 @@ def validate_card(card_number: str) -> dict:
         user_card = UserCard.query.filter_by(card_id=card.id).first()
 
         if user_card: return _error_response("success", "Card is valid", 200)
-        else: return _error_response("failed", "Card is valid but not connected to any user", 200)
+        else: return _error_response("failed", "Card is valid but not connected to any user", 401)
 
     unknown_card = _get_by_attribute(UnknownCard, "uk_card_number", card_number, serialize=False)
 
