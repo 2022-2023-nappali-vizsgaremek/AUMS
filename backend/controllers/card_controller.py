@@ -1,8 +1,10 @@
+# Local imports
 from utils.log import log
 from utils.close import exit_app
 import services.card_service as service
 
 try:
+    # External imports
     from flask_apispec import MethodResource, doc
     from flask_restful import Resource, reqparse
 except ImportError as ex: exit_app(f"Module not found: {ex}")
@@ -63,7 +65,7 @@ class ActiveCards(MethodResource, Resource):
 
         log.info("Getting all active cards")
         return service.get_all_cards()
-    
+
 class ActiveCardById(MethodResource, Resource):
     @doc(description="Get an active card by ID", tags=["Card"])
     def get(self, card_id=None) -> dict:
@@ -126,7 +128,7 @@ class UnknownCards(MethodResource, Resource):
 
         log.info("Getting all unknown cards")
         return service.get_unknown_cards()
-    
+
 class UnknownCardById(MethodResource, Resource):
     @doc(description="Get an unknown card by ID", tags=["Card"])
     def get(self, uk_card_id=None) -> dict:

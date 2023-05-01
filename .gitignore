@@ -23,6 +23,7 @@ nosetests.xml
 .pytest_cache/
 
 # Byte
+.theia
 *.py[cod]
 *$py.class
 __pycache__/

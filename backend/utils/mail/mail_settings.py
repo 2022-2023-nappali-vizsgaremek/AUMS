@@ -1,4 +1,5 @@
 # Local imports
+from utils.env import get_env
 from utils.close import exit_app
 
 # External imports
@@ -16,12 +17,11 @@ def configure_mail(app):
         app (Flask): Flask app instance
     """
 
-    app.config["MAIL_PORT"] = 465
     app.config["MAIL_USE_SSL"] = True
     app.config["MAIL_USE_TLS"] = False
-    app.config["TEMPLATES_FOLDER"] = "./"
-    app.config["MAIL_SERVER"]="smtp.gmail.com"
-    app.config["MAIL_PASSWORD"] = "vxcsjerwoeutzgvv"
-    app.config["MAIL_USERNAME"] = "proj.aums@gmail.com"
+    app.config["MAIL_PORT"] = get_env("MAIL_PORT")
+    app.config["MAIL_SERVER"]= get_env("MAIL_SERVER")
+    app.config["MAIL_USERNAME"] = get_env("MAIL_USERNAME")
+    app.config["MAIL_PASSWORD"] = get_env("MAIL_PASSWORD")
 
     mail.init_app(app)

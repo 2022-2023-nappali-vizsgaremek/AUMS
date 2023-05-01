@@ -1,4 +1,5 @@
 # Local imports
+from utils.env import get_env
 from utils.close import exit_app
 from utils.mail.mail_settings import mail
 
@@ -21,10 +22,10 @@ def send_mail(subject: str, body: str, sender_name: str, recipients: list) -> di
         dict | None: Returns a dict with the status and message if the email was failed to send
     """
 
-    message = Message(subject, body=body, sender=(sender_name, "proj.aums@gmail.com"), recipients=recipients)
+    message = Message(subject, body=body, sender=(sender_name, get_env("MAIL_USERNAME")), recipients=recipients)
 
     try: mail.send(message)
-    except Exception as e:
+    except Exception:
         return {
             "status": "failed",
             "message": "Failed to send email" }, 500

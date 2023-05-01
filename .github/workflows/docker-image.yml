@@ -40,6 +40,15 @@ jobs:
     - name: Update Selected Configuration
       run: sed -i 's/selected_config = "Localhost"/selected_config = "Production"/' backend/app.py
 
+    - name: Create .env From .env.example And Set
+      run: |
+        cp .env.example .env
+        echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> .env
+        echo "MAIL_SERVER=${{ secrets.MAIL_SERVER }}" >> .env
+        echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+        echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+        echo "PRODUCTION_DATABASE_URI=${{ secrets.PRODUCTION_DATABASE_URI }}" >> .env
+
     - name: Build And Push Flask Backend Docker Image
       uses: docker/build-push-action@v2
       with:

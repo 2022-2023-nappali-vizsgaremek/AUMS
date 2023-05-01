@@ -41,11 +41,11 @@ api.add_resource(user_ctrl.Register, "/register")
 api.add_resource(schedule_ctrl.Schedule, "/schedule")
 # Card routes
 api.add_resource(card_ctrl.ActiveCards, "/cards")
+api.add_resource(card_ctrl.UnknownCards, "/unknown_cards")
 api.add_resource(card_ctrl.ActiveCardById, "/cards/<int:card_id>")
 api.add_resource(card_ctrl.ActivateCard, "/activate_card/<int:uk_card_id>")
-api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number>")
-api.add_resource(card_ctrl.UnknownCards, "/unknown_cards")
 api.add_resource(card_ctrl.UnknownCardById, "/unknown_cards/<int:uk_card_id>")
+api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number>")
 
 # Swagger docs
 docs = FlaskApiSpec(app)
@@ -58,11 +58,11 @@ docs.register(user_ctrl.Register)
 docs.register(schedule_ctrl.Schedule)
 # Card docs
 docs.register(card_ctrl.ActiveCards)
-docs.register(card_ctrl.ActiveCardById)
-docs.register(card_ctrl.UnknownCardById)
 docs.register(card_ctrl.UnknownCards)
 docs.register(card_ctrl.ActivateCard)
+docs.register(card_ctrl.ActiveCardById)
 docs.register(card_ctrl.CardValidation)
+docs.register(card_ctrl.UnknownCardById)
 
 with app.app_context():
     """
@@ -92,6 +92,6 @@ if __name__ == "__main__":
     log.info("Starting app")
 
     try:
-        if selected_config == "Production": serve(app, host="0.0.0.0", port=5000)
         if selected_config == "Localhost": app.run(debug=True, port=5000, host="0.0.0.0")
+        if selected_config == "Production": serve(app, host="0.0.0.0", port=5000)
     except Exception as app_error: exit_app(f"App error: {app_error}")

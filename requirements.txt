@@ -5,6 +5,7 @@ bcrypt==4.0.1
 waitress==2.1.2
 Flask-Mail==0.9.1
 mysqlclient==2.1.1
+python-dotenv==1.0.0
 
 # API
 apispec==6.0.2

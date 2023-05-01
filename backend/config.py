@@ -1,3 +1,6 @@
+# Local imports
+from utils.env import get_env
+
 class Base:
     """
     Base app configurations
@@ -35,4 +38,4 @@ class Production(Base):
         Base (object): Base configurations
     """
 
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@mysql_aums:3306/aums"
+    SQLALCHEMY_DATABASE_URI = get_env("PRODUCTION_DATABASE_URI")
