@@ -88,7 +88,9 @@
               <label for="userSelect" class="form-label">Select User</label>
               <select class="form-select" id="userSelect" v-model="selectedUserId" required>
                 <option disabled value="">Please select a user</option>
-                <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+                <option v-for="user in unassignedUsers" :key="user.id" :value="user.id">
+                  {{ user.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -103,7 +105,7 @@
 
 </template>
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import axios from 'axios';
 
 export default {
@@ -111,6 +113,7 @@ export default {
     const users = ref([]);
     const cards = ref([]);
     const userCards = ref([]);
+    const unassignedUsers = ref([]);
     const cardNumber = ref('');
     const selectedCardId = ref(null);
     const showModifyCardModal = ref(false);
@@ -146,11 +149,17 @@ export default {
     };
 
     const fetchUserCards = async () => {
-      const response = await axios.get('http://127.0.0.1:5000/user_cards')
-      .then((response) => {
+      const response = await axios.get('http://127.0.0.1:5000/user_cards').
+      then((response) => {
         userCards.value = response.data;
-        console.log(userCards.value);
-      });
+      }).
+      catch((error) => {
+        if (error.response.status === 404) {
+          console.log("User cards not found")
+        } else {
+          console.error(error)
+        }
+      })
     };
 
     const isCardReserved = (cardId) => {
@@ -223,14 +232,41 @@ export default {
       closeDisconnectModal();
     };
 
+    const checkUserAssignment = () => {
+  unassignedUsers.value = [];
+  if (userCards.value.length === 0) {
+    users.value.forEach((user) => {
+      unassignedUsers.value.push(user);
+    });
+  } else {
+    users.value.forEach((user) => {
+      const userCard = userCards.value.find((uc) => uc.user_id === user.id);
+      if (!userCard) {
+        unassignedUsers.value.push(user);
+      }
+    });
+  }
+};
+
+watchEffect(() => {
+  if (userCards.value.length > 0 && users.value.length > 0) {
+    checkUserAssignment();
+  } else if (users.value.length > 0) {
+    users.value.forEach((user) => {
+      unassignedUsers.value.push(user);
+    });
+  }
+});
+
     fetchUsers();
-    fetchUserCards();
     fetchCards();
+    fetchUserCards();
     isCardReserved();
 
     return {
       cards,
       users,
+      userCards,
       msg,
       sortedCards,
       openModifyCardModal,
@@ -251,6 +287,7 @@ export default {
       fetchCards,
       fetchUserCards,
       isCardReserved,
+      unassignedUsers,
     };
   },
 };
