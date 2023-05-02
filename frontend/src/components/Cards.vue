@@ -12,11 +12,13 @@
           <div v-for="card in sortedCards" :key="card.id" class="col">
             <div class="card h-100">
               <div class="card-body">
+                <i class="fa fa-plus-circle float-end" type="button" @click="openInfo"></i>
                 <h5 class="card-title">Id: {{ card.id }}</h5>
                 <p class="card-text">Card number: {{ card.card_number }}</p>
                 <div>
                   <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                   <button class="btn btn-danger" @click="deleteCard(card.id)">Delete</button>
+                  
                 </div>
               </div>
             </div>
@@ -38,6 +40,7 @@
               <div>
                 <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                 <button class="btn btn-danger" @click="deleteCard(card.id)">Delete Card</button>
+                <i class="fa fa-plus-circle"></i>
               </div>
             </div>
           </li>
@@ -69,6 +72,25 @@
       </div>
     </div>
   </div>
+
+  <div v-if="showInfo" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Info</h5>
+          <button type="button" class="btn-close" @click="closeInfo"></button>
+        </div>
+        <div class="modal-body">
+          <p>Card number</p>
+          <p>User id</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="closeInfo">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 <script>
 import { ref, computed } from 'vue';
@@ -80,6 +102,7 @@ export default {
     const cardNumber = ref('');
     const selectedCardId = ref(null);
     const showModifyCardModal = ref(false);
+    const showInfo = ref(false);
     const msg = ref('');
 
     const fetchCards = async () => {
@@ -112,6 +135,14 @@ export default {
       showModifyCardModal.value = false;
     };
 
+    const closeInfo = () => {
+      showInfo.value = false;
+    };
+
+    const openInfo = () => {
+      showInfo.value = true;
+    };
+
     const modifyCard = async () => {
       const data = {
         card_number: cardNumber.value,
@@ -132,6 +163,9 @@ export default {
       cards,
       msg,
       sortedCards,
+      openInfo,
+      closeInfo,
+      showInfo,
       openModifyCardModal,
       closeModifyCardModal,
       showModifyCardModal,
