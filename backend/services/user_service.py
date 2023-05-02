@@ -124,13 +124,6 @@ def login_user(args: dict) -> dict:
             "status": "failed",
             "message": "Invalid company email or password" }, 401
 
-    token_chars = string.ascii_letters + string.digits
-    access_token = "".join(Random().choice(token_chars) for i in range(128))
-
-    user.access_token = access_token
-    db.session.commit()
-
     return {
         "status": "success",
-        "access_token": access_token,
         "message": "User successfully logged in" }, 200
