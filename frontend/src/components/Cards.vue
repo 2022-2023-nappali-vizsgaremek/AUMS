@@ -99,6 +99,7 @@ import axios from 'axios';
 export default {
   setup() {
     const cards = ref([]);
+    const userCards = ref([]);
     const cardNumber = ref('');
     const selectedCardId = ref(null);
     const showModifyCardModal = ref(false);
@@ -119,6 +120,31 @@ export default {
             console.error(error)
           }
         });
+    };
+
+    const fetchUserCards = async () => {
+      const response = await axios.get('http://127.0.0.1:5000/user_cards')
+      .then((response) => {
+        userCards.value = response.data;
+        console.log(userCards.value);
+      });
+    };
+
+    const isCardReserved = () => {
+      
+      for(let i = 0; i < cards.value.length; i++) {
+        if(cards.value[i].card_id === card.id) {
+          console.log("true");
+        }else {
+          console.log("false");
+        }
+      }
+      /*if(userCards.value.some((userCard) => userCard.card_id === card.id)) {
+        console.log("true");
+      }else {
+        console.log("false");
+      }*/
+      
     };
 
     const sortedCards = computed(() => {
@@ -157,7 +183,9 @@ export default {
       await fetchCards();
     };
 
+    fetchUserCards();
     fetchCards();
+    isCardReserved();
 
     return {
       cards,
@@ -173,6 +201,8 @@ export default {
       deleteCard,
       cardNumber,
       fetchCards,
+      fetchUserCards,
+      isCardReserved,
     };
   },
 };
