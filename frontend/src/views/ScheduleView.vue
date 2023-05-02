@@ -8,43 +8,56 @@
       </div>
     </div>
 
-    <div v-if="showModal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Daily Schedule Info</h5>
-          <button type="button" class="btn-close" @click="closeModal"></button>
-        </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <h5></h5>
+    <div v-if="modalActive" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Daily Schedule Information</h5>
+            <button type="button" class="btn-close" @click="closeModal"></button>
+          </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <p v-for="inf in info">{{ inf }}</p>
+              </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
-          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" @click="closeModal">Close</button>
+            </div>
+        </div>
       </div>
     </div>
-  </div>
   </template>
   
   <script>
   import {DayPilot, DayPilotCalendar, DayPilotNavigator} from '@daypilot/daypilot-lite-vue';
+  import { ref } from 'vue';
   import axios from 'axios';
-  var date = (new Date()).toISOString().split('T')[0];
-  const showModal = ref(false);
-  const info = ref('');
 
-  function openModal(string) {
-    info.value = string;
-    showModal.value = true;
-  }
 
   export default {
     name: 'Calendar',
-    
+
     data: function() {
+
+      var date = (new Date()).toISOString().split('T')[0];
+      const info = ref('');
+      const modalActive = ref(false);
+
+      const openModal = (resp) => {
+        modalActive.value = true;
+        info.value = resp;
+      };
+
+      const closeModal = () => {
+        modalActive.value = false;
+      };
+
       return {
+        info,
+        date,
+        modalActive,
+        closeModal,
+        openModal,
         events: [],
         navigatorConfig: {
             showMonths: 3,
@@ -65,13 +78,15 @@
             eventResizeHandling: "Disabled",
             eventHoverHandling: "Disabled",
             eventClickHandling: "Enabled",
-            onEventClicked: args => {
-              let resp = '';
+            eventClickHandling: "Bubble",
+            onEventClick: args => {
+              let resp = [];
               for (const arg in args.e.data) {
                 if (arg == 'start' || arg == 'end') {
-                  resp += arg + ': ' + args.e.data[arg].toString().split('T')[1]+ '\n';
+                  resp.push(arg + ': ' + args.e.data[arg].toString().split('T')[1]);
                 }
               }
+              //alert(resp);
               openModal(resp);
             }
         }
@@ -79,17 +94,16 @@
     },
     components: {
       DayPilotCalendar,
-      DayPilotNavigator
+      DayPilotNavigator,
     },
     computed: {
-      // DayPilot.Calendar object - https://api.daypilot.org/daypilot-calendar-class/
       calendar() {
         return this.$refs.calendar.control;
       }
     },
     methods: {
       async loadEvents() {
-        const response = await axios.get('http://127.0.0.1:5000/schedule')
+        /*const response = await axios.get('http://127.0.0.1:5000/schedule')
         let colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 		                  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
                       '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
@@ -110,35 +124,36 @@
             backColor: colors[Math.floor(Math.random() * 50) + 1]
           }
           events.push(event);
-        }
-        /*const events = [
+        }*/
+        const events = [
           {
             id: 1,
-            start: "2023-04-24T10:00:00",
-            end: "2023-04-24T11:00:00",
+            start: "2023-05-02T10:00:00",
+            end: "2023-05-02T11:00:00",
             text: "Event 1",
             backColor: "#6aa84f",
             borderColor: "#38761d",
           },
           {
             id: 2,
-            start: "2023-04-24T13:00:00",
-            end: "2023-04-24T16:00:00",
+            start: "2023-05-03T13:00:00",
+            end: "2023-05-03T16:00:00",
             text: "Event 2",
             backColor: "#f1c232",
             borderColor: "#bf9000",
           },
           {
             id: 3,
-            start: "2023-04-27T13:30:00",
-            end: "2023-04-27T16:30:00",
+            start: "2023-05-04T13:30:00",
+            end: "2023-05-04T16:30:00",
             text: "Event 3",
             backColor: "#cc4125",
             borderColor: "#990000",
           }
-        ];*/
+        ];
         this.calendar.update({events});
       },
+      
     },
     mounted() {
       this.loadEvents();
@@ -171,5 +186,18 @@
     border-radius: 5px;
     opacity: 0.9;
   }
+
+  .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
   </style>
   
