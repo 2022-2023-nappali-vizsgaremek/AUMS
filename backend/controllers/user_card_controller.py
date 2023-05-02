@@ -23,8 +23,9 @@ class UserCard(MethodResource, Resource):
             dict: A dictionary containing the response and the status code of the request
         """
 
+        args = parser.parse_args()
         log.info("Connecting card to user")
-        return service.connect_card_to_user(card_id, user_id)
+        return service.connect_card_to_user(args)
     
     @doc(description="Get all user cards", tags=["UserCard"])
     def get(self) -> dict:
@@ -37,3 +38,16 @@ class UserCard(MethodResource, Resource):
 
         log.info("Getting all user cards")
         return service.get_all_user_cards()
+
+class Users(MethodResource, Resource): 
+    @doc(description="Get users", tags=["Users"])
+    def get(self) -> dict:
+        """
+        Get users
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        log.info("Getting users")
+        return service.get_users()

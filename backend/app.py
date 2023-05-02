@@ -50,6 +50,7 @@ api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number
 
 # UserCard routes
 api.add_resource(user_card_ctrl.UserCard, "/user_cards")
+api.add_resource(user_card_ctrl.Users, "/users")
 
 # Swagger docs
 docs = FlaskApiSpec(app)
@@ -69,6 +70,7 @@ docs.register(card_ctrl.CardValidation)
 docs.register(card_ctrl.UnknownCardById)
 # UserCard docs
 docs.register(user_card_ctrl.UserCard)
+docs.register(user_card_ctrl.Users)
 
 with app.app_context():
     """

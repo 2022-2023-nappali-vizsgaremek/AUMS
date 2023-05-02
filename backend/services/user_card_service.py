@@ -12,7 +12,17 @@ def get_all_user_cards() -> dict:
 
     return _get_all(UserCard)
 
-def connect_card_to_user(card_id: int, user_id: int) -> dict:
+def get_users() -> dict:
+    """
+    Get all users from the database
+
+    Returns:
+        tuple: A list of users and a status code
+    """
+
+    return _get_all(User)
+
+def connect_card_to_user(args: dict) -> dict:
     """
     Connect card to user
 
@@ -23,6 +33,9 @@ def connect_card_to_user(card_id: int, user_id: int) -> dict:
     Returns:
         dict: A dictionary containing the response and the status code of the request
     """
+
+    card_id = args["card_id"]
+    user_id = args["user_id"]
 
     card = Card.query.filter_by(id=card_id).first()
     if not card: return _error_response("failed", "Card not found", 404)
@@ -53,10 +66,10 @@ def _get_all(model) -> tuple:
         tuple: A list of user cards and a status code if exist, otherwise an error response
     """
 
-    user_cards = model.query.all()
-    if not user_cards: return _error_response("failed", "No user cards found", 404)
+    items = model.query.all()
+    if not items: return _error_response("failed", "No user cards found", 404)
 
-    return [item.serialize() for item in user_cards], 200
+    return [item.serialize() for item in items], 200
 
 
 def _error_response(status: str, message: str, code: int) -> dict:

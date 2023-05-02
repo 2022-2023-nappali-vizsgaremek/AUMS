@@ -52,3 +52,9 @@ class User(db.Model):
         db.String(255),
         unique=False,
         nullable=False)
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.first_name + " " + self.last_name
+        }
