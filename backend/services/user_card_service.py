@@ -22,7 +22,7 @@ def get_users() -> dict:
 
     return _get_all(User)
 
-def connect_card_to_user(args: dict) -> dict:
+def connect_card_to_user(card_id:int, user_id:int) -> dict:
     """
     Connect card to user
 
@@ -33,9 +33,6 @@ def connect_card_to_user(args: dict) -> dict:
     Returns:
         dict: A dictionary containing the response and the status code of the request
     """
-
-    card_id = args["card_id"]
-    user_id = args["user_id"]
 
     card = Card.query.filter_by(id=card_id).first()
     if not card: return _error_response("failed", "Card not found", 404)

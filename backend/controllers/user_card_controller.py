@@ -15,7 +15,7 @@ parser.add_argument("user_id", type=int)
 
 class UserCard(MethodResource, Resource):
     @doc(description="Connect card to user", tags=["UserCard"])
-    def post(self, card_id:int, user_id:int) -> dict:
+    def post(self) -> dict:
         """
         Connect card to user
 
@@ -24,8 +24,10 @@ class UserCard(MethodResource, Resource):
         """
 
         args = parser.parse_args()
+        card_id = args["card_id"]
+        user_id = args["user_id"]
         log.info("Connecting card to user")
-        return service.connect_card_to_user(args)
+        return service.connect_card_to_user(card_id, user_id)
     
     @doc(description="Get all user cards", tags=["UserCard"])
     def get(self) -> dict:
