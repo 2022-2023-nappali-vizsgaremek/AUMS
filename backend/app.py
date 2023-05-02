@@ -34,6 +34,7 @@ configure_mail(app)
 
 # Index routes
 api.add_resource(index_ctrl.Index, "/")
+api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_token>")
 # User routes
 api.add_resource(user_ctrl.Login, "/login")
 api.add_resource(user_ctrl.Register, "/register")

@@ -9,6 +9,8 @@ try:
     from flask_restful import Resource, reqparse
 except ImportError as ex: exit_app(f"Module not found: {ex}")
 
+parser = reqparse.RequestParser()
+
 class Index(MethodResource, Resource):
     @doc(description="Get index message", tags=["Index"])
     def get(self) -> dict:
@@ -21,3 +23,15 @@ class Index(MethodResource, Resource):
 
         log.info("Getting index message")
         return service.get_index_message()
+
+class IsAuthenticated(MethodResource, Resource):
+    def post(self, access_token: str) -> dict:
+        """
+        Check if user is authenticated
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        log.info("Checking if user is authenticated")
+        return service.is_authenticated(access_token)
