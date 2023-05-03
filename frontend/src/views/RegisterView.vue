@@ -98,7 +98,7 @@ const checkField = (field) => {
                                         <input type="text" id="fullName" autofocus  name="name" class="input100" v-on:focusout="checkField($event.target)" placeholder="Name"/>
                                         <span class="focus-input100"></span>
                                         <span class="symbol-input100">
-                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
                                         </span>
                                     </div>
 

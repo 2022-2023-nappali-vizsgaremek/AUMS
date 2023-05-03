@@ -10,13 +10,13 @@
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div v-for="unknownCard in unknownCards" :key="unknownCard.id" class="col">
-            <div class="card h-100">
+            <div class="card">
               <div class="card-body">
                 <h5 class="card-title text-white">Id: {{ unknownCard.id }}</h5>
                 <p class="card-text text-white">Card number: {{ unknownCard.card_number }}</p>
-                <div>
-                  <button class="btn btn-success me-3" @click="activateCard(unknownCard.id)">Activate</button>
-                  <button class="btn btn-danger" @click="deleteUnknownCard(unknownCard.id)">Delete</button>
+                <div class="d-flex flex-column align-items-center flex-md-row justify-content-md-center">
+                  <button class="rounded-btn btn-success me-0 me-md-3 mb-2 mb-md-0" @click="activateCard(unknownCard.id)">Activate</button>
+                  <button class="rounded-btn btn-danger" @click="deleteUnknownCard(unknownCard.id)">Delete</button>
                 </div>
               </div>
             </div>
@@ -185,8 +185,7 @@ export default {
   color: #fff;
 }
 .card {
-  margin: 1rem;
-  padding: 1rem;
+  padding: 1rem 0;
   background-color: #413a63;
   font-weight: bold;
   border-radius: 2rem;

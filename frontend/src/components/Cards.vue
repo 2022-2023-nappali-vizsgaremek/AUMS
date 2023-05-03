@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col mt-4 mb-2 mx-5">
+    <div class="col my-4 mb-2 mx-5">
       <div v-if="msg !== 'Active Cards'" class="alert alert-danger" role="alert">
         <h1>{{ msg }}</h1>
       </div>
@@ -10,20 +10,24 @@
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div v-for="card in sortedCards" :key="card.id" class="col">
-            <div class="card h-100">
+            <div class="card">
               <div class="card-body">
+                <div>
                 <i v-if="isCardReserved(card.id)" class="fa fa-minus-circle float-end" type="button" @click="disconnectCardFromUser(card.id)"></i>
                 <i v-else class="fa fa-plus-circle float-end" type="button" @click="openConnectModal(card.id)"></i>
+              </div>
+                <div class="text-center mb-3">
                 <h5 class="card-title">Id: {{ card.id }}</h5>
                 <p class="card-text">Card number: {{ card.card_number }}</p>
-                <div>
-                  <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
-                  <button class="btn btn-danger" @click="deleteCard(card.id)">Delete</button>
+                </div>
+                <div class="d-flex flex-column align-items-center flex-md-row justify-content-md-center">
+                  <button class="rounded-btn btn-secondary me-0 me-md-3 mb-2 mb-md-0" @click="openModifyCardModal(card)">Modify</button>
+                  <button class="rounded-btn btn-danger" @click="deleteCard(card.id)">Delete</button>
+                </div>
                   <div v-if="isCardReserved(card.id)">
                     <hr>
-                    <p>{{ whoIsCardConnectedTo(card.id)}}</p>
+                    <p>User: {{ whoIsCardConnectedTo(card.id)}}</p>
                   </div>
-                </div>
               </div>
             </div>
           </div>
@@ -329,11 +333,14 @@ watchEffect(() => {
 }
 
 .card {
-  margin: 1rem;
-  padding: 1rem;
+  padding: 1rem 0;
   background-color: #413a63;
+  color: #fff;
   font-weight: bold;
   border-radius: 2rem;
   box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.card p{
+  color:#fff;
 }
 </style>
