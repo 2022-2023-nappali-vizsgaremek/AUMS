@@ -59,8 +59,8 @@
     </div>
   </div>
 
-  <div v-if="showModifyCardModal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+  <div v-show="showModifyCardModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Modify Card</h5>
@@ -83,7 +83,8 @@
   </div>
 
   <!-- Connect Modal -->
-  <div v-if="showConnectModal" class="modal" tabindex="-1">
+  <transition name="fade">
+  <div v-show="showConnectModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -110,6 +111,7 @@
       </div>
     </div>
   </div>
+</transition>
 
 </template>
 <script>
@@ -314,7 +316,7 @@ watchEffect(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 9999; /* Increase the z-index value */
 }
 .alert{
   border-radius: 2rem;
@@ -342,5 +344,13 @@ watchEffect(() => {
 }
 .card p{
   color:#fff;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>
