@@ -6,8 +6,8 @@
         </button>  
         -->
         <div class="navicon">
-          <label class="burger burger1" for="burger1" @click="closeNavbarWithBurger">
-            <input class="hidden" id="burger1" type="checkbox" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" v-model="burgerChecked"/><span></span>
+          <label class="burger burger1 navbar-toggler" for="burger1" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <input class="hidden" id="burger1" type="checkbox" v-model="burgerChecked"/><span></span>
           </label>
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -46,6 +46,7 @@
     const navbarCollapseElement = document.getElementById('navbarCollapse');
     const collapseInstance = new Collapse(navbarCollapseElement);
     if(navbarCollapseElement.classList.contains('show')) {
+      console.log(navbarCollapseElement.classList.contains('show'))
       collapseInstance.hide();
     } else {
       collapseInstance.show();
@@ -55,17 +56,6 @@
     setTimeout(() => {
       burgerChecked.value = false;
     }, 10);
-  };
-
-  const closeNavbarWithBurger = () => {
-    const navbarCollapseElement = document.getElementById('navbarCollapse');
-    const collapseInstance = new Collapse(navbarCollapseElement);
-
-    if(navbarCollapseElement.classList.contains('show')) {
-      collapseInstance.hide();
-    } else {
-      collapseInstance.show();
-    }
   };
   </script>
 
