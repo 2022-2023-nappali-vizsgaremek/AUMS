@@ -52,6 +52,11 @@ class User(db.Model):
         db.String(255),
         unique=False,
         nullable=False)
+
+    access_token = db.Column(
+        db.String(255),
+        unique=True,
+        nullable=True)
     
     def serialize(self):
         return {

@@ -1,3 +1,5 @@
+# Local imports
+from datetime import datetime
 from models.card import Card, db
 from models.unknown_card import UnknownCard
 
@@ -74,23 +76,23 @@ def create_new_unknown_card(args: dict) -> dict:
     uk_card_number = args["uk_card_number"]
 
     if not uk_card_number:
-        return _error_response("failed", "Card number is required", 400)
+        return _response("failed", "Card number is required", 400)
 
     card = _get_by_attribute(Card, "card_number", uk_card_number, serialize=False)
 
     if card:
-        return _error_response("failed", "Card number already exists in the active cards", 409)
+        return _response("failed", "Card number already exists in the active cards", 409)
 
     uk_card = _get_by_attribute(UnknownCard, "uk_card_number", uk_card_number, serialize=False)
 
     if uk_card:
-        return _error_response("failed", "Card number already exists in the unknown cards", 409)
+        return _response("failed", "Card number already exists in the unknown cards", 409)
 
     uk_card = UnknownCard(uk_card_number=uk_card_number)
     db.session.add(uk_card)
     db.session.commit()
 
-    return _error_response("success", "Card has been added to the database", 201)
+    return _response("success", "Card has been added to the database", 201)
 
 def update_card(args: dict, card_id: int) -> dict:
     """
@@ -157,16 +159,16 @@ def activate_card(uk_card_id: int) -> dict:
     """
 
     uk_card = _get_by_attribute(UnknownCard, "id", uk_card_id, serialize=False)
-    if not uk_card: return _error_response("failed", "Card not found", 404)
+    if not uk_card: return _response("failed", "Card not found", 404)
 
     new_card = Card(card_number=uk_card.uk_card_number)
     db.session.add(new_card)
     db.session.delete(uk_card)
 
     try: db.session.commit()
-    except: return _error_response("failed", "Internal server error", 500)
+    except: return _response("failed", "Internal server error", 500)
 
-    return _error_response("success", "Card has been activated", 200)
+    return _response("success", "Card has been activated", 200)
 
 def validate_card(card_number: str) -> dict:
     """
@@ -182,16 +184,29 @@ def validate_card(card_number: str) -> dict:
     card = _get_by_attribute(Card, "card_number", card_number, serialize=False)
 
     if card:
+        from models.schedule import Schedule
         from models.user_card import UserCard
         user_card = UserCard.query.filter_by(card_id=card.id).first()
 
-        if user_card: return _error_response("success", "Card is valid", 200)
-        else: return _error_response("failed", "Card is valid but not connected to any user", 401)
+        if user_card:
+            last_schedule = Schedule.query.filter_by(user_id=user_card.user_id).order_by(Schedule.id.desc()).first()
+
+            if last_schedule and not last_schedule.leave_date:
+                last_schedule.leave_date = datetime.now()
+            else:
+                new_schedule = Schedule(user_id=user_card.user_id, enter_date=datetime.now())
+                db.session.add(new_schedule)
+
+            try: db.session.commit()
+            except: return _response("failed", "Internal server error", 500)
+
+            return _response("success", "Card is valid", 200)
+        else: return _response("failed", "Card is valid but not connected to any user", 401)
 
     unknown_card = _get_by_attribute(UnknownCard, "uk_card_number", card_number, serialize=False)
 
     if unknown_card:
-        return _error_response("failed", "Unknown card with this card number already exists", 409)
+        return _response("failed", "Unknown card with this card number already exists", 409)
 
     return create_new_unknown_card({"uk_card_number": card_number})
 
@@ -209,7 +224,7 @@ def _get_all(model) -> tuple:
     items = model.query.all()
 
     if not items:
-        return _error_response("failed", "No cards found", 404)
+        return _response("failed", "No cards found", 404)
 
     return [item.serialize() for item in items], 200
 
@@ -230,7 +245,7 @@ def _get_by_attribute(model, attribute, value, serialize=True) -> tuple:
     item = model.query.filter_by(**{attribute: value}).first()
 
     if not item:
-        return None if not serialize else _error_response("failed", "Card not found", 404)
+        return None if not serialize else _response("failed", "Card not found", 404)
 
     return (item.serialize(), 200) if serialize else item
 
@@ -251,17 +266,17 @@ def _update_card(model, attribute, value, args) -> tuple:
     card_number = args["card_number"]
 
     if not card_number:
-        return _error_response("failed", "Card number is required", 400)
+        return _response("failed", "Card number is required", 400)
 
     card = model.query.filter_by(**{attribute: value}).first()
 
     if not card:
-        return _error_response("failed", "Card not found", 404)
+        return _response("failed", "Card not found", 404)
 
     card.card_number = card_number
     db.session.commit()
 
-    return _error_response("success", "Card has been updated", 200)
+    return _response("success", "Card has been updated", 200)
 
 def _delete_card(model, attribute, value) -> tuple:
     """
@@ -279,14 +294,14 @@ def _delete_card(model, attribute, value) -> tuple:
     card = model.query.filter_by(**{attribute: value}).first()
 
     if not card:
-        return _error_response("failed", "Card not found", 404)
+        return _response("failed", "Card not found", 404)
 
     db.session.delete(card)
     db.session.commit()
 
-    return _error_response("success", "Card has been deleted", 200)
+    return _response("success", "Card has been deleted", 200)
 
-def _error_response(status: str, message: str, code: int) -> dict:
+def _response(status: str, message: str, code: int) -> dict:
     """
     Create an error response
 

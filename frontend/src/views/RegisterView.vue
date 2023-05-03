@@ -94,39 +94,60 @@ const checkField = (field) => {
                             <div class="card-body p-5">
                                 <h2 class="text-uppercase text-center mb-5">Register new user</h2>
                                 <form>
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="text" id="fullName" autofocus  name="name" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label for="fullName">Name</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="text" id="fullName" autofocus  name="name" class="input100" v-on:focusout="checkField($event.target)" placeholder="Name"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="text" id="userName" name="username" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="userName">Username</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="text" id="userName" name="username" class="input100" v-on:focusout="checkField($event.target)" placeholder="Username"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="date" id="birthDate" name="birthdate" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="birthDate">BirthDate</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="date" id="birthDate" name="birthdate" class="input100" v-on:focusout="checkField($event.target)" placeholder="BirthDate"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="text" id="address" name="address" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="address">Address</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="text" id="address" name="address" class="input100" v-on:focusout="checkField($event.target)" placeholder="Address"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="text" id="phone" name="phone" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="phone">Phone number</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="text" id="phone" name="phone" class="input100" v-on:focusout="checkField($event.target)" placeholder="Phone number"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="email" id="email" name="email" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="email">Email</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="email" id="email" name="email" class="input100" v-on:focusout="checkField($event.target)" placeholder="Email"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="form-outline form-floating mb-2">
-                                        <input type="password" id="password" name="password" class="form-control form-control-lg" v-on:focusout="checkField($event.target)"/>
-                                        <label  for="password">Password</label>
+                                    <div class="form-outline wrap-input100">
+                                        <input type="password" id="password" name="password" class="input100" v-on:focusout="checkField($event.target)" placeholder="Password"/>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-lock" aria-hidden="true"></i>
+                                        </span>
                                     </div>
 
                                     <div class="d-flex justify-content-center">
@@ -144,3 +165,11 @@ const checkField = (field) => {
         </div>
     </div>
 </template>
+
+<style>
+.card{
+    background: #2f2655;
+    color: #c8bde8;
+    box-shadow: 0 0 15px 0px rgba(35, 61, 77, 1);
+}
+</style>
