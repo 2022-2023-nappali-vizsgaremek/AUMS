@@ -34,3 +34,14 @@ class IsAuthenticated(MethodResource, Resource):
 
         log.info("Checking if user is authenticated")
         return service.is_authenticated(access_token)
+    
+class LogDump(MethodResource, Resource):
+    def get(self) -> dict:
+        """
+        Get log dump
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        log.info("Getting log dump")
+        return service.get_log_dump()

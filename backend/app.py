@@ -35,6 +35,8 @@ configure_mail(app)
 
 # Index routes
 api.add_resource(index_ctrl.Index, "/")
+api.add_resource(index_ctrl.LogDump, "/log_dump")
+api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_token>")
 # User routes
 api.add_resource(user_ctrl.Login, "/login")
 api.add_resource(user_ctrl.Register, "/register")
@@ -52,7 +54,8 @@ api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number
 docs = FlaskApiSpec(app)
 # Index docs
 docs.register(index_ctrl.Index)
-api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_token>")
+docs.register(index_ctrl.LogDump)
+docs.register(index_ctrl.IsAuthenticated)
 # User docs
 docs.register(user_ctrl.Login)
 docs.register(user_ctrl.Register)

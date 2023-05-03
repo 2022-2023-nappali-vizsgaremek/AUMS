@@ -30,3 +30,24 @@ def is_authenticated(access_token: str) -> dict:
     return {
         "status": "success",
         "message": "User is authenticated" }, 200
+    
+def get_log_dump() -> dict:
+    """
+    Returns the log dump
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    from utils.log import log
+    log.info("Getting log dump")
+
+    log_dump = ""
+    with open("app.log", "r") as file:
+        log_dump = file.read()
+
+    return {
+        "status": "success",
+        "message": "Log dump",
+        "log_dump": log_dump }, 200
+    
