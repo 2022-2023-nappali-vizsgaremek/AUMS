@@ -13,8 +13,8 @@
             <div class="card h-100">
               <div class="card-body">
                 <i class="fa fa-plus-circle float-end" type="button" @click="openInfo"></i>
-                <h5 class="card-title">Id: {{ card.id }}</h5>
-                <p class="card-text">Card number: {{ card.card_number }}</p>
+                <h5 class="card-title text-white">Id: {{ card.id }}</h5>
+                <p class="card-text text-white">Card number: {{ card.card_number }}</p>
                 <div>
                   <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                   <button class="btn btn-danger" @click="deleteCard(card.id)">Delete</button>
@@ -183,6 +183,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  font-weight: bold;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -190,5 +191,29 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+.alert{
+  border-radius: 2rem;
+  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.alert-success{
+  background-color: rgba(0, 196, 0, 0.75);
+  border-color: #008000;
+  color: #fff;
+}
+
+.alert-danger{
+  background-color: rgba(203, 11, 1, 0.75);
+  border-color: #cb0b01;
+  color: #fff;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #413a63;
+  font-weight: bold;
+  border-radius: 2rem;
+  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 </style>

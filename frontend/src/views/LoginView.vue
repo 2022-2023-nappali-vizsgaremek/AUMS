@@ -7,7 +7,7 @@
         </div>
 
         <form class="login100-form" @submit.prevent="onSubmit" v-if="!isAuthenticated">
-          <span class="login100-form-title">
+          <span class="login100-form-title text-white">
             Member Login
           </span>
 

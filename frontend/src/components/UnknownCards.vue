@@ -12,8 +12,8 @@
           <div v-for="unknownCard in unknownCards" :key="unknownCard.id" class="col">
             <div class="card h-100">
               <div class="card-body">
-                <h5 class="card-title">Id: {{ unknownCard.id }}</h5>
-                <p class="card-text">Card number: {{ unknownCard.card_number }}</p>
+                <h5 class="card-title text-white">Id: {{ unknownCard.id }}</h5>
+                <p class="card-text text-white">Card number: {{ unknownCard.card_number }}</p>
                 <div>
                   <button class="btn btn-success me-3" @click="activateCard(unknownCard.id)">Activate</button>
                   <button class="btn btn-danger" @click="deleteUnknownCard(unknownCard.id)">Delete</button>
@@ -169,5 +169,27 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.alert{
+  border-radius: 2rem;
+  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.alert-success{
+  background-color: rgba(128, 128, 128, 0.75);
+  border-color: #808080;
+  color: #fff;
+}
+.alert-danger{
+  background-color: rgba(203, 11, 1, 0.75);
+  border-color: #cb0b01;
+  color: #fff;
+}
+.card {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #413a63;
+  font-weight: bold;
+  border-radius: 2rem;
+  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 </style>
