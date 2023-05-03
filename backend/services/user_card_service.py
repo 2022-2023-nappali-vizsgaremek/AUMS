@@ -52,6 +52,27 @@ def connect_card_to_user(card_id:int, user_id:int) -> dict:
     return _error_response("success", "Card has been connected to user", 200)
 
 
+def delete_user_card(conn_id:int) -> dict:
+    """
+    Delete user-card connection
+
+    Args:
+        id (int): The id of the user-card connection
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    user_card = UserCard.query.filter_by(id=conn_id).first()
+    if not user_card: return _error_response("failed", "User card not found", 404)
+
+    db.session.delete(user_card)
+
+    try: db.session.commit()
+    except: return _error_response("failed", "Internal server error", 500)
+
+    return _error_response("success", "User card has been deleted", 200)
+
 def _get_all(model) -> tuple:
     """
     Get all user cards

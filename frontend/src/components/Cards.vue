@@ -12,14 +12,17 @@
           <div v-for="card in sortedCards" :key="card.id" class="col">
             <div class="card h-100">
               <div class="card-body">
-                <i v-if="isCardReserved(card.id)" class="fa fa-minus-circle float-end" type="button" @click="openDisconnectModal(card.id)"></i>
+                <i v-if="isCardReserved(card.id)" class="fa fa-minus-circle float-end" type="button" @click="disconnectCardFromUser(card.id)"></i>
                 <i v-else class="fa fa-plus-circle float-end" type="button" @click="openConnectModal(card.id)"></i>
                 <h5 class="card-title">Id: {{ card.id }}</h5>
                 <p class="card-text">Card number: {{ card.card_number }}</p>
                 <div>
                   <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                   <button class="btn btn-danger" @click="deleteCard(card.id)">Delete</button>
-                  
+                  <div v-if="isCardReserved(card.id)">
+                    <hr>
+                    <p>{{ whoIsCardConnectedTo(card.id)}}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -42,6 +45,7 @@
                 <button class="btn btn-secondary me-3" @click="openModifyCardModal(card)">Modify</button>
                 <button class="btn btn-danger" @click="deleteCard(card.id)">Delete Card</button>
                 <i class="fa fa-plus-circle"></i>
+                
               </div>
             </div>
           </li>
@@ -162,6 +166,7 @@ export default {
       })
     };
 
+
     const isCardReserved = (cardId) => {
       return userCards.value.some((userCard) => userCard.card_id === cardId);
     };
@@ -170,6 +175,12 @@ export default {
       return cards.value.slice().sort((a, b) => a.id - b.id);
     });
 
+    const whoIsCardConnectedTo = (cardid) => {
+      const usercard_user_id = userCards.value.find((userCard) => userCard.card_id === cardid).user_id;
+      const user = users.value.find((user) => user.id === usercard_user_id);
+      return user.name;
+    };
+    
     const openModifyCardModal = (card) => {
       selectedCardId.value = card.id;
       cardNumber.value = card.card_number;
@@ -189,15 +200,6 @@ export default {
       showConnectModal.value = false;
     };
 
-    const openDisconnectModal = (cardId) => {
-      selectedCardIdForDisconnect.value = cardId;
-      showDisconnectModal.value = true;
-    };
-
-    const closeDisconnectModal = () => {
-      showDisconnectModal.value = false;
-    };
-
     const modifyCard = async () => {
       const data = {
         card_number: cardNumber.value,
@@ -208,9 +210,15 @@ export default {
     };
 
     const deleteCard = async (id) => {
+      const userCard = userCards.value.find((uc) => uc.card_id === id);
+      if (userCard) {
+        alert("This card is currently connected to a user. Please disconnect it before deleting.");
+        return;
+      }
       const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`);
       await fetchCards();
     };
+    
 
     const connectCardToUser = async (userId) => {
     const response = await axios.post(`http://127.0.0.1:5000/user_cards`, {
@@ -221,15 +229,13 @@ export default {
       closeConnectModal();
     };
 
-    const disconnectCardFromUser = async () => {
-      const userCard = userCards.value.find(
-        (uc) => uc.card_id === selectedCardIdForDisconnect.value
-      );
+    const disconnectCardFromUser = async (cardid) => {
+      const del_userCard = userCards.value.find((uc) => uc.card_id === cardid);
       const response = await axios.delete(
-        `http://127.0.0.1:5000/user_cards/${userCard.id}`
+        `http://127.0.0.1:5000/user_cards/${del_userCard.id}`
       );
+      location.reload();
       await fetchUserCards();
-      closeDisconnectModal();
     };
 
     const checkUserAssignment = () => {
@@ -275,8 +281,6 @@ watchEffect(() => {
       openConnectModal,
       closeConnectModal,
       showConnectModal,
-      openDisconnectModal,
-      closeDisconnectModal,
       showDisconnectModal,
       connectCardToUser,
       disconnectCardFromUser,
@@ -288,6 +292,7 @@ watchEffect(() => {
       fetchUserCards,
       isCardReserved,
       unassignedUsers,
+      whoIsCardConnectedTo,
     };
   },
 };

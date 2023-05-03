@@ -41,6 +41,18 @@ class UserCard(MethodResource, Resource):
         log.info("Getting all user cards")
         return service.get_all_user_cards()
 
+    @doc(description="Delete user-card connection", tags=["UserCard"])
+    def delete(self, id: int) -> dict:
+        """
+        Delete user-card connection
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        log.info("Deleting user-card connection")
+        return service.delete_user_card(id)
+
 class Users(MethodResource, Resource): 
     @doc(description="Get users", tags=["Users"])
     def get(self) -> dict:
