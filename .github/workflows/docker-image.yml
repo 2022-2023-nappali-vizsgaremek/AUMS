@@ -67,3 +67,35 @@ jobs:
         file: ./Dockerfile.vue
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/vue-frontend:latest
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install Dependencies
+      run: npm ci --prefix desktop
+
+    - name: Build Electron App
+      run: npm run build --prefix desktop
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Electron App As Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./desktop/dist/AUMS-Desktop.exe
+        asset_name: AUMS-Desktop.exe
+        asset_content_type: application/x-msdownload

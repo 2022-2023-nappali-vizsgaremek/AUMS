@@ -28,6 +28,11 @@ nosetests.xml
 *$py.class
 __pycache__/
 
+# Build
+/dist
+/build
+node_modules
+
 # IDE
 *.vscode
 __pypackages__/
