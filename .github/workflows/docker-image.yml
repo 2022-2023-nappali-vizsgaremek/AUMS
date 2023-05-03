@@ -23,7 +23,6 @@ jobs:
         sed -i 's/http:\/\/127.0.0.1:5000\/login/https:\/\/api.proj-aums.hu\/login/' frontend/src/views/LoginView.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/register/https:\/\/api.proj-aums.hu\/register/' frontend/src/views/RegisterView.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/is_authenticated\//https:\/\/api.proj-aums.hu\/is_authenticated\//' frontend/src/router/index.js
-
         sed -i 's/http:\/\/127.0.0.1:5000\/cards/https:\/\/api.proj-aums.hu\/cards/' frontend/src/components/Cards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/cards\/${id}/https:\/\/api.proj-aums.hu\/cards\/${id}/' frontend/src/components/Cards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/unknown_cards/https:\/\/api.proj-aums.hu\/unknown_cards/' frontend/src/components/UnknownCards.vue
@@ -32,8 +31,13 @@ jobs:
         sed -i 's/http:\/\/127.0.0.1:5000\/activate_card\/${id}/https:\/\/api.proj-aums.hu\/activate_card\/${id}/' frontend/src/components/UnknownCards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/cards\/${selectedCardId.value}/https:\/\/api.proj-aums.hu\/cards\/${selectedCardId.value}/' frontend/src/components/Cards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/card_validation\/${newCardNumber.value}/https:\/\/api.proj-aums.hu\/card_validation\/${newCardNumber.value}/' frontend/src/components/UnknownCards.vue
-
         sed -i 's/http:\/\/127.0.0.1:5000\/schedule/https:\/\/api.proj-aums.hu\/schedule/' frontend/src/views/ScheduleView.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/users/https:\/\/api.proj-aums.hu\/users/' frontend/src/components/Cards.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/user_cards/https:\/\/api.proj-aums.hu\/user_cards/' frontend/src/components/Cards.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/user_cards/https:\/\/api.proj
+        sed -i 's/http:\/\/127.0.0.1:5000\/user_cards/https:\/\/api.proj-aums.hu\/user_cards/' frontend/src/components/Cards.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/user_cards/https:\/\/api.proj-aums.hu\/user_cards/' frontend/src/components/Cards.vue
+        sed -i 's/http:\/\/127.0.0.1:5000\/user_cards\/${del_userCard.id}/https:\/\/api.proj-aums.hu\/user_cards\/${del_userCard.id}/' frontend/src/components/Cards.vue
 
     - name: Set Up Docker Build
       uses: docker/setup-buildx-action@v1
