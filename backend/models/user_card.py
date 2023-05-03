@@ -23,3 +23,9 @@ class UserCard(db.Model):
         nullable=False,
         primary_key=False,
         autoincrement=False)
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "card_id": self.card_id}
