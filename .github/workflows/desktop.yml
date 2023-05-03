@@ -40,7 +40,7 @@ jobs:
 
     - name: Create Release
       run: |
-        gh release create latest --title "Latest Desktop Release" --notes "IGNORE the 'Source code (zip)' and 'Source code (tar.gz)' assets. Download 'AUMS-Desktop.exe' to get the latest version of the application."
+        gh release create latest --title "Latest Desktop Client" --notes "IGNORE the 'Source code (zip)' and 'Source code (tar.gz)' assets. Download 'AUMS-Desktop.exe' to get the latest version of the application."
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
 
