@@ -18,6 +18,20 @@ MFRC522 rfid(SS_PIN, RST_PIN);
 
 HTTPClient http;
 
+byte* stringToBytes(const char* str)
+{
+    static byte bytes[20];
+
+    for (uint8_t i = 0; i < 20; ++i)
+    {
+        bytes[i] = strtoul(str, NULL, 16);
+
+        str += 2;
+        if (*str == ':') ++str;
+    }
+    return bytes;
+}
+
 void setup()
 {
     Serial.begin(9600);
@@ -47,6 +61,8 @@ void setup()
     }
 }
 
+WiFiClientSecure secureClient;
+
 void loop()
 {
     if (!rfid.PICC_IsNewCardPresent()) return;
@@ -58,58 +74,38 @@ void loop()
         digitalWrite(D1, HIGH); delay(250);
         digitalWrite(D1, LOW);
 
-        WiFiClientSecure client;
-        client.setInsecure();
+        String url = String(server) + tag;
 
-        if (client.connect("api.proj-aums.hu", 443))
+        secureClient.setInsecure();
+        http.begin(secureClient, url);
+
+        http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        int httpCode = http.POST("");
+
+        if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_CREATED)
         {
-            String request = "POST " + String(server) + tag + " HTTP/1.1\r\n" +
-                "Content-Type: application/x-www-form-urlencoded\r\n" +
-                "Host: api.proj-aums.hu\r\n" +
-                "Content-Length: 0\r\n\r\n";
-
-            client.print(request);
-
-            unsigned long timeout = millis();
-            while (client.available() == 0)
-            {
-                if (millis() - timeout > 10000)
-                {
-                    client.stop();
-                    return;
-                }
-            }
-
-            String response = client.readStringUntil('\r');
-            if (response.indexOf("200 OK") > 0)
+            if (httpCode == HTTP_CODE_OK)
             {
                 digitalWrite(D0, HIGH);
                 delay(1500);
                 digitalWrite(D0, LOW);
             }
-            else if (response.indexOf("201 Created") > 0)
+            else if (httpCode == HTTP_CODE_CREATED)
             {
                 digitalWrite(D1, HIGH);
                 delay(1500);
                 digitalWrite(D1, LOW);
             }
-            else
-            {
-                digitalWrite(D2, HIGH);
-                delay(1500);
-                digitalWrite(D2, LOW);
-            }
-
-            client.stop();
         }
         else
         {
-            for (int i = 0; i < 3; i++)
-            {
-                digitalWrite(D1, HIGH); delay(250);
-                digitalWrite(D1, LOW); delay(250);
-            }
+            digitalWrite(D2, HIGH);
+            delay(1500);
+            digitalWrite(D2, LOW);
         }
+
+        http.end();
 
         tag = "";
         rfid.PICC_HaltA();
