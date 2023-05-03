@@ -52,7 +52,6 @@
       collapseInstance.show();
     }
 
-    console.log(navbarCollapseElement);
     setTimeout(() => {
       burgerChecked.value = false;
     }, 10);
