@@ -106,6 +106,18 @@ with app.app_context():
                 username="admin.admin",
                 password=bcrypt.hashpw("admin".encode("utf-8"), bcrypt.gensalt()).decode("utf-8"))
             db.session.add(user)
+            hardware_user = User(
+                first_name="Hardware",
+                last_name="Hardware",
+                birth_date="2000-01-01",
+                phone_number="01234567890",
+                address="Szeged",
+                company_email="hardware0@proj-aums.hu",
+                personal_email="hardware1@proj-aums.hu",
+                username="hardware",
+                password=bcrypt.hashpw("hardware".encode("utf-8"), bcrypt.gensalt()).decode("utf-8"),
+                access_token="OOkbqF8pliyFSWOQOti45PsQfkUTqMfc9MY2w0WshjbyM8li98ffW1eC2xz4kLhscoxSfQI8ajVS2lRRZH8Dqbx6AnvMS6rYhwfjwtVhyAsRSTcVIlnwT9dIGqWnd59f")
+            db.session.add(hardware_user)
             db.session.commit()
 
         log.info("Db created")

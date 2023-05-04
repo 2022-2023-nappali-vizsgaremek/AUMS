@@ -80,6 +80,7 @@ void loop()
         http.begin(secureClient, url);
 
         http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        http.addHeader("Authorization", "Bearer OOkbqF8pliyFSWOQOti45PsQfkUTqMfc9MY2w0WshjbyM8li98ffW1eC2xz4kLhscoxSfQI8ajVS2lRRZH8Dqbx6AnvMS6rYhwfjwtVhyAsRSTcVIlnwT9dIGqWnd59f");
 
         int httpCode = http.POST("");
 
