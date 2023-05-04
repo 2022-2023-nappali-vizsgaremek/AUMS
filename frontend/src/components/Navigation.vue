@@ -1,30 +1,30 @@
 <template>
-<nav class="navbar navbar-expand-lg sticky-top">
-      <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/login">AUMS</a>
-        <div class="navicon">
-          <label class="burger burger1 navbar-toggler" for="burger1" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <input class="hidden" id="burger1" type="checkbox" v-model="burgerChecked"/><span></span>
-          </label>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <div class="navbar-nav">
-            <router-link class="nav-link text-white" to="/login" :class="{ 'router-link-active': currentRoute.value === '/login' }" @click="closeNavbar">
-              <span>Home</span>
-            </router-link>
-            <router-link class="nav-link text-white" to="/register" :class="{ 'router-link-active': currentRoute.value === '/register' }" @click="closeNavbar" v-if="isAuthenticated">
-              <span>Register</span>
-            </router-link>
-            <router-link class="nav-link text-white" to="/cards" :class="{ 'router-link-active': currentRoute.value === '/cards' }" @click="closeNavbar" v-if="isAuthenticated">
-              <span>Cards</span>
-            </router-link>
-            <router-link class="nav-link text-white" to="/schedule" :class="{ 'router-link-active': currentRoute.value === '/schedule' }" @click="closeNavbar" v-if="isAuthenticated">
-              <span>Schedule</span>
-            </router-link>
-          </div>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="/login">AUMS</a>
+      <div class="navicon" @click="closeNavbar">
+        <div class="burger burgerIcon navbar-toggler">
+          <input class="hidden" id="burgerIcon" type="checkbox"/><span></span>
         </div>
       </div>
-    </nav>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav text-lg-start text-center">
+          <router-link class="nav-link text-white" to="/login" :class="{ 'router-link-active': currentRoute.value === '/login' }" @click="closeNavbar">
+            <span>Home</span>
+          </router-link>
+          <router-link class="nav-link text-white" to="/register" :class="{ 'router-link-active': currentRoute.value === '/register' }" @click="closeNavbar" v-if="isAuthenticated">
+            <span>Register</span>
+          </router-link>
+          <router-link class="nav-link text-white" to="/cards" :class="{ 'router-link-active': currentRoute.value === '/cards' }" @click="closeNavbar" v-if="isAuthenticated">
+            <span>Cards</span>
+          </router-link>
+          <router-link class="nav-link text-white" to="/schedule" :class="{ 'router-link-active': currentRoute.value === '/schedule' }" @click="closeNavbar" v-if="isAuthenticated">
+            <span>Schedule</span>
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script setup>
@@ -32,35 +32,35 @@
   import { ref, computed} from 'vue'
   import { useRoute } from 'vue-router'
   
-  const currentRoute = useRoute()
-  const burgerChecked = ref(false)
+  const currentRoute = useRoute();
+  const burgerInput = ref(null);
   
   const isAuthenticated = computed(() => {
     return localStorage.getItem('access_token') !== null
-  })
+  });
 
   const closeNavbar = () => {
+    if(window.innerWidth > 992) return;
     const navbarCollapseElement = document.getElementById('navbarCollapse');
     const collapseInstance = new Collapse(navbarCollapseElement);
+    const burgerCheckbox = document.getElementById('burgerIcon');
 
+    burgerInput.value = !burgerInput.value;
 
-    setTimeout(() => {
-      if(burgerChecked.value) {
-      burgerChecked.value = false;
-      collapseInstance.hide();
-    } else {
-      burgerChecked.value = true;
+    if (burgerInput.value) {
+      burgerCheckbox.checked = true;
       collapseInstance.show();
+    } else {
+      burgerCheckbox.checked = false;
+      collapseInstance.hide();
     }
-    }, 20);
   };
   </script>
 
 <style scoped>
   .navbar-nav .router-link-active {
-    background-color: rgba(97, 155, 138, 0.5);
-    border-radius: 0.7rem;
-    color: #4158d0;
+    background-color: rgba(158, 135, 200, 0.5);
+    border-radius: 1rem;
     font-weight: bold;
   }
   .navbar {
@@ -123,17 +123,17 @@
     display: flex;
   }
 
-  .burger1 input:checked + span:before, .burger1 input:checked + span:after {
+  .burgerIcon input:checked + span:before, .burgerIcon input:checked + span:after {
     top: 0px;
     margin-top: -0.5875rem;
   }
-  .burger1 input:checked + span {
+  .burgerIcon input:checked + span {
     background-color: transparent;
   }
-  .burger1 input:checked + span:before {
+  .burgerIcon input:checked + span:before {
     transform: translateY(0.525rem) rotate(45deg);
   }
-  .burger1 input:checked + span:after {
+  .burgerIcon input:checked + span:after {
     transform: translateY(0.525rem) rotate(-45deg);
   }
 </style>

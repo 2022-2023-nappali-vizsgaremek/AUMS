@@ -30,8 +30,23 @@
   }
   
   body, html {
+      margin: 0px; 
+      padding: 0px; 
+      min-height: 100%;
       height: 100%;
       font-family: Poppins-Regular, sans-serif;
+  }
+
+  body{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
   }
   
   /*---------------------------------------------*/
@@ -150,7 +165,7 @@
   
   .container-login100 {
     width: 100%;  
-    min-height: 100vh;
+    overflow: hidden;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -160,10 +175,6 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: linear-gradient(-135deg, #c850c0, #4158d0);
   }
   
   .wrap-login100 {
@@ -185,19 +196,25 @@
 
   /*//////////////////////////////////////////////////////////////////
   [ General bg ]*/
-  /*.container-gradient {
+
+  .container-gradient {
     width: 100%;  
-    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
     background: linear-gradient(-135deg, #c850c0, #4158d0);
-  }*/
+  }
 
-  .container-gradient {
+  .container-gradient-scrollable {
     width: 100%;  
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
@@ -450,15 +467,22 @@
   [ Responsive ]*/
   @media (max-width: 992px) {
     .wrap-login100 {
-      padding: 177px 90px 33px 85px;
+      padding: 100px 80px 33px 80px;
     }
   
     .login100-pic {
-      width: 35%;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    .login100-pic img {
+      display: block;
+      margin: 0 auto;
     }
   
     .login100-form {
-      width: 50%;
+      margin: 0 auto;
+      width: 60%;
     }
   }
   
@@ -468,17 +492,29 @@
     }
   
     .login100-pic {
-      display: none;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    .login100-pic img {
+      display: block;
+      margin: 0 auto;
     }
   
     .login100-form {
-      width: 100%;
+      margin: 0 auto;
+      width: 80%;
     }
   }
   
   @media (max-width: 576px) {
     .wrap-login100 {
       padding: 100px 15px 33px 15px;
+    }
+
+    .login100-form {
+      margin: 0 auto;
+      width: 100%;
     }
   }
 

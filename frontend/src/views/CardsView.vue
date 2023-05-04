@@ -1,5 +1,4 @@
 <template>
-  <div class="container-gradient">
     <div class="container text-center">
       <div>
         <Cards ref="activeCardsComponent" />
@@ -9,7 +8,6 @@
         <UnknownCards @cardActivated="updateActiveCards" />
       </div>
     </div>
-  </div>
 </template>
   
 <script>

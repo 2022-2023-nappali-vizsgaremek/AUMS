@@ -3,6 +3,8 @@
 </script>
 
 <template>
-  <Navigation />
-  <router-view />
+  <div class="app-content container-gradient-scrollable">
+    <Navigation />
+    <router-view/>
+  </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="limiter">
+  <div class="limiter d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 66.8px);">
     <div class="container-login100">
       <div class="wrap-login100">
         <div class="login100-pic" data-tilt v-if="!isAuthenticated">

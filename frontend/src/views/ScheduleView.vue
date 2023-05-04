@@ -1,50 +1,49 @@
 <template>
-    <div class="my-3 mx-5 center-select">
-      <select
-        class="form-select select-custom"
-        id="userSelect"
-        v-model="selectedUserId" 
-        required @change="loadEventsByUser(selectedUserId)">
-        <option disabled value="">Please select a user</option>
-        <option v-for="user in users.value" :key="user.id" :value="user.id">
-          {{ user.name }}
-        </option>
-      </select>
-    </div>
-    <div class="wrap">
-      <div>
+  <div class="my-3 mx-5 center-select">
+    <select
+      class="form-select select-custom"
+      id="userSelect"
+      v-model="selectedUserId" 
+      required @change="loadEventsByUser(selectedUserId)">
+      <option disabled value="">Please select a user</option>
+      <option v-for="user in users.value" :key="user.id" :value="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </div>
+  <div class="navigatorIconContainer ms-2 mb-2 text-center">
+  <i v-if="isNavigatorVisible" class="fa fa-angle-double-left" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+  <i v-else class="fa fa-angle-double-right" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+  </div>
+  <div class="wrap">
+      <div :class="{ 'nav-hidden': !isNavigatorVisible }" class="nav-container">
         <DayPilotNavigator id="nav" :config="navigatorConfig" />
       </div>
-      <div>
-        <i v-if="isNavigatorVisible" class="fa fa-angle-double-left" aria-hidden="true" type="button" @click="toggleNavigator"></i>
-        <i v-else class="fa fa-angle-double-right" aria-hidden="true" type="button" @click="toggleNavigator"></i>
-      </div>
-        <div class="content" hidden>
+        <div :class="{ 'content-expanded': !isNavigatorVisible }" class="content" hidden>
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
-    </div>
-
-    <div v-if="modalActive" class="modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Daily Schedule Information</h5>
-            <button type="button" class="btn-close" @click="closeModal"></button>
-          </div>
-            <div class="modal-body">
-              <div class="mb-3">
-                <p v-for="inf in info">{{ inf }}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" @click="closeModal">Close</button>
-            </div>
+  </div>
+  <div v-if="modalActive" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Daily Schedule Information</h5>
+          <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <p v-for="inf in info">{{ inf }}</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" @click="closeModal">Close</button>
+          </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
-  <script>
+<script>
     const header = {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -66,7 +65,7 @@
       const info = ref('');
       const modalActive = ref(false);
       const selectedUserId = ref('');
-      const isNavigatorVisible = ref(true);
+      const isNavigatorVisible = ref(false);
 
       const openModal = (resp) => {
         modalActive.value = true;
@@ -78,16 +77,9 @@
       };
 
       const toggleNavigator = () => {
-        if(isNavigatorVisible.value){
-          const nav = document.getElementById('nav');
-          nav.style.display = 'none';
-          isNavigatorVisible.value = false
-        }else{
-          const nav = document.getElementById('nav');
-          nav.style.removeProperty('display')
-          isNavigatorVisible.value = true
-        }
-      }
+        isNavigatorVisible.value = !isNavigatorVisible.value;
+      };
+      
 
       return {
         users,
@@ -111,28 +103,27 @@
             }
         },
         config: {
-            viewType: "Week",
-            startDate: date,
-            durationBarVisible: true,
-            eventDeleteHandling: "Disabled",
-            eventMoveHandling: "Disabled",
-            eventResizeHandling: "Disabled",
-            eventHoverHandling: "Disabled",
-            eventClickHandling: "Enabled",
-            eventClickHandling: "Bubble",
-            onEventClick: args => {
-              let resp = [];
-              for (const arg in args.e.data) {
-                if (arg == 'start') {
-                  resp.push('date: ' + args.e.data[arg].toString().split('T')[0] + '\n');
-                }
-                if (arg == 'start' || arg == 'end') {
-                  resp.push(arg + ': ' + args.e.data[arg].toString().split('T')[1]);
-                }
+          viewType: "Week",
+          startDate: date,
+          durationBarVisible: true,
+          eventDeleteHandling: "Disabled",
+          eventMoveHandling: "Disabled",
+          eventResizeHandling: "Enabled",
+          eventHoverHandling: "Disabled",
+          eventClickHandling: "Enabled",
+          eventClickHandling: "Bubble",
+          onEventClick: args => {
+            let resp = [];
+            for (const arg in args.e.data) {
+              if (arg == 'start') {
+                resp.push('date: ' + args.e.data[arg].toString().split('T')[0] + '\n');
               }
-              //alert(resp);
-              openModal(resp);
+              if (arg == 'start' || arg == 'end') {
+                resp.push(arg + ': ' + args.e.data[arg].toString().split('T')[1]);
+              }
             }
+            openModal(resp);
+          }
         }
       }
     },
@@ -146,9 +137,23 @@
       }
     },
     methods: {
+      watchCalendarHeight() {
+        setInterval(() => {
+          const calendarElement = document.querySelector('#dp > div:nth-child(2)');
+          if (calendarElement && calendarElement.style.height !== '100%') {
+            calendarElement.style.height = '100%';
+          }
+        }, 500);
+      },
       async loadUsers() {
         const response = await axios.get('http://127.0.0.1:5000/users', header);
         this.users.value = response.data;
+      },
+      adjustCalendarHeight() {
+        const calendarElement = document.querySelector('#dp > div:nth-child(2)');
+        if (calendarElement) {
+          calendarElement.style.height = 'calc(100% - 30px)';
+        }
       },
       async loadEventsByUser(userid) {
         let events = [];
@@ -179,59 +184,38 @@
         this.calendar.update({events});
         document.querySelector('.content').hidden = false;
       },
-
-
-      /*async loadEvents() {
-        const response = await axios.get('http://127.0.0.1:5000/schedule', header);
-        let colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-		                  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-                      '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
-                      '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-                      '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
-                      '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-                      '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-                      '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-                      '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-                      '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
-        const raw_events = response.data;
-        let events = []; 
-        for (let i = 0; i < raw_events.length; i++) {
-          let event = {
-            id: raw_events[i].id,
-            start: raw_events[i].start,
-            end: raw_events[i].end,
-            backColor: colors[Math.floor(Math.random() * colors.length) + 1]
-          }
-          events.push(event);
-        }
-        this.calendar.update({events});
-      },*/
-      
     },
     mounted() {
-      //this.loadEvents();
       this.loadUsers();
+      this.watchCalendarHeight();
     }
   }
-  </script>
+</script>
   
-  <style>
-
+<style>
   body{
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
     background: linear-gradient(-135deg, #c850c0, #4158d0);
-}
+  }
 
-  .wrap {
-    display: flex;
+  #dp {
+    height: 100%;
+  }
 
+  #dp:nth-child(2){
+    height: 100% !important;
+  }
+
+  .calendar_default_main::after{
+    height: 100%;
   }
 
   .wrap {
     display: flex;
+    height: 100%;
   }
   
   .left {
@@ -239,9 +223,14 @@
   }
   
   .content {
-    flex-grow: 1;
+    transition: all 0.5s ease;
+    width: calc(100% - 20px);
+    height: 100%;
   }
-  
+
+  .content-expanded {
+    width: 100%;
+  }
   
   .calendar_default_event_inner {
     background: #2e78d6;
@@ -298,13 +287,36 @@
     align-items: center;
   }
 
+  .nav-wrapper {
+    display: flex;
+  }
+
+  .arrow-container {
+    display: flex;
+    align-items: center;
+  }
+
   .fa-angle-double-left{
     font-size: 2rem;
     color: #fff;
   }
+
   .fa-angle-double-right{
     font-size: 2rem;
     color: #fff;
   }
-  </style>
-  
+
+  .nav-container {
+    transition: all 0.5s;
+  }
+
+  .nav-hidden {
+    margin-left: -212px;
+  }
+
+  .navigatorIconContainer{
+    width: 35px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+  }
+</style>
