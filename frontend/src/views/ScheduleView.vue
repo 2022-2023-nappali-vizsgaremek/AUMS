@@ -12,10 +12,15 @@
       </select>
     </div>
     <div class="wrap">
-      <div class="left">
+      <div>
         <DayPilotNavigator id="nav" :config="navigatorConfig" />
       </div>
       <div class="content" hidden>
+      <div>
+        <i v-if="isNavigatorVisible" class="fa fa-angle-double-left" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+        <i v-else class="fa fa-angle-double-right" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+      </div>
+        <div class="content ms-2">
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
     </div>
@@ -56,6 +61,7 @@
       const info = ref('');
       const modalActive = ref(false);
       const selectedUserId = ref('');
+      const isNavigatorVisible = ref(true);
 
       const openModal = (resp) => {
         modalActive.value = true;
@@ -66,6 +72,18 @@
         modalActive.value = false;
       };
 
+      const toggleNavigator = () => {
+        if(isNavigatorVisible.value){
+          const nav = document.getElementById('nav');
+          nav.style.display = 'none';
+          isNavigatorVisible.value = false
+        }else{
+          const nav = document.getElementById('nav');
+          nav.style.removeProperty('display')
+          isNavigatorVisible.value = true
+        }
+      }
+
       return {
         users,
         selectedUserId,
@@ -74,6 +92,8 @@
         modalActive,
         closeModal,
         openModal,
+        isNavigatorVisible,
+        toggleNavigator,
         events: [],
         navigatorConfig: {
             showMonths: 3,
@@ -191,12 +211,18 @@
   </script>
   
   <style>
-  body {
+
+  body{
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
     background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+  .wrap {
+    display: flex;
+
   }
 
   .wrap {
@@ -267,5 +293,13 @@
     align-items: center;
   }
 
+  .fa-angle-double-left{
+    font-size: 2rem;
+    color: #fff;
+  }
+  .fa-angle-double-right{
+    font-size: 2rem;
+    color: #fff;
+  }
   </style>
   
