@@ -1,5 +1,5 @@
 <template>
-    <div class="my-3 mx-5">
+    <div class="my-3 mx-5 center-select">
       <select
         class="form-select select-custom"
         id="userSelect"
@@ -235,7 +235,7 @@
     line-height: 1.5;
     color: #666666;
     display: block;
-    width: 100%;
+    width: 50%;
     background: #e6e6e6;
     height: 50px;
     border-radius: 25px;
@@ -256,6 +256,12 @@
 
   .select-custom:hover {
     cursor: pointer;
+  }
+
+  .center-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   </style>
