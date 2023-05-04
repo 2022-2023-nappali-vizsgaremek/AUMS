@@ -15,12 +15,11 @@
       <div>
         <DayPilotNavigator id="nav" :config="navigatorConfig" />
       </div>
-      <div class="content" hidden>
       <div>
         <i v-if="isNavigatorVisible" class="fa fa-angle-double-left" aria-hidden="true" type="button" @click="toggleNavigator"></i>
         <i v-else class="fa fa-angle-double-right" aria-hidden="true" type="button" @click="toggleNavigator"></i>
       </div>
-        <div class="content ms-2">
+        <div class="content" hidden>
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
     </div>
