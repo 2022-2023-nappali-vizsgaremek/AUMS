@@ -1,17 +1,21 @@
 <template>
-    <div class="mb-3">
-      <select class="form-select" id="userSelect" required v-model="selectedUser">
+    <div class="my-3 mx-5">
+      <select
+        class="form-select select-custom"
+        id="userSelect"
+        v-model="selectedUserId" 
+        required @change="loadEventsByUser(selectedUserId)">
         <option disabled value="">Please select a user</option>
-        <option v-for="user in users" :key="user.id" :value="user.id">
+        <option v-for="user in users.value" :key="user.id" :value="user.id">
           {{ user.name }}
         </option>
       </select>
     </div>
-    <div class="wrap" hidden>
+    <div class="wrap">
       <div class="left">
         <DayPilotNavigator id="nav" :config="navigatorConfig" />
       </div>
-      <div class="content">
+      <div class="content" hidden>
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
     </div>
@@ -51,6 +55,7 @@
       var date = (new Date()).toISOString().split('T')[0];
       const info = ref('');
       const modalActive = ref(false);
+      const selectedUserId = ref('');
 
       const openModal = (resp) => {
         modalActive.value = true;
@@ -63,7 +68,7 @@
 
       return {
         users,
-        selectedUser: '',
+        selectedUserId,
         info,
         date,
         modalActive,
@@ -116,9 +121,8 @@
       async loadUsers() {
         const response = await axios.get('http://127.0.0.1:5000/users');
         this.users.value = response.data;
-        console.log(this.users.value);
       },
-      async loadEventsByUser() {
+      async loadEventsByUser(userid) {
         let events = [];
         const response = await axios.get('http://127.0.0.1:5000/schedule');
         const raw_events = response.data;
@@ -144,11 +148,12 @@
             });
           }
         }
-        console.log(events);
+        this.calendar.update({events});
+        document.querySelector('.content').hidden = false;
       },
 
 
-      async loadEvents() {
+      /*async loadEvents() {
         const response = await axios.get('http://127.0.0.1:5000/schedule');
         let colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 		                  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -171,34 +176,8 @@
           }
           events.push(event);
         }
-        /*const events = [
-          {
-            id: 1,
-            start: "2023-05-02T10:00:00",
-            end: "2023-05-02T11:00:00",
-            text: "Event 1",
-            backColor: "#6aa84f",
-            borderColor: "#38761d",
-          },
-          {
-            id: 2,
-            start: "2023-05-03T13:00:00",
-            end: "2023-05-03T16:00:00",
-            text: "Event 2",
-            backColor: "#f1c232",
-            borderColor: "#bf9000",
-          },
-          {
-            id: 3,
-            start: "2023-05-04T13:30:00",
-            end: "2023-05-04T16:30:00",
-            text: "Event 3",
-            backColor: "#cc4125",
-            borderColor: "#990000",
-          }
-        ];*/
         this.calendar.update({events});
-      },
+      },*/
       
     },
     mounted() {
@@ -209,13 +188,16 @@
   </script>
   
   <style>
-  .wrap {
-    display: flex;
+  body {
     background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
     background: linear-gradient(-135deg, #c850c0, #4158d0);
+  }
+
+  .wrap {
+    display: flex;
   }
   
   .left {
@@ -235,16 +217,46 @@
   }
 
   .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .select-custom {
+    font-family: Poppins-Regular;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666666;
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 30px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  .select-custom:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(87, 184, 70, 0.5);
+  }
+
+  .select-custom::-ms-expand {
+    display: none;
+  }
+
+  .select-custom:hover {
+    cursor: pointer;
+  }
+
   </style>
   
