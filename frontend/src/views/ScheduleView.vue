@@ -1,9 +1,13 @@
 <template>
     <div class="wrap">
-      <div class="left">
+      <div>
         <DayPilotNavigator id="nav" :config="navigatorConfig" />
       </div>
-      <div class="content">
+      <div>
+        <i v-if="isNavigatorVisible" class="fa fa-angle-double-left" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+        <i v-else class="fa fa-angle-double-right" aria-hidden="true" type="button" @click="toggleNavigator"></i>
+      </div>
+        <div class="content ms-2">
         <DayPilotCalendar id="dp" :config="config" ref="calendar" />
       </div>
     </div>
@@ -42,6 +46,7 @@
       var date = (new Date()).toISOString().split('T')[0];
       const info = ref('');
       const modalActive = ref(false);
+      const isNavigatorVisible = ref(true);
 
       const openModal = (resp) => {
         modalActive.value = true;
@@ -52,12 +57,26 @@
         modalActive.value = false;
       };
 
+      const toggleNavigator = () => {
+        if(isNavigatorVisible.value){
+          const nav = document.getElementById('nav');
+          nav.style.display = 'none';
+          isNavigatorVisible.value = false
+        }else{
+          const nav = document.getElementById('nav');
+          nav.style.removeProperty('display')
+          isNavigatorVisible.value = true
+        }
+      }
+
       return {
         info,
         date,
         modalActive,
         closeModal,
         openModal,
+        isNavigatorVisible,
+        toggleNavigator,
         events: [],
         navigatorConfig: {
             showMonths: 3,
@@ -162,13 +181,17 @@
   </script>
   
   <style>
-  .wrap {
-    display: flex;
-    background: #9053c7;
+body{
+  background: #9053c7;
     background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
     background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
     background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+  .wrap {
+    display: flex;
+
   }
   
   .left {
@@ -198,6 +221,15 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+
+.fa-angle-double-left{
+  font-size: 2rem;
+  color: #fff;
+}
+.fa-angle-double-right{
+  font-size: 2rem;
+  color: #fff;
 }
   </style>
   

@@ -2,9 +2,6 @@
 <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="/login">AUMS</a>
-        <!--<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" @click="toggleActive">
-        </button>  
-        -->
         <div class="navicon">
           <label class="burger burger1 navbar-toggler" for="burger1" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <input class="hidden" id="burger1" type="checkbox" v-model="burgerChecked"/><span></span>
@@ -12,7 +9,7 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav">
-            <router-link class="nav-link text-white" to="/login" :class="{ 'router-link-active': currentRoute.value === '/login' } " @click="closeNavbar">
+            <router-link class="nav-link text-white" to="/login" :class="{ 'router-link-active': currentRoute.value === '/login' }" @click="closeNavbar">
               <span>Home</span>
             </router-link>
             <router-link class="nav-link text-white" to="/register" :class="{ 'router-link-active': currentRoute.value === '/register' }" @click="closeNavbar" v-if="isAuthenticated">
@@ -45,16 +42,17 @@
   const closeNavbar = () => {
     const navbarCollapseElement = document.getElementById('navbarCollapse');
     const collapseInstance = new Collapse(navbarCollapseElement);
-    if(navbarCollapseElement.classList.contains('show')) {
-      console.log(navbarCollapseElement.classList.contains('show'))
-      collapseInstance.hide();
-    } else {
-      collapseInstance.show();
-    }
+
 
     setTimeout(() => {
+      if(burgerChecked.value) {
       burgerChecked.value = false;
-    }, 10);
+      collapseInstance.hide();
+    } else {
+      burgerChecked.value = true;
+      collapseInstance.show();
+    }
+    }, 20);
   };
   </script>
 
