@@ -1,3 +1,16 @@
+from functools import wraps
+from flask import jsonify, request, make_response
+
+def auth_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        access_token = request.headers.get('Authorization')
+
+        if not access_token or is_authenticated(access_token.split(' ')[1])[0]["status"] != "success":
+            return make_response(jsonify({'message': 'Invalid or missing access token' + str(access_token)}), 401)
+        return f(*args, **kwargs)
+    return decorated_function
+
 def get_index_message() -> dict:
     """
     Returns the message of the index page

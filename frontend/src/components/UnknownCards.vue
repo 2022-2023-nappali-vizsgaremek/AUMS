@@ -74,6 +74,12 @@
 </template>
 
 <script>
+    const header = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    };
+
 import { ref, computed } from 'vue';
 import axios from 'axios';
 
@@ -86,7 +92,7 @@ export default {
 
     const fetchUnknownCards = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/unknown_cards');
+        const response = await axios.get('http://127.0.0.1:5000/unknown_cards', header);
         unknownCards.value = response.data;
       } catch (error) {
         if (error.response.status === 404) {
@@ -112,7 +118,7 @@ export default {
     const addUnknownCard = async () => {
       uk_card_number: newCardNumber.value;
 
-      const response = await axios.post(`http://127.0.0.1:5000/card_validation/${newCardNumber.value}`)
+      const response = await axios.post(`http://127.0.0.1:5000/card_validation/${newCardNumber.value}`, header)
         .catch((error) => {
           if (error.response.status == 409) {
             alert(error.response.data.message)
@@ -124,7 +130,7 @@ export default {
     };
 
     const deleteUnknownCard = async (id) => {
-      const response = await axios.delete(`http://127.0.0.1:5000/unknown_cards/${id}`).
+      const response = await axios.delete(`http://127.0.0.1:5000/unknown_cards/${id}`, header).
         catch((error) => {
           if (error.response.status == 404) {
             alert(error.response.data.message)
@@ -135,7 +141,7 @@ export default {
     };
 
     const activateCard = async (id) => {
-      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`);
+      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`, header);
       emit('cardActivated');
 
       await fetchUnknownCards();

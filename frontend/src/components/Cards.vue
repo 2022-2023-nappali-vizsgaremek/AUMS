@@ -120,6 +120,13 @@ import axios from 'axios';
 
 export default {
   setup() {
+
+    const header = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    };
+
     const users = ref([]);
     const cards = ref([]);
     const userCards = ref([]);
@@ -138,7 +145,7 @@ export default {
     const selectedCardIdForDisconnect = ref(null);
 
     const fetchCards = async () => {
-        const response = await axios.get('http://127.0.0.1:5000/cards')
+        const response = await axios.get('http://127.0.0.1:5000/cards', header)
         .then((response) => {
           msg.value = "Active Cards"
           cards.value = response.data;
@@ -154,12 +161,12 @@ export default {
     };
 
     const fetchUsers = async () => {
-      const response = await axios.get("http://127.0.0.1:5000/users");
+      const response = await axios.get("http://127.0.0.1:5000/users", header);
       users.value = response.data;
     };
 
     const fetchUserCards = async () => {
-      const response = await axios.get('http://127.0.0.1:5000/user_cards').
+      const response = await axios.get('http://127.0.0.1:5000/user_cards', header).
       then((response) => {
         userCards.value = response.data;
       }).
@@ -210,7 +217,7 @@ export default {
       const data = {
         card_number: cardNumber.value,
       };
-      const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data);
+      const response = await axios.patch(`http://127.0.0.1:5000/cards/${selectedCardId.value}`, data, header);
       await fetchCards();
       closeModifyCardModal();
     };
@@ -221,16 +228,16 @@ export default {
         alert("This card is currently connected to a user. Please disconnect it before deleting.");
         return;
       }
-      const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`);
+      const response = await axios.delete(`http://127.0.0.1:5000/cards/${id}`, header);
       await fetchCards();
     };
-    
+
 
     const connectCardToUser = async (userId) => {
     const response = await axios.post(`http://127.0.0.1:5000/user_cards`, {
         card_id: selectedCardIdForConnect.value,
         user_id: userId,
-      });
+      }, header);
       await fetchUserCards();
       closeConnectModal();
     };
@@ -238,8 +245,7 @@ export default {
     const disconnectCardFromUser = async (cardid) => {
       const del_userCard = userCards.value.find((uc) => uc.card_id === cardid);
       const response = await axios.delete(
-        `http://127.0.0.1:5000/user_cards/${del_userCard.id}`
-      );
+        `http://127.0.0.1:5000/user_cards/${del_userCard.id}`, header);
       location.reload();
       await fetchUserCards();
     };

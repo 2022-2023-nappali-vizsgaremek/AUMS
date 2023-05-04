@@ -2,6 +2,7 @@
 from utils.log import log
 from utils.close import exit_app
 import services.schedule_service as service
+from services.index_service import auth_required
 
 try:
     # External imports
@@ -11,6 +12,7 @@ except ImportError as ex: exit_app(f"Module not found: {ex}")
 
 class Schedule(MethodResource, Resource):
     @doc(description="Get all schedules", tags=["Schedule"])
+    @auth_required
     def get(self):
         """
         Get all schedules

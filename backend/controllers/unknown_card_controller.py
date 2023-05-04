@@ -2,6 +2,7 @@
 from utils.log import log
 from utils.close import exit_app
 import services.card_service as service
+from services.index_service import auth_required
 
 try:
     # External imports
@@ -13,6 +14,7 @@ parser = reqparse.RequestParser()
 parser.add_argument("uk_card_number", type=str)
 
 class Cards(MethodResource, Resource):
+    @auth_required
     def get(self, card_id=None) -> dict:
         """
         Get a card or all cards
@@ -31,6 +33,7 @@ class Cards(MethodResource, Resource):
             log.info("Getting all cards")
             return service.get_unknown_cards()
 
+    @auth_required
     def post(self) -> dict:
         """
         Create a new card
@@ -43,6 +46,7 @@ class Cards(MethodResource, Resource):
         log.info("Creating a new card")
         return service.create_new_unknown_card(args)
 
+    @auth_required
     def patch(self, card_id) -> dict:
         """
         Update a card
@@ -58,6 +62,7 @@ class Cards(MethodResource, Resource):
         log.info("Updating a card")
         return service.update_unknown_card(args, card_id)
 
+    @auth_required
     def delete(self, card_id) -> dict:
         """
         Delete a card

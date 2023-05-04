@@ -1,4 +1,10 @@
 <script setup>
+    const header = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    };
+
 import axios from 'axios';
 
 const register = async () => {
@@ -58,7 +64,7 @@ const register = async () => {
         password: password
     };
 
-    const response = await axios.post('http://127.0.0.1:5000/register', data)
+    const response = await axios.post('http://127.0.0.1:5000/register', data, header)
     .catch((error) => {
         alert(error.response.data.message);
     }).then((response) => {

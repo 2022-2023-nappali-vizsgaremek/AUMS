@@ -44,7 +44,13 @@ router.beforeEach(async (to, from, next) =>
   if (to.meta.requiresAuth && !isAuthenticated) next('/');
   else if (to.meta.requiresAuth && isAuthenticated)
   {
-    const resp = await axios.post('http://127.0.0.1:5000/is_authenticated/' + access_token)
+    const header = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    };
+
+    const resp = await axios.post('http://127.0.0.1:5000/is_authenticated/' + access_token, {}, header)
     .then((response) =>
     {
       if (response.data.status == 'success') next();

@@ -2,6 +2,7 @@
 from utils.log import log
 from utils.close import exit_app
 import services.user_service as service
+from services.index_service import auth_required
 
 try:
     # External imports
@@ -22,6 +23,7 @@ parser.add_argument("personal_email", type=str)
 
 class Register(MethodResource, Resource):
     @doc(description="Register a new user", tags=["User"])
+    @auth_required
     def post(self) -> dict:
         """
         Registers a new user

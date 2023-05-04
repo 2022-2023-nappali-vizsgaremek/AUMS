@@ -2,6 +2,7 @@
 from utils.log import log
 from utils.close import exit_app
 import services.card_service as service
+from services.index_service import auth_required
 
 try:
     # External imports
@@ -23,6 +24,7 @@ validation_parser.add_argument("card_number", type=str)
 
 class ActivateCard(MethodResource, Resource):
     @doc(description="Activate a card", tags=["Card"])
+    @auth_required
     def post(self, uk_card_id: int) -> dict:
         """
         Activate a card
@@ -39,6 +41,7 @@ class ActivateCard(MethodResource, Resource):
 
 class CardValidation(MethodResource, Resource):
     @doc(description="Validate a card", tags=["Card"])
+    @auth_required
     def post(self, card_number: str) -> dict:
         """
         Validate a card
@@ -52,6 +55,7 @@ class CardValidation(MethodResource, Resource):
 
 class ActiveCards(MethodResource, Resource):
     @doc(description="Get all active cards", tags=["Card"])
+    @auth_required
     def get(self) -> dict:
         """
         Get all active cards
@@ -68,6 +72,7 @@ class ActiveCards(MethodResource, Resource):
 
 class ActiveCardById(MethodResource, Resource):
     @doc(description="Get an active card by ID", tags=["Card"])
+    @auth_required
     def get(self, card_id=None) -> dict:
         """
         Get all active cards
@@ -83,6 +88,7 @@ class ActiveCardById(MethodResource, Resource):
         return service.get_card(card_id)
 
     @doc(description="Update an active card", tags=["Card"])
+    @auth_required
     def patch(self, card_id:int) -> dict:
         """
         Update an active card
@@ -99,6 +105,7 @@ class ActiveCardById(MethodResource, Resource):
         return service.update_card(args, card_id)
 
     @doc(description="Delete an active card", tags=["Card"])
+    @auth_required
     def delete(self, card_id:int) -> dict:
         """
         Delete an active card
@@ -115,6 +122,7 @@ class ActiveCardById(MethodResource, Resource):
 
 class UnknownCards(MethodResource, Resource):
     @doc(description="Get all unknown cards", tags=["Card"])
+    @auth_required
     def get(self, uk_card_id=None) -> dict:
         """
         Get an unknown card or all unknown cards
@@ -131,6 +139,7 @@ class UnknownCards(MethodResource, Resource):
 
 class UnknownCardById(MethodResource, Resource):
     @doc(description="Get an unknown card by ID", tags=["Card"])
+    @auth_required
     def get(self, uk_card_id=None) -> dict:
         """
         Get an unknown card or all unknown cards
@@ -146,6 +155,7 @@ class UnknownCardById(MethodResource, Resource):
         return service.get_unknown_card(uk_card_id)
 
     @doc(description="Delete an unknown card", tags=["Card"])
+    @auth_required
     def delete(self, uk_card_id:int) -> dict:
         """
         Delete an unknown card
