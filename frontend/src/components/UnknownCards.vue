@@ -118,7 +118,7 @@ export default {
     const addUnknownCard = async () => {
       uk_card_number: newCardNumber.value;
 
-      const response = await axios.post(`http://127.0.0.1:5000/card_validation/${newCardNumber.value}`, header)
+      const response = await axios.post(`http://127.0.0.1:5000/card_validation/${newCardNumber.value}`, {}, header)
         .catch((error) => {
           if (error.response.status == 409) {
             alert(error.response.data.message)
@@ -141,7 +141,7 @@ export default {
     };
 
     const activateCard = async (id) => {
-      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`, header);
+      const response = await axios.post(`http://127.0.0.1:5000/activate_card/${id}`, {}, header);
       emit('cardActivated');
 
       await fetchUnknownCards();
