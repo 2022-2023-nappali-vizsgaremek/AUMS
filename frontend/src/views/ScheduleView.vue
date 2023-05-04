@@ -149,6 +149,8 @@
       async loadUsers() {
         const response = await axios.get('http://127.0.0.1:5000/users', header);
         this.users.value = response.data;
+        this.users.value = this.users.value.filter(user => user.id !== 1);
+        this.users.value = this.users.value.filter(user => user.id !== 2);
       },
       async loadEventsByUser(userid) {
         let events = [];
