@@ -98,6 +98,9 @@
             onEventClick: args => {
               let resp = [];
               for (const arg in args.e.data) {
+                if (arg == 'start') {
+                  resp.push('date: ' + args.e.data[arg].toString().split('T')[0] + '\n');
+                }
                 if (arg == 'start' || arg == 'end') {
                   resp.push(arg + ': ' + args.e.data[arg].toString().split('T')[1]);
                 }
@@ -139,12 +142,12 @@
 
         for (const event of raw_events) {
           if (event.user_id == userid) {
-            let color = colors[Math.floor(Math.random() * colors.length)];
+            let color = colors[Math.floor(Math.random() * colors.length) + 1];
             events.push({
               id: event.id,
               start: event.start,
               end: event.end,
-              color: color
+              backColor: color
             });
           }
         }
