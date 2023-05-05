@@ -180,14 +180,7 @@ def _update_user(model, attribute, value, args) -> tuple:
 
 
     for key, value in args.items():
-        if key == "password":
-            if value == "None":
-                continue
-            else:
-                hashed = bcrypt.hashpw(value.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-                setattr(user, key, hashed)
-        else:
-            setattr(user, key, value)
+        setattr(user, key, value)
 
     try:
         db.session.commit()

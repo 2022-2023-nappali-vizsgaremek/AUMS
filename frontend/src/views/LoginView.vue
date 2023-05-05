@@ -154,8 +154,15 @@ export default {
       } else {
         currentUser.value.personal_email = email;
       };
+      const data = {
+        first_name: name.split(" ")[0],
+        last_name: name.split(" ")[1],
+        address: address,
+        phone_number: phone,
+        personal_email: email
+      };
       console.log(currentUser.value);
-      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`,currentUser.value);
+      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`, data);
       
       showModal.value = false;
     }
