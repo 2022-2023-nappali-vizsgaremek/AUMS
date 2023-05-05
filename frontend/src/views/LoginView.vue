@@ -59,38 +59,31 @@
   <div v-show="showModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <h5 class="modal-title text-center">Change Personal Data</h5>
+        <h5 class="modal-title text-center">Change Password</h5>
         <hr>
         <form @submit.prevent="saveChangedData">
           <div class="modal-body">
             <div class="form-outline wrap-input100">
-              <input type="text" id="fullName" autofocus  name="name" class="input100" placeholder="Name"/>
+              <input type="password" id="old_password" name="old_password" class="input100" v-on:focusout="checkField($event.target)" placeholder="Old Password"/>
               <span class="focus-input100"></span>
               <span class="symbol-input100">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i class="fa fa-lock" aria-hidden="true"></i>
               </span>
             </div>
             <div class="form-outline wrap-input100">
-              <input type="text" id="address" name="address" class="input100" placeholder="Address"/>
-              <span class="focus-input100"></span>
-              <span class="symbol-input100">
-                  <i class="fa fa-home" aria-hidden="true"></i>
-              </span>
+                <input type="password" id="new_password" name="new_password" class="input100" v-on:focusout="checkField($event.target)" placeholder="New Password"/>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                </span>
             </div>
             <div class="form-outline wrap-input100">
-              <input type="text" id="phone" name="phone" class="input100" placeholder="Phone number"/>
+              <input type="password" id="new_password2" name="new_password2" class="input100" v-on:focusout="checkField($event.target)" placeholder="New Password Again"/>
               <span class="focus-input100"></span>
               <span class="symbol-input100">
-                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  <i class="fa fa-lock" aria-hidden="true"></i>
               </span>
-            </div>
-            <div class="form-outline wrap-input100">
-              <input type="email" id="email" name="email" class="input100" placeholder="Email"/>
-              <span class="focus-input100"></span>
-              <span class="symbol-input100">
-                  <i class="fa fa-envelope" aria-hidden="true"></i>
-              </span>
-            </div>
+          </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
@@ -120,6 +113,16 @@ export default {
       }
     };
 
+    const checkField = (field) => {
+      if(field.value == ''){
+        field.style.border = '1px solid red';
+        return false;
+      }else{
+        clearBorder('#' + field.id);
+        return true;
+      }
+    };
+
     const openModal = () => {
       showModal.value = true;
     };
@@ -129,37 +132,9 @@ export default {
     };
 
     const saveChangedData = () => {
-      let name = document.querySelector('#fullName').value;
-      let address = document.querySelector('#address').value;
-      let phone = document.querySelector('#phone').value;
-      let email = document.querySelector('#email').value;
-
-      if (name == "") {
-        name = currentUser.value.name;
-      } else {
-        currentUser.value.name = name;
-      };
-      if (address == "") {
-        address = currentUser.value.address;
-      } else {
-        currentUser.value.address = address;
-      };
-      if (phone == "") {
-        phone = currentUser.value.phone;
-      } else {
-        currentUser.value.phone = phone;
-      };
-      if (email == "") {
-        email = currentUser.value.personal_email;
-      } else {
-        currentUser.value.personal_email = email;
-      };
+      let old_password = document.querySelector('input[name="password"]').value;
       const data = {
-        first_name: name.split(" ")[0],
-        last_name: name.split(" ")[1],
-        address: address,
-        phone_number: phone,
-        personal_email: email
+        
       };
       console.log(currentUser.value);
       const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`, data);
@@ -235,6 +210,7 @@ export default {
       loadUsers,
       openModal,
       closeModal,
+      checkField,
       getUserData,
       saveChangedData,
     };
