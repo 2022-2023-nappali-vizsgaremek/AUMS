@@ -163,12 +163,14 @@ def _update_user(model, attribute, value, args) -> tuple:
     Returns:
         tuple: The response and the status code of the request
     """
-    
-    if (args.len()==0):
-        return {
-            "status": "failed",
-            "message": "No arguments given" }, 400
 
+    print(args)
+    print("##########################################################################")
+    if (len(args) == 0):
+        return {
+           "status": "failed",
+           "message": "No arguments given" }, 400
+    
     user = model.query.filter_by(**{attribute: value}).first()
 
     if not user:
@@ -179,8 +181,11 @@ def _update_user(model, attribute, value, args) -> tuple:
 
     for key, value in args.items():
         if key == "password":
-            hashed = bcrypt.hashpw(value.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-            setattr(user, key, hashed)
+            if value == "None":
+                continue
+            else:
+                hashed = bcrypt.hashpw(value.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+                setattr(user, key, hashed)
         else:
             setattr(user, key, value)
 

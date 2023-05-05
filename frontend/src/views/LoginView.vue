@@ -155,10 +155,7 @@ export default {
         currentUser.value.personal_email = email;
       };
       console.log(currentUser.value);
-      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`,currentUser.value, header)
-      .catch((error) => {
-        alert(error.response.data.message);
-      })
+      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`,currentUser.value);
       
       showModal.value = false;
     }

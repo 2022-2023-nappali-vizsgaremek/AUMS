@@ -52,8 +52,7 @@ class Login(MethodResource, Resource):
     
 class Update(MethodResource, Resource):
     @doc(description="Update a user", tags=["User"])
-    @auth_required
-    def put(self, user_id: int) -> dict:
+    def patch(self, user_id: int) -> dict:
         """
         Updates a user
 
@@ -66,4 +65,4 @@ class Update(MethodResource, Resource):
 
         args = parser.parse_args()
         log.info("Updating user")
-        return service.update_user(user_id, args)
+        return service.update_user_byId(user_id, args)
