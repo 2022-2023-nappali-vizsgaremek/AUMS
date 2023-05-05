@@ -32,7 +32,6 @@ jobs:
         sed -i 's/http:\/\/127.0.0.1:5000\/card_validation\/${newCardNumber.value}/https:\/\/api.proj-aums.hu\/card_validation\/${newCardNumber.value}/' frontend/src/components/UnknownCards.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/schedule/https:\/\/api.proj-aums.hu\/schedule/' frontend/src/views/ScheduleView.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/users/https:\/\/api.proj-aums.hu\/users/' frontend/src/views/AdminView.vue
-        sed -i 's/http:\/\/127.0.0.1:5000\/users/https:\/\/api.proj-aums.hu\/users/' frontend/src/views/LoginView.vue
         sed -i 's/http:\/\/127.0.0.1:5000\/users/${currentUser.value.id}/https:\/\/api.proj-aums.hu\/users/${currentUser.value.id}' frontend/src/views/LoginView.vue
         
         sed -i 's/http:\/\/127.0.0.1:5000\/users/https:\/\/api.proj-aums.hu\/users/' frontend/src/views/ScheduleView.vue
