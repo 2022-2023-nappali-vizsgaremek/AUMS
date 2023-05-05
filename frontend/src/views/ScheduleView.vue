@@ -151,12 +151,7 @@
         this.users.value = this.users.value.filter(user => user.id !== 1);
         this.users.value = this.users.value.filter(user => user.id !== 2);
       },
-      adjustCalendarHeight() {
-        const calendarElement = document.querySelector('#dp > div:nth-child(2)');
-        if (calendarElement) {
-          calendarElement.style.height = 'calc(100% - 30px)';
-        }
-      },
+      
       async loadEventsByUser(userid) {
         let events = [];
         const response = await axios.get('http://127.0.0.1:5000/schedule', header);
@@ -173,7 +168,7 @@
                       '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
         for (const event of raw_events) {
-          if (event.user_id == userid) {
+          if (event.user_id == userid && event.end !== null) {
             let color = colors[Math.floor(Math.random() * colors.length) + 1];
             events.push({
               id: event.id,
