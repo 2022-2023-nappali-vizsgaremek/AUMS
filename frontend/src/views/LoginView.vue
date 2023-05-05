@@ -32,49 +32,117 @@
             </button>
           </div>
         </form>
-
-        <div v-else >
-        <div class="container-login100-form-btn">
-            <button class="login100-form-btn" @click="logout">
+          <div v-else class="text-center justify-content-center">
+            <h2>Profile Data</h2>
+            <hr class="my-4">
+            <h4>Name</h4>
+            <p style="font-size: larger;">{{ currentUser.name }}</p>
+            <h4>Personal Email</h4>
+            <p style="font-size: larger;">{{ currentUser.personal_email }}</p>
+            <h4>Phone Number</h4>
+            <p style="font-size: larger;">{{ currentUser.phone }}</p>
+            <h4>Address</h4>
+            <p style="font-size: larger;">{{ currentUser.address }}</p>
+            <button class="login100-form-btn mt-5" @click="logout">
               LOGOUT
             </button>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
-const isAuthenticated = ref(false);
-const login = async () => {
-  const email = document.querySelector('input[name="email"]').value;
-  const password = document.querySelector('input[name="pass"]').value;
-  const data = {
-    company_email: email,
-    password: password
-  };
-  const response = await axios.post('http://127.0.0.1:5000/login', data)
-  .catch((error) => {
-    alert(error.response.data.message);
-  })
-  .then(response => {
-    if (response) {
-      isAuthenticated.value = true;
-      alert(response.data.message);
-      localStorage.setItem('access_token', response.data["access_token"]);
-	  location.reload();
+
+export default {
+  name: 'LoginForm',
+  setup() {
+    const users = ref([]);
+    const currentUser = ref([]);
+
+    const header = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    };
+
+    const loadUsers = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/users', header);
+        users.value = response.data;
+        getUserData();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getUserData = () => {
+      console.log(users.value);
+      let email = localStorage.getItem('email');
+      if (email.includes("@proj-aums.hu")) {
+        email = email;
+      }
+      else {
+        email += "@proj-aums.hu";
+      }
+      for (const user of users.value) {
+        if (user.company_email == email) {
+          currentUser.value = user;
+          break;
+        }
+      }
     }
-  });
+
+    const createNewPassword = () => {
+
+    }
+
+    const isAuthenticated = ref(false);
+    const login = async () => {
+      const email = document.querySelector('input[name="email"]').value;
+      localStorage.setItem('email', email);
+      const password = document.querySelector('input[name="pass"]').value;
+      const data = {
+        company_email: email,
+        password: password
+      };
+      const response = await axios.post('http://127.0.0.1:5000/login', data)
+      .catch((error) => {
+        alert(error.response.data.message);
+      })
+      .then(response => {
+        if (response) {
+          isAuthenticated.value = true;
+          alert(response.data.message);
+          localStorage.setItem('access_token', response.data["access_token"]);
+          location.reload();
+        }
+      });
+    };
+    const logout = () => {
+      localStorage.removeItem('access_token');
+      isAuthenticated.value = false;
+      location.reload();
+    };
+    if (localStorage.getItem('access_token')) {
+      isAuthenticated.value = true;
+    }
+    onMounted(() => {
+      loadUsers();
+    });
+    return {
+      users,
+      header,
+      currentUser,
+      isAuthenticated,
+      login,
+      logout,
+      loadUsers,
+      getUserData,
+      createNewPassword,
+    };
+  },
 };
-const logout = () => {
-  localStorage.removeItem('access_token');
-  isAuthenticated.value = false;
-  location.reload();
-};
-if (localStorage.getItem('access_token')) {
-  isAuthenticated.value = true;
-}
 </script>

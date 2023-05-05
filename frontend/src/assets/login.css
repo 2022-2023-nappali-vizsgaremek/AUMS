@@ -231,10 +231,17 @@
     display: block;
     padding-bottom: 54px;
   }
+
+  .text-center {
+    display: inline-flexbox;
+  }
+
+  .text-center > p {
+    color: grey;
+  }
   
   /*---------------------------------------------*/
   .wrap-input100 {
-    position: relative;
     width: 100%;
     z-index: 1;
     margin-bottom: 10px;
