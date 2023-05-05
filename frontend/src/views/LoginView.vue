@@ -133,6 +133,19 @@ export default {
 
     const saveChangedData = () => {
       let old_password = document.querySelector('input[name="password"]').value;
+      let new_password = document.querySelector('input[name="new_password"]').value;
+      let new_password2 = document.querySelector('input[name="new_password2"]').value;
+
+      if (old_password != currentUser.value.password) {
+        alert("Old password is incorrect!");
+        return;
+      }
+
+      if (new_password != new_password2) {
+        alert("New passwords are not the same!");
+        return;
+      }
+
       const data = {
         
       };
