@@ -372,6 +372,37 @@
     -moz-transition: all 0.4s;
     transition: all 0.4s;
   }
+
+  .login100-form-btn-danger {
+    font-family: Montserrat-Bold;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #f5f1fa;
+    text-transform: uppercase;
+    box-shadow: 0 0px 10px 0px rgba(0,0,0, 0.3);
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: rgb(160, 19, 19);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+  
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+  
+  .login100-form-btn-danger:hover {
+    background: #333333;
+  }
+
   
   .login100-form-btn:hover {
     background: #333333;
