@@ -57,25 +57,7 @@ def register_new_user(args: dict) -> dict:
             "status": "failed",
             "message": "Personal email already exists in the database" }, 409
 
-    username = f"{first_name.lower()}.{last_name.lower()}"
-    company_email = f"{username}@proj-aums.hu"
-
-    invalid_chars = ["ö", "ü", "ó", "ő", "ú", "é", "á", "ű", "í"]
-    valid_chars = ["o", "u", "o", "o", "u", "e", "a", "u", "i"]
-
-    while True:
-        for i in range(len(invalid_chars)):
-            username = username.replace(invalid_chars[i], valid_chars[i])
-            company_email = company_email.replace(invalid_chars[i], valid_chars[i])
-
-        user_exists = User.query.filter_by(username=username).first()
-
-        if user_exists:
-            random = Random().randint(0, 100)
-
-            username = f"{first_name.lower()}.{last_name.lower()}{random}"
-            company_email = f"{username}@proj-aums.hu"
-        else: break
+    username, company_email = generate_unique_username_and_email(first_name, last_name)
 
     pw_characters = string.ascii_letters + string.digits
     password = "".join(Random().choice(pw_characters) for i in range(8))
@@ -163,7 +145,6 @@ def change_user_password(user_id: int, args: dict) -> dict:
 
     return _update_user(User, "id", user_id, args)
 
-
 def _update_user(model, attribute, value, args) -> tuple:
     """
     Update a user
@@ -178,7 +159,6 @@ def _update_user(model, attribute, value, args) -> tuple:
         tuple: The response and the status code of the request
     """
 
-
     if (len(args) == 0):
         return {
            "status": "failed",
@@ -191,9 +171,17 @@ def _update_user(model, attribute, value, args) -> tuple:
             "status": "failed",
             "message": "User not found" }, 404
 
-
+    update_username_and_email = False
     for key, value in args.items():
-        setattr(user, key, value)
+        if value is not None and value != '':
+            if key in ["first_name", "last_name"]:
+                update_username_and_email = True
+            setattr(user, key, value)
+
+    if update_username_and_email:
+        new_username, new_company_email = generate_unique_username_and_email(user.first_name, user.last_name)
+        user.username = new_username
+        user.company_email = new_company_email
 
     try:
         db.session.commit()
@@ -206,4 +194,20 @@ def _update_user(model, attribute, value, args) -> tuple:
         "status": "success",
         "message": "User successfully updated" }, 200
 
+def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple:
+    username = f"{first_name.lower()}.{last_name.lower()}"
+    company_email = f"{username}@proj-aums.hu"
     
+    invalid_chars = ["ö", "ü", "ó", "ő", "ú", "é", "á", "ű", "í"]
+    valid_chars = ["o", "u", "o", "o", "u", "e", "a", "u", "i"]
+    
+    for i in range(len(invalid_chars)):
+        username = username.replace(invalid_chars[i], valid_chars[i])
+        company_email = company_email.replace(invalid_chars[i], valid_chars[i])
+
+    while User.query.filter_by(username=username).first():
+        random = Random().randint(0, 100)
+        username = f"{first_name.lower()}.{last_name.lower()}{random}"
+        company_email = f"{username}@proj-aums.hu"
+
+    return username, company_email
