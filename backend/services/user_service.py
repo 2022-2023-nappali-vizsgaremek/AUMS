@@ -152,22 +152,30 @@ def update_user_byId(user_id: int, args: dict) -> dict:
 
 def _update_user(model, attribute, value, args) -> tuple:
     """
-    
+    Update a user
 
+    Args:
+        model (Any): The model of the user
+        attribute (Any): The attribute of the user
+        value (Any): The value of the attribute
+        args (dict): A dictionary containing the arguments for user update
+
+    Returns:
+        tuple: The response and the status code of the request
     """
-
+    
     if (args.len()==0):
         return {
             "status": "failed",
             "message": "No arguments given" }, 400
-    
+
     user = model.query.filter_by(**{attribute: value}).first()
 
     if not user:
         return {
             "status": "failed",
             "message": "User not found" }, 404
-    
+
 
     for key, value in args.items():
         if key == "password":
@@ -182,7 +190,7 @@ def _update_user(model, attribute, value, args) -> tuple:
         return {
             "status": "failed",
             "message": str(e) }, 500
-    
+
     return {
         "status": "success",
         "message": "User successfully updated" }, 200

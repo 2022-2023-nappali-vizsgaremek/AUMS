@@ -154,12 +154,11 @@ export default {
       } else {
         currentUser.value.personal_email = email;
       };
-
       console.log(currentUser.value);
-      /*const response = axios.patch('http://127.0.0.1:5000/users',data, header)
+      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`,currentUser.value, header)
       .catch((error) => {
         alert(error.response.data.message);
-      })*/
+      })
       
       showModal.value = false;
     }
@@ -176,10 +175,7 @@ export default {
 
     const getUserData = () => {
       let email = localStorage.getItem('email');
-      if (email.includes("@proj-aums.hu")) {
-        email = email;
-      }
-      else {
+      if (!email.includes("@proj-aums.hu")) {
         email += "@proj-aums.hu";
       }
       for (const user of users.value) {
