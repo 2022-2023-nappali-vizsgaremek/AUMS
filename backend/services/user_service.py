@@ -149,6 +149,20 @@ def update_user_byId(user_id: int, args: dict) -> dict:
 
     return _update_user(User, "id", user_id, args)
 
+def change_user_password(user_id: int, args: dict) -> dict:
+    """
+    Backend validation and password change of a user by id
+
+    Args:
+        user_id (int): The id of the user
+        args (dict): A dictionary containing the arguments for user password change
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    return _update_user(User, "id", user_id, args)
+
 
 def _update_user(model, attribute, value, args) -> tuple:
     """
@@ -164,8 +178,7 @@ def _update_user(model, attribute, value, args) -> tuple:
         tuple: The response and the status code of the request
     """
 
-    print(args)
-    print("##########################################################################")
+
     if (len(args) == 0):
         return {
            "status": "failed",
