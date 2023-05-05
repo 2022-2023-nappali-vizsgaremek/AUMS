@@ -162,6 +162,13 @@ def login_user(args: dict) -> dict:
         "status": "success",
         "role_level": role.level,
         "access_token": access_token,
+        "name": f"{user.first_name} {user.last_name}",
+        "username": user.username,
+        "birh_date": user.birth_date,
+        "personal_email": user.personal_email,
+        "company_email": user.company_email,
+        "phone_number": user.phone_number,
+        "address": user.address,
         "message": "User successfully logged in" }, 200
 
 def update_user_byId(user_id: int, args: dict) -> dict:

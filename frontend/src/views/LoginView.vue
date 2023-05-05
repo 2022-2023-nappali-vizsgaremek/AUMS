@@ -37,8 +37,14 @@
             <hr class="my-4">
             <h4>Name</h4>
             <p style="font-size: larger;">{{ currentUser.name }}</p>
-            <h4>Email</h4>
+            <h4>Username</h4>
+            <p style="font-size: larger;">{{ currentUser.username }}</p>
+            <h4>Birth</h4>
+            <p style="font-size: larger;">{{ currentUser.birth_date }}</p>
+            <h4>Personal Email</h4>
             <p style="font-size: larger;">{{ currentUser.personal_email }}</p>
+            <h4>Company Email</h4>
+            <p style="font-size: larger;">{{ currentUser.company_email }}</p>
             <h4>Phone Number</h4>
             <p style="font-size: larger;">{{ currentUser.phone_number }}</p>
             <h4>Address</h4>
@@ -97,9 +103,20 @@
 </template>
 
 <script setup>
+const currentUser = ref({
+  name: localStorage.getItem('name'),
+  username: localStorage.getItem('username'),
+  birth_date: localStorage.getItem('birth_date'),
+  personal_email: localStorage.getItem('personal_email'),
+  company_email: localStorage.getItem('company_email'),
+  phone_number: localStorage.getItem('phone_number'),
+  address: localStorage.getItem('address')
+});
+
 import { ref } from 'vue';
 import axios from 'axios';
 const isAuthenticated = ref(false);
+
 const login = async () => {
   const email = document.querySelector('input[name="email"]').value;
   const password = document.querySelector('input[name="pass"]').value;
@@ -117,7 +134,15 @@ const login = async () => {
       alert(response.data.message);
       localStorage.setItem('access_token', response.data["access_token"]);
       localStorage.setItem('role_level', response.data["role_level"]);
-	  location.reload();
+      localStorage.setItem('name', response.data["name"]);
+      localStorage.setItem('username', response.data["username"]);
+      localStorage.setItem('birth_date', response.data["birth_date"]);
+      localStorage.setItem('personal_email', response.data["personal_email"]);
+      localStorage.setItem('company_email', response.data["company_email"]);
+      localStorage.setItem('phone_number', response.data["phone_number"]);
+      localStorage.setItem('address', response.data["address"]);
+
+	    location.reload();
     }
   });
 };

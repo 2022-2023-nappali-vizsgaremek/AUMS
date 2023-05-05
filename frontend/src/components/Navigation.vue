@@ -21,7 +21,7 @@
           <router-link class="nav-link text-white" to="/schedule" :class="{ 'router-link-active': currentRoute.value === '/schedule' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 2">
             <span>Schedule</span>
           </router-link>
-          <router-link class="nav-link text-white" to="/admin" :class="{ 'router-link-active': currentRoute.value === '/admin' }" @click="closeNavbar" v-if="isAuthenticated">
+          <router-link class="nav-link text-white" to="/admin" :class="{ 'router-link-active': currentRoute.value === '/admin' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 5">
             <span>Admin</span>
           </router-link>
         </div>
