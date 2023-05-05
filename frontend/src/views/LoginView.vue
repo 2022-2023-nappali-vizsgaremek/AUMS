@@ -40,7 +40,7 @@
             <h4>Email</h4>
             <p style="font-size: larger;">{{ currentUser.personal_email }}</p>
             <h4>Phone Number</h4>
-            <p style="font-size: larger;">{{ currentUser.phone }}</p>
+            <p style="font-size: larger;">{{ currentUser.phone_number }}</p>
             <h4>Address</h4>
             <p style="font-size: larger;">{{ currentUser.address }}</p>
             <button class="login100-form-btn mt-5" @click="openModal">
