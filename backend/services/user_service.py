@@ -163,3 +163,76 @@ def login_user(args: dict) -> dict:
         "role_level": role.level,
         "access_token": access_token,
         "message": "User successfully logged in" }, 200
+
+def update_user_byId(user_id: int, args: dict) -> dict:
+    """
+    Backend validation and update of a user by id
+
+    Args:
+        user_id (int): The id of the user
+        args (dict): A dictionary containing the arguments for user update
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    return _update_user(User, "id", user_id, args)
+
+def change_user_password(user_id: int, args: dict) -> dict:
+    """
+    Backend validation and password change of a user by id
+
+    Args:
+        user_id (int): The id of the user
+        args (dict): A dictionary containing the arguments for user password change
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    return _update_user(User, "id", user_id, args)
+
+
+def _update_user(model, attribute, value, args) -> tuple:
+    """
+    Update a user
+
+    Args:
+        model (Any): The model of the user
+        attribute (Any): The attribute of the user
+        value (Any): The value of the attribute
+        args (dict): A dictionary containing the arguments for user update
+
+    Returns:
+        tuple: The response and the status code of the request
+    """
+
+
+    if (len(args) == 0):
+        return {
+           "status": "failed",
+           "message": "No arguments given" }, 400
+    
+    user = model.query.filter_by(**{attribute: value}).first()
+
+    if not user:
+        return {
+            "status": "failed",
+            "message": "User not found" }, 404
+
+
+    for key, value in args.items():
+        setattr(user, key, value)
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        return {
+            "status": "failed",
+            "message": str(e) }, 500
+
+    return {
+        "status": "success",
+        "message": "User successfully updated" }, 200
+
+    
