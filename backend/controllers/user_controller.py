@@ -50,3 +50,37 @@ class Login(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Logging in user")
         return service.login_user(args)
+    
+class Update(MethodResource, Resource):
+    @doc(description="Update a user", tags=["User"])
+    def patch(self, user_id: int) -> dict:
+        """
+        Updates a user
+
+        Args:
+            user_id (int): The id of the user
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        args = parser.parse_args()
+        log.info("Updating user")
+        return service.update_user_byId(user_id, args)
+    
+class ChangePassword(MethodResource, Resource):
+    @doc(description="Change a user's password", tags=["User"])
+    def patch(self, user_id: int) -> dict:
+        """
+        Changes a user's password
+
+        Args:
+            user_id (int): The id of the user
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        args = parser.parse_args()
+        log.info("Changing user's password")
+        return service.change_user_password(user_id, args)

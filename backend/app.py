@@ -41,6 +41,8 @@ api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_t
 # User routes
 api.add_resource(user_ctrl.Login, "/login")
 api.add_resource(user_ctrl.Register, "/register")
+api.add_resource(user_ctrl.Update, "/users/<int:user_id>")
+api.add_resource(user_ctrl.ChangePassword, "/change_password/<int:user_id>")
 # Schedule routes
 api.add_resource(schedule_ctrl.Schedule, "/schedule")
 # Card routes

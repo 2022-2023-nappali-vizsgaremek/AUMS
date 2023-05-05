@@ -75,7 +75,7 @@ class ActiveCardById(MethodResource, Resource):
     @auth_required
     def get(self, card_id=None) -> dict:
         """
-        Get all active cards
+        Get active card by ID
 
         Args:
             card_id (int, optional): The id of the card. Defaults to None.
