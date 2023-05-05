@@ -12,13 +12,13 @@
           <router-link class="nav-link text-white" to="/login" :class="{ 'router-link-active': currentRoute.value === '/login' }" @click="closeNavbar">
             <span>Home</span>
           </router-link>
-          <router-link class="nav-link text-white" to="/register" :class="{ 'router-link-active': currentRoute.value === '/register' }" @click="closeNavbar" v-if="isAuthenticated">
+          <router-link class="nav-link text-white" to="/register" :class="{ 'router-link-active': currentRoute.value === '/register' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 5">
             <span>Register</span>
           </router-link>
-          <router-link class="nav-link text-white" to="/cards" :class="{ 'router-link-active': currentRoute.value === '/cards' }" @click="closeNavbar" v-if="isAuthenticated">
+          <router-link class="nav-link text-white" to="/cards" :class="{ 'router-link-active': currentRoute.value === '/cards' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 5">
             <span>Cards</span>
           </router-link>
-          <router-link class="nav-link text-white" to="/schedule" :class="{ 'router-link-active': currentRoute.value === '/schedule' }" @click="closeNavbar" v-if="isAuthenticated">
+          <router-link class="nav-link text-white" to="/schedule" :class="{ 'router-link-active': currentRoute.value === '/schedule' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 2">
             <span>Schedule</span>
           </router-link>
         </div>
@@ -37,6 +37,10 @@
   
   const isAuthenticated = computed(() => {
     return localStorage.getItem('access_token') !== null
+  });
+
+  const role_level = computed(() => {
+    return localStorage.getItem('role_level')
   });
 
   const closeNavbar = () => {

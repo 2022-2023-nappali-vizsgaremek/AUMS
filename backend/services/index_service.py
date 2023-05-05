@@ -33,7 +33,13 @@ def is_authenticated(access_token: str) -> dict:
     """
 
     from models.user import User
+    from models.role import Role
+    from models.user_role import UserRole
+
     user = User.query.filter_by(access_token=access_token).first()
+
+    user_role = UserRole.query.filter_by(user_id=user.id).first()
+    role = Role.query.filter_by(id=user_role.role_id).first()
 
     if not user:
         return {
@@ -42,8 +48,9 @@ def is_authenticated(access_token: str) -> dict:
 
     return {
         "status": "success",
+        "role_level": role.level,
         "message": "User is authenticated" }, 200
-    
+
 def get_log_dump() -> dict:
     """
     Returns the log dump

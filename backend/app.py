@@ -120,6 +120,17 @@ with app.app_context():
             db.session.add(hardware_user)
             db.session.commit()
 
+            from models.role import Role
+            base_user_role = Role(name="Base User", level=1); db.session.add(base_user_role)
+            authenticated_user_role = Role(name="Authenticated User", level=2); db.session.add(authenticated_user_role)
+            admin_role = Role(name="Admin", level=5); db.session.add(admin_role)
+            db.session.commit()
+
+            from models.user_role import UserRole
+            user_role = UserRole(user_id=user.id, role_id=admin_role.id); db.session.add(user_role)
+            hardware_user_role = UserRole(user_id=hardware_user.id, role_id=admin_role.id); db.session.add(hardware_user_role)
+            db.session.commit()
+
         log.info("Db created")
     except Exception as db_error:
         exit_app(f"Db error: {db_error}")

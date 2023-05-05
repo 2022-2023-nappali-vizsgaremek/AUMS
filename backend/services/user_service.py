@@ -1,4 +1,5 @@
 # Local imports
+import re
 import string
 from random import Random
 from utils.log import log
@@ -26,6 +27,7 @@ def register_new_user(args: dict) -> dict:
     last_name = args["last_name"]
     first_name = args["first_name"]
     birth_date = args["birth_date"]
+    role_level = args["role_level"]
     phone_number = args["phone_number"]
     personal_email = args["personal_email"]
 
@@ -33,6 +35,7 @@ def register_new_user(args: dict) -> dict:
         address,
         first_name,
         birth_date,
+        role_level,
         phone_number,
         personal_email]
 
@@ -45,13 +48,23 @@ def register_new_user(args: dict) -> dict:
             "status": "failed",
             "message": "One or more fields are empty" }, 400
 
-    if not last_name:
-        return {
-            "status": "failed",
-            "message": "The name field should consist of at least two words" }, 400
+    validations = [
+        (phone_number, r'^\d{11}$', "The phone number is invalid"),
+        (str(role_level), r'^[1-5]$', "The role level is invalid"),
+        (address, r'^[a-zA-Z0-9\s,.\'-]{3,}$', "The address is invalid"),
+        (birth_date, r'^\d{4}-\d{2}-\d{2}$', "The birth date is invalid"),
+        (personal_email, r'^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$', "The personal email is invalid"),
+        (last_name, r'^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$', "The last name is invalid"),
+        (first_name, r'^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$', "The first name is invalid")
+    ]
+
+    for value, pattern, error_message in validations:
+        if not re.match(pattern, value):
+            return {
+                "status": "failed",
+                "message": error_message }, 400
 
     personal_email_exists = User.query.filter_by(personal_email=personal_email).first()
-
     if personal_email_exists:
         return {
             "status": "failed",
@@ -69,7 +82,6 @@ def register_new_user(args: dict) -> dict:
             company_email = company_email.replace(invalid_chars[i], valid_chars[i])
 
         user_exists = User.query.filter_by(username=username).first()
-
         if user_exists:
             random = Random().randint(0, 100)
 
@@ -86,6 +98,15 @@ def register_new_user(args: dict) -> dict:
 
     try:
         db.session.commit()
+
+        from models.role import Role
+        from models.user_role import UserRole
+
+        role_id_form_level = Role.query.filter_by(level=role_level).first().id
+        user_role = UserRole(user_id=user.id, role_id=role_id_form_level)
+        db.session.add(user_role)
+        db.session.commit()
+
         email_resp = send_mail("AUMS Registration", f"AUMS Registration\n\nYour username is: {company_email}\nYour password is: {password}\n\nYou can login at: https://proj-aums.hu/", "AUMS", [personal_email])
 
         if email_resp:
@@ -100,6 +121,7 @@ def register_new_user(args: dict) -> dict:
             "status": "failed",
             "message": str(e) }, 500
 
+    log.info(f"New user registered: {company_email}")
     return {
         "status": "success",
         "message": "User successfully registered" }, 201
@@ -130,7 +152,14 @@ def login_user(args: dict) -> dict:
     user.access_token = access_token
     db.session.commit()
 
+    from models.role import Role
+    from models.user_role import UserRole
+
+    user_role = UserRole.query.filter_by(user_id=user.id).first()
+    role = Role.query.filter_by(id=user_role.role_id).first()
+
     return {
         "status": "success",
+        "role_level": role.level,
         "access_token": access_token,
         "message": "User successfully logged in" }, 200

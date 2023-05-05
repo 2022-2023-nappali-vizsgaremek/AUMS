@@ -19,7 +19,7 @@ class UserRole(db.Model):
     role_id = db.Column(
         db.SmallInteger,
         db.ForeignKey("role.id"),
-        unique=True,
+        unique=False,
         nullable=False,
         primary_key=False,
         autoincrement=False)
