@@ -134,3 +134,57 @@ def login_user(args: dict) -> dict:
         "status": "success",
         "access_token": access_token,
         "message": "User successfully logged in" }, 200
+
+def update_user_byId(user_id: int, args: dict) -> dict:
+    """
+    Backend validation and update of a user by id
+
+    Args:
+        user_id (int): The id of the user
+        args (dict): A dictionary containing the arguments for user update
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    return _update_user(User, "id", user_id, args)
+
+
+def _update_user(model, attribute, value, args) -> tuple:
+    """
+    
+
+    """
+
+    if (args.len()==0):
+        return {
+            "status": "failed",
+            "message": "No arguments given" }, 400
+    
+    user = model.query.filter_by(**{attribute: value}).first()
+
+    if not user:
+        return {
+            "status": "failed",
+            "message": "User not found" }, 404
+    
+
+    for key, value in args.items():
+        if key == "password":
+            hashed = bcrypt.hashpw(value.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+            setattr(user, key, hashed)
+        else:
+            setattr(user, key, value)
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        return {
+            "status": "failed",
+            "message": str(e) }, 500
+    
+    return {
+        "status": "success",
+        "message": "User successfully updated" }, 200
+
+    

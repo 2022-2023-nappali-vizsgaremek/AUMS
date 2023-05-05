@@ -49,3 +49,21 @@ class Login(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Logging in user")
         return service.login_user(args)
+    
+class Update(MethodResource, Resource):
+    @doc(description="Update a user", tags=["User"])
+    @auth_required
+    def put(self, user_id: int) -> dict:
+        """
+        Updates a user
+
+        Args:
+            user_id (int): The id of the user
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        args = parser.parse_args()
+        log.info("Updating user")
+        return service.update_user(user_id, args)
