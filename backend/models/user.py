@@ -62,8 +62,10 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.first_name + " " + self.last_name,
+            "birth_date": self.birth_date,
+            "phone_number": self.phone_number,
+            "address": self.address,
             "company_email": self.company_email,
             "personal_email": self.personal_email,
-            "phone": self.phone_number,
-            "address": self.address,
+            "username": self.username,
         }
