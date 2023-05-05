@@ -37,8 +37,14 @@
             <hr class="my-4">
             <h4>Name</h4>
             <p style="font-size: larger;">{{ currentUser.name }}</p>
-            <h4>Email</h4>
+            <h4>Username</h4>
+            <p style="font-size: larger;">{{ currentUser.username }}</p>
+            <h4>Birth</h4>
+            <p style="font-size: larger;">{{ currentUser.birth_date }}</p>
+            <h4>Personal Email</h4>
             <p style="font-size: larger;">{{ currentUser.personal_email }}</p>
+            <h4>Company Email</h4>
+            <p style="font-size: larger;">{{ currentUser.company_email }}</p>
             <h4>Phone Number</h4>
             <p style="font-size: larger;">{{ currentUser.phone_number }}</p>
             <h4>Address</h4>
@@ -96,160 +102,56 @@
 </transition>
 </template>
 
-<script>
-import { onMounted, ref } from 'vue';
+<script setup>
+const currentUser = ref({
+  name: localStorage.getItem('name'),
+  username: localStorage.getItem('username'),
+  birth_date: localStorage.getItem('birth_date'),
+  personal_email: localStorage.getItem('personal_email'),
+  company_email: localStorage.getItem('company_email'),
+  phone_number: localStorage.getItem('phone_number'),
+  address: localStorage.getItem('address')
+});
+
+import { ref } from 'vue';
 import axios from 'axios';
+const isAuthenticated = ref(false);
 
-export default {
-  name: 'LoginForm',
-  setup() {
-    const users = ref([]);
-    let currentUser = ref([]);
-    const showModal = ref(false);
-
-    const header = {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-      }
-    };
-
-    const checkField = (field) => {
-      if(field.value == ''){
-        field.style.border = '1px solid red';
-        return false;
-      }else{
-        clearBorder('#' + field.id);
-        return true;
-      }
-    };
-
-    const openModal = () => {
-      showModal.value = true;
-    };
-
-    const closeModal = () => {
-      showModal.value = false;
-    };
-
-    const saveChangedData = () => {
-      let old_password = document.querySelector('input[name="password"]').value;
-      let new_password = document.querySelector('input[name="new_password"]').value;
-      let new_password2 = document.querySelector('input[name="new_password2"]').value;
-
-      if (old_password != currentUser.value.password) {
-        alert("Old password is incorrect!");
-        return;
-      }
-
-      if (new_password != new_password2) {
-        alert("New passwords are not the same!");
-        return;
-      }
-
-      const data = {
-        
-      };
-      console.log(currentUser.value);
-      const response = axios.patch(`http://127.0.0.1:5000/users/${currentUser.value.id}`, data);
-      
-      showModal.value = false;
-    }
-
-    const loadUsers = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/users', header);
-        users.value = response.data;
-        getUserData();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const getUserData = () => {
-      let email = localStorage.getItem('email');
-      if (!email.includes("@proj-aums.hu")) {
-        email += "@proj-aums.hu";
-      }
-      for (const user of users.value) {
-        if (user.company_email == email) {
-          currentUser.value = user;
-          break;
-        }
-      }
-    }
-
-
-    const isAuthenticated = ref(false);
-    const login = async () => {
-      const email = document.querySelector('input[name="email"]').value;
-      localStorage.setItem('email', email);
-      const password = document.querySelector('input[name="pass"]').value;
-      const data = {
-        company_email: email,
-        password: password
-      };
-      const response = await axios.post('http://127.0.0.1:5000/login', data)
-      .catch((error) => {
-        alert(error.response.data.message);
-      })
-      .then(response => {
-        if (response) {
-          isAuthenticated.value = true;
-          alert(response.data.message);
-          localStorage.setItem('access_token', response.data["access_token"]);
-          location.reload();
-        }
-      });
-    };
-    const logout = () => {
-      localStorage.removeItem('access_token');
-      isAuthenticated.value = false;
-      location.reload();
-    };
-    if (localStorage.getItem('access_token')) {
+const login = async () => {
+  const email = document.querySelector('input[name="email"]').value;
+  const password = document.querySelector('input[name="pass"]').value;
+  const data = {
+    company_email: email,
+    password: password
+  };
+  const response = await axios.post('http://127.0.0.1:5000/login', data)
+  .catch((error) => {
+    alert(error.response.data.message);
+  })
+  .then(response => {
+    if (response) {
       isAuthenticated.value = true;
+      alert(response.data.message);
+      localStorage.setItem('access_token', response.data["access_token"]);
+      localStorage.setItem('role_level', response.data["role_level"]);
+      localStorage.setItem('name', response.data["name"]);
+      localStorage.setItem('username', response.data["username"]);
+      localStorage.setItem('birth_date', response.data["birth_date"]);
+      localStorage.setItem('personal_email', response.data["personal_email"]);
+      localStorage.setItem('company_email', response.data["company_email"]);
+      localStorage.setItem('phone_number', response.data["phone_number"]);
+      localStorage.setItem('address', response.data["address"]);
+
+	    location.reload();
     }
-    onMounted(() => {
-      loadUsers();
-    });
-    return {
-      users,
-      header,
-      showModal,
-      currentUser,
-      isAuthenticated,
-      login,
-      logout,
-      loadUsers,
-      openModal,
-      closeModal,
-      checkField,
-      getUserData,
-      saveChangedData,
-    };
-  },
+  });
 };
+const logout = () => {
+  localStorage.removeItem('access_token');
+  isAuthenticated.value = false;
+  location.reload();
+};
+if (localStorage.getItem('access_token')) {
+  isAuthenticated.value = true;
+}
 </script>
-<style>
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-weight: bold;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Increase the z-index value */
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s;
-}
-
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-</style>

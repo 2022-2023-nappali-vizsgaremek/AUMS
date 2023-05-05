@@ -17,25 +17,25 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiredRoleLevel: 5 },
       component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/cards',
       name: 'cards',
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiredRoleLevel: 5 },
       component: () => import('../views/CardsView.vue')
     },
     {
       path: '/schedule',
       name: 'schedule',
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiredRoleLevel: 2 },
       component: () => import('../views/ScheduleView.vue')
     },
     {
       path: '/admin',
       name: 'admin',
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiredRoleLevel: 5 },
       component: () => import('../views/AdminView.vue')
     }
   ]
@@ -45,10 +45,14 @@ export default router;
 router.beforeEach(async (to, from, next) =>
 {
   let access_token = localStorage.getItem('access_token');
+  let role_level_raw = localStorage.getItem('role_level');
   const isAuthenticated = access_token != null;
 
+  const requiredRoleLevel = (typeof to.meta.requiredRoleLevel === 'number') ? to.meta.requiredRoleLevel : 0;
+  const currentRoleLevel = role_level_raw !== null && role_level_raw !== undefined ? parseInt(role_level_raw, 10) : 0;
+
   if (to.meta.requiresAuth && !isAuthenticated) next('/');
-  else if (to.meta.requiresAuth && isAuthenticated)
+  else if (to.meta.requiresAuth && isAuthenticated && (currentRoleLevel >= requiredRoleLevel))
   {
     const header = {
       headers: {
@@ -59,7 +63,7 @@ router.beforeEach(async (to, from, next) =>
     const resp = await axios.post('http://127.0.0.1:5000/is_authenticated/' + access_token, {}, header)
     .then((response) =>
     {
-      if (response.data.status == 'success') next();
+      if (response.data.status == 'success' && response.data.role_level == currentRoleLevel) next();
       else
       {
         location.reload();
@@ -74,5 +78,9 @@ router.beforeEach(async (to, from, next) =>
       next('/');
     });
   }
-  else next();
+  else
+  {
+    if (currentRoleLevel >= requiredRoleLevel ) next();
+    else next('/');
+  }
 });
