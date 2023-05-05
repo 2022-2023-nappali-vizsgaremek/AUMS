@@ -208,6 +208,11 @@ export default {
     };
     if (localStorage.getItem('access_token')) {
       isAuthenticated.value = true;
+      
+      alert(response.data.message);
+      localStorage.setItem('access_token', response.data["access_token"]);
+      localStorage.setItem('role_level', response.data["role_level"]);
+	  location.reload();
     }
     onMounted(() => {
       loadUsers();

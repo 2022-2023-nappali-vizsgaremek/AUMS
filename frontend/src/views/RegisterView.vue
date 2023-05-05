@@ -1,13 +1,40 @@
 <template>
-    <div class="container d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 66.8px);">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-            <div class="container">
-                <div class="card" style="border-radius: 15px;">
-                    <div class="card-body p-5">
+    <div class="container mt-5">
+        <transition name="alert-fade">
+            <div role="alert" v-if="errorAlertVisible"
+                    class="alert alert-danger text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
+                {{ alertMessage }}
+            </div>
+        </transition>
+
+        <transition name="alert-fade">
+            <div role="alert" v-if="successAlertVisible"
+                    class="alert alert-success text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
+                {{ alertMessage }}
+            </div>
+        </transition>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-9 col-lg-7
+                shadow rounded rounded-4 p-3 col-xl-6">
+                <div class="card rounded rounded-4 p-0">
+                    <div class="card-body rounded rounded-4 p-5">
                         <h2 class="text-uppercase text-center mb-5">Register new user</h2>
                         <form>
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="fullName" autofocus  name="name" class="input100" v-on:focusout="checkField($event.target)" placeholder="Name"/>
+                                <input type="text" id="firstName" class="input100 rounded rounded-3"
+                                placeholder="First Name" v-model="firstName">
+
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                </span>
+                            </div>
+
+                            <div class="form-outline wrap-input100">
+                                <input type="text" id="lastName" class="input100 rounded rounded-3"
+                                placeholder="Last Name" v-model="lastName">
+
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -15,15 +42,9 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="userName" name="username" class="input100" v-on:focusout="checkField($event.target)" placeholder="Username"/>
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                </span>
-                            </div>
+                                <input type="date" id="birthDate" class="input100 rounded rounded-3"
+                                placeholder="BirthDate" v-model="birthDate">
 
-                            <div class="form-outline wrap-input100">
-                                <input type="date" id="birthDate" name="birthdate" class="input100" v-on:focusout="checkField($event.target)" placeholder="BirthDate"/>
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -31,7 +52,9 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="address" name="address" class="input100" v-on:focusout="checkField($event.target)" placeholder="Address"/>
+                                <input type="text" id="address" class="input100 rounded rounded-3"
+                                placeholder="Address" v-model="address">
+
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-home" aria-hidden="true"></i>
@@ -39,7 +62,9 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="phone" name="phone" class="input100" v-on:focusout="checkField($event.target)" placeholder="Phone number"/>
+                                <input type="text" id="phone" class="input100 rounded rounded-3"
+                                placeholder="Phone number" v-model="phone">
+
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-phone" aria-hidden="true"></i>
@@ -47,7 +72,9 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="email" id="email" name="email" class="input100" v-on:focusout="checkField($event.target)" placeholder="Email"/>
+                                <input class="input100 rounded rounded-3" type="email" id="email"
+                                placeholder="Email Address" v-model="email">
+
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -55,18 +82,20 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="password" id="password" name="password" class="input100" v-on:focusout="checkField($event.target)" placeholder="Password"/>
+                                <select id="roleLevel"
+                                    class="input100 rounded rounded-3" v-model="roleLevel">
+                                        <option value="" disabled selected>Role Level</option>
+                                        <option v-for="i in 5" :key="i" :value="i">{{ i }}</option>
+                                </select>
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
-                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    <i class="fa fa-level-up" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="d-flex justify-content-center">
-                                <button type="button"
-                                    @click="register"
-                                    class="login100-form-btn btn-block btn-lg gradient-custom-4">Register
-                                </button>
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="button" @click="register" class="btn-lg rounded
+                                login100-form-btn btn-block gradient-custom-4 rounded-3">Register</button>
                             </div>
                         </form>
                     </div>
@@ -77,101 +106,158 @@
 </template>
 
 <script setup>
-    const header = {
-        headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }
+    import axios from 'axios';
+    import { ref, computed } from 'vue';
+
+    const header =
+    {
+        headers:
+        { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
     };
 
-    import axios from 'axios';
+    const phone = ref('');
+    const email = ref('');
+    const address = ref('');
+    const lastName = ref('');
+    const firstName = ref('');
+    const birthDate = ref('');
+    const roleLevel = ref('');
 
-    const register = async () => {
-        const name = document.querySelector('#fullName').value;
-        const username = document.querySelector('#userName').value;
-        const birthdate = document.querySelector('#birthDate').value;
-        const address = document.querySelector('#address').value;
-        const phone = document.querySelector('#phone').value;
-        const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
+    let alertMessage = ref();
+    let errorAlertVisible = ref(false);
+    let successAlertVisible = ref(false);
 
-        const first_name = name.split(' ')[0];
-        const last_name = name.split(' ')[1];
+    const register = async () =>
+    {
+        const roleRegex = /^[1-5]$/;
+        const phoneRegex = /^\d{11}$/;
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        const addressRegex = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+        const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+        const nameRegex = /^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$/;
 
-        const emailRegex = new RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$');
-
-        if(last_name == undefined || first_name == undefined || last_name == '' || first_name == ''){
-            alert('Name must be in format: Firstname Lastname')
-            document.querySelector('#fullName').style.border = '1px solid red';
+        if (!nameRegex.test(firstName.value))
+        {
+            alertMessage.value = "FIRST NAME IS REQUIRED, AND CAN ONLY CONTAIN LETTERS";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
             return;
-        }else{
-            clearBorder('#fullName');
         }
 
-        if(phone.length != 11 || isNaN(phone)){
-            alert('Phone number must be 11 digits')
-            document.querySelector('#phone').style.border = '1px solid red';
+        if (!nameRegex.test(lastName.value))
+        {
+            alertMessage.value = "LAST NAME IS REQUIRED, AND CAN ONLY CONTAIN LETTERS";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
             return;
-        }else{
-            clearBorder('#phone');
         }
 
-        if(!emailRegex.test(email)){
-            alert('Email is not valid')
-            document.querySelector('#email').style.border = '1px solid red';
+        if (!dateRegex.test(birthDate.value))
+        {
+            alertMessage.value = "BIRTH DATE IS REQUIRED, AND MUST BE IN YYYY-MM-DD FORMAT";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
             return;
-        }else{
-            clearBorder('#email');
         }
 
-        if(password.length < 3){
-            alert('Password must be at least 3 characters')
-            document.querySelector('#password').style.border = '1px solid red';
+        if (!addressRegex.test(address.value))
+        {
+            alertMessage.value = "ADDRESS MUST BE AT LEAST 3 CHARACTERS LONG, AND CAN ONLY CONTAIN LETTERS, NUMBERS AND SOME SPECIAL CHARACTERS";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
             return;
-        }else{
-            clearBorder('#password');
         }
 
-        const data = {
-            first_name: first_name,
-            last_name: last_name,
-            username: username,
-            birth_date: birthdate,
-            address: address,
-            phone_number: phone,
-            personal_email: email,
-            password: password
+        if (!phoneRegex.test(phone.value))
+        {
+            alertMessage.value = "PHONE NUMBER MUST BE 11 DIGITS";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
+            return;
+        }
+
+        if (!emailRegex.test(email.value))
+        {
+            alertMessage.value = "EMAIL MUST CONTAIN '@' AND '.' AND CAN ONLY CONTAIN LETTERS, NUMBERS AND SOME SPECIAL CHARACTERS";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
+            return;
+        }
+
+        if (!roleRegex.test(roleLevel.value))
+        {
+            alertMessage.value = "ROLE LEVEL MUST BE BETWEEN 1 AND 5";
+            setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+            errorAlertVisible.value = true;
+            return;
+        }
+
+        const data =
+        {
+            address: address.value,
+            phone_number: phone.value,
+            last_name: lastName.value,
+            personal_email: email.value,
+            birth_date: birthDate.value,
+            first_name: firstName.value,
+            role_level: roleLevel.value
         };
 
         const response = await axios.post('http://127.0.0.1:5000/register', data, header)
-        .catch((error) => {
-            alert(error.response.data.message);
-        }).then((response) => {
-            if (response) {
-                alert(response.data.message);
-                window.location.href = '/login';
+        .catch((error) =>
+        {
+            if (error.response)
+            {
+                alertMessage.value = error.response.data.message.toUpperCase();
+                setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+                errorAlertVisible.value = true;
+            }
+        })
+        .then((response) =>
+        {
+            if (response)
+            {
+                successAlertVisible.value = true;
+                alertMessage.value = "USER SUCCESSFULLY REGISTERED";
+
+                setTimeout(() =>
+                {
+                    successAlertVisible.value = false;
+                    window.location.href = '/login';
+                }, 3000);
+            }
+            else
+            {
+                alertMessage.value = "UNABLE TO REGISTER USER, PLEASE TRY AGAIN LATER";
+                setTimeout(() => { errorAlertVisible.value = false; }, 3000);
+                errorAlertVisible.value = true;
             }
         });
-    };
-
-    const clearBorder = (id) => {
-        document.querySelector(id).style.border = '1px solid #ced4da';
-    };
-
-    const checkField = (field) => {
-        if(field.value == ''){
-            field.style.border = '1px solid red';
-            return false;
-        }else{
-            clearBorder('#' + field.id);
-            return true;
-        }
     };
 </script>
 
 <style>
-.card{
-    background: #2f2655;
-    color: #c8bde8;
-    box-shadow: 0 0 15px 0px rgba(35, 61, 77, 1);
-}
+    .card
+    {
+        color: #c8bde8;
+        background: #2f2655;
+        box-shadow: 0 0 15px 0px rgba(35, 61, 77, 1);
+    }
+
+    .alert { transition: opacity 0.3s ease-in-out; }
+    .alert-fade-enter, .alert-fade-leave-to { opacity: 0; }
+    .alert-fade-enter-active, .alert-fade-leave-active { transition: opacity 0.250s; }
+
+    ::-webkit-scrollbar-thumb
+    {
+        border-radius: 0px;
+        background: #2f2655;
+    }
+    ::-webkit-scrollbar-track
+    {
+        border-radius: 5px;
+        box-shadow: inset 0 0 5px #3b3b3b;
+    }
+    ::-webkit-scrollbar { width: 20px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3c3463; }
 </style>
