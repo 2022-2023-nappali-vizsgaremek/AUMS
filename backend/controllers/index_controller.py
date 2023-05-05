@@ -38,7 +38,6 @@ class IsAuthenticated(MethodResource, Resource):
         return service.is_authenticated(access_token)
 
 class LogDump(MethodResource, Resource):
-    @auth_required
     def get(self) -> dict:
         """
         Get log dump
