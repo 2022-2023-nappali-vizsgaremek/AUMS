@@ -59,6 +59,7 @@
     </div>
   </div>
 
+  <transition name="fade">
   <div v-show="showModifyCardModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -81,6 +82,7 @@
       </div>
     </div>
   </div>
+</transition>
 
   <!-- Connect Modal -->
   <transition name="fade">
