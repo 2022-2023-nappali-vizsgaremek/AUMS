@@ -1,20 +1,20 @@
 <template>
     <div class="container mt-5 mb-5">
         <transition name="alert-fade">
-            <div role="alert" v-if="errorAlertVisible"
+            <div role="alert" v-if="errorAlertVisible"  style="z-index: 9999; position: absolute"
                     class="alert alert-danger text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
                 {{ alertMessage }}
             </div>
         </transition>
 
         <transition name="alert-fade">
-            <div role="alert" v-if="successAlertVisible"
+            <div role="alert" v-if="successAlertVisible" style="z-index: 9999; position: absolute"
                     class="alert alert-success text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
                 {{ alertMessage }}
             </div>
         </transition>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <div class="col-12 col-md-9 col-lg-7
                 shadow rounded rounded-4 p-3 col-xl-6">
                 <div class="card rounded rounded-4 p-0">
