@@ -21,6 +21,7 @@ jobs:
     - name: Replace URLs in Vue.js Frontend
       run: |
         sed -i 's|http://127.0.0.1:5000/login|https://api.proj-aums.hu/login|' frontend/src/views/LoginView.vue
+        sed -i 's|http://127.0.0.1:5000/change_password|https://api.proj-aums.hu/change_password|' frontend/src/views/LoginView.vue
         sed -i 's|http://127.0.0.1:5000/register|https://api.proj-aums.hu/register|' frontend/src/views/RegisterView.vue
         sed -i 's|http://127.0.0.1:5000/is_authenticated/|https://api.proj-aums.hu/is_authenticated/|' frontend/src/router/index.js
         sed -i 's|http://127.0.0.1:5000/cards|https://api.proj-aums.hu/cards|' frontend/src/components/Cards.vue
@@ -34,6 +35,7 @@ jobs:
         sed -i 's|http://127.0.0.1:5000/users|https://api.proj-aums.hu/users|' frontend/src/views/AdminView.vue
         sed -i 's|http://127.0.0.1:5000/users/${currentUser.value.id}|https://api.proj-aums.hu/users/${currentUser.value.id}|' frontend/src/views/LoginView.vue
         sed -i 's|http://127.0.0.1:5000/users|https://api.proj-aums.hu/users|' frontend/src/views/LoginView.vue
+        
         
         sed -i 's|http://127.0.0.1:5000/users|https://api.proj-aaums.hu/users|' frontend/src/views/ScheduleView.vue
         sed -i 's|http://127.0.0.1:5000/users|https://api.proj-aums.hu/users|' frontend/src/components/Cards.vue

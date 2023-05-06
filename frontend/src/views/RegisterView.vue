@@ -1,20 +1,20 @@
 <template>
-    <div class="container pt-5 mt-5">
+    <div class="container mt-5 mb-5">
         <transition name="alert-fade">
-            <div role="alert" v-if="errorAlertVisible"
+            <div role="alert" v-if="errorAlertVisible"  style="z-index: 9999; position: absolute"
                     class="alert alert-danger text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
                 {{ alertMessage }}
             </div>
         </transition>
 
         <transition name="alert-fade">
-            <div role="alert" v-if="successAlertVisible"
+            <div role="alert" v-if="successAlertVisible" style="z-index: 9999; position: absolute"
                     class="alert alert-success text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
                 {{ alertMessage }}
             </div>
         </transition>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <div class="col-12 col-md-9 col-lg-7
                 shadow rounded rounded-4 p-3 col-xl-6">
                 <div class="card rounded rounded-4 p-0">
@@ -22,7 +22,7 @@
                         <h2 class="text-uppercase text-center mb-5">Register new user</h2>
                         <form>
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="firstName" class="input100 rounded rounded-3"
+                                <input type="text" id="firstName" class="input100 shadow rounded rounded-3"
                                 placeholder="First Name" v-model="firstName">
 
                                 <span class="focus-input100"></span>
@@ -32,7 +32,7 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="lastName" class="input100 rounded rounded-3"
+                                <input type="text" id="lastName" class="input100 shadow rounded rounded-3"
                                 placeholder="Last Name" v-model="lastName">
 
                                 <span class="focus-input100"></span>
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="date" id="birthDate" class="input100 rounded rounded-3"
+                                <input type="date" id="birthDate" class="input100 shadow rounded rounded-3"
                                 placeholder="BirthDate" v-model="birthDate">
 
                                 <span class="focus-input100"></span>
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="address" class="input100 rounded rounded-3"
+                                <input type="text" id="address" class="input100 shadow rounded rounded-3"
                                 placeholder="Address" v-model="address">
 
                                 <span class="focus-input100"></span>
@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input type="text" id="phone" class="input100 rounded rounded-3"
+                                <input type="text" id="phone" class="input100 shadow rounded rounded-3"
                                 placeholder="Phone number" v-model="phone">
 
                                 <span class="focus-input100"></span>
@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="form-outline wrap-input100">
-                                <input class="input100 rounded rounded-3" type="email" id="email"
+                                <input type="email" id="email" class="input100 shadow rounded rounded-3"
                                 placeholder="Email Address" v-model="email">
 
                                 <span class="focus-input100"></span>
@@ -83,7 +83,7 @@
 
                             <div class="form-outline wrap-input100">
                                 <select id="roleLevel"
-                                    class="input100 rounded rounded-3" v-model="roleLevel">
+                                    v-model="roleLevel" class="input100 shadow rounded rounded-3" >
                                         <option value="" disabled selected>Role Level</option>
                                         <option v-for="i in 5" :key="i" :value="i">{{ i }}</option>
                                 </select>
@@ -95,7 +95,7 @@
 
                             <div class="d-flex justify-content-center mt-4">
                                 <button type="button" @click="register" class="btn-lg rounded
-                                login100-form-btn btn-block gradient-custom-4 rounded-3">Register</button>
+                                login100-form-btn btn-block gradient-custom-4 shadow rounded-3">Register</button>
                             </div>
                         </form>
                     </div>

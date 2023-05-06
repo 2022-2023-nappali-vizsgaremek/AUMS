@@ -18,9 +18,13 @@ parser.add_argument("last_name", type=str)
 parser.add_argument("first_name", type=str)
 parser.add_argument("birth_date", type=str)
 parser.add_argument("role_level", type=str)
+parser.add_argument("access_token", type=str)
 parser.add_argument("phone_number", type=str)
+parser.add_argument("new_password", type=str)
 parser.add_argument("company_email", type=str)
 parser.add_argument("personal_email", type=str)
+parser.add_argument("confirm_password", type=str)
+parser.add_argument("current_password", type=str)
 
 class Register(MethodResource, Resource):
     @doc(description="Register a new user", tags=["User"])
@@ -50,7 +54,7 @@ class Login(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Logging in user")
         return service.login_user(args)
-    
+
 class Update(MethodResource, Resource):
     @doc(description="Update a user", tags=["User"])
     def patch(self, user_id: int) -> dict:
@@ -67,15 +71,13 @@ class Update(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Updating user")
         return service.update_user_byId(user_id, args)
-    
+
 class ChangePassword(MethodResource, Resource):
     @doc(description="Change a user's password", tags=["User"])
-    def patch(self, user_id: int) -> dict:
+    @auth_required
+    def post(self) -> dict:
         """
         Changes a user's password
-
-        Args:
-            user_id (int): The id of the user
 
         Returns:
             dict: A dictionary containing the response and the status code of the request
@@ -83,4 +85,4 @@ class ChangePassword(MethodResource, Resource):
 
         args = parser.parse_args()
         log.info("Changing user's password")
-        return service.change_user_password(user_id, args)
+        return service.change_user_password(args)
