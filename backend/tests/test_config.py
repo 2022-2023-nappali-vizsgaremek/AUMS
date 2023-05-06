@@ -62,26 +62,17 @@ def add_roles_to_db():
 
     from models.role import Role
 
-    role1 = Role(id=1, name="Admin", level=5)
-    role2 = Role(id=2, name="User", level=1)
+    role1 = Role(id=1, name="Base User", level=1)
+    role2 = Role(id=2, name="Authenticated User", level=2)
+    #role3 = Role(id=3, name="Secretary", level=3)
+    #role4 = Role(id=4, name="Manager", level=4)
+    role5 = Role(id=3, name="Admin", level=5)
 
     db.session.add(role1)
     db.session.add(role2)
-
-def connect_role_to_user(user_id: int, role_id: int):
-    """
-    Connect role to user
-
-    Args:
-        user_id (int): The id of the user
-        role_id (int): The id of the role
-    """
-
-    from models.user_role import UserRole
-
-    user_role = UserRole(user_id=user_id, role_id=role_id)
-    db.session.add(user_role)
-    db.session.commit()
+    #db.session.add(role3)
+    #db.session.add(role4)
+    db.session.add(role5)
 
 def test_app_config(test_client):
     """
@@ -138,3 +129,12 @@ def test_wrong_database(test_client):
     with test_client.application.app_context():
         actual_tables = sorted(str(t) for t in db.metadata.sorted_tables)
         assert actual_tables != expected_tables
+
+def test_add_user_role(test_client, init_database):
+    from models.user_role import UserRole
+    with test_client.application.app_context():
+        user_role = UserRole(id=1, user_id=1, role_id=1)
+        db.session.add(user_role)
+        db.session.commit()
+
+        assert user_role.id is not None

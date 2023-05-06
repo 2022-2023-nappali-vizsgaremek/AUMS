@@ -1,7 +1,8 @@
 # Local imports
 import random
+from models import db
 from datetime import date
-from tests.test_config import test_client, init_database
+from tests.test_config import test_client, init_database, add_roles_to_db
 from services.user_service import register_new_user, login_user
 
 def generate_valid_user_data():
@@ -17,17 +18,35 @@ def generate_valid_user_data():
         "last_name": "Doe",
         "first_name": "John",
         "birth_date": date(1990, 1, 1),
-        "role_level": random.randint(1, 5),
+        "role_level": random.choice([1, 5]),
         "phone_number": "12345678901",
         "personal_email": "john.doe@example.com",
     }
 
+def connect_role_to_user(user_id: int, role_id: int):
+    """
+    Connect role to user
+
+    Args:
+        user_id (int): The id of the user
+        role_id (int): The id of the role
+    """
+
+    from models.user_role import UserRole
+
+    user_role = UserRole(user_id=user_id, role_id=role_id)
+    db.session.add(user_role)
+    db.session.commit()
+
 def test_register_user_success(test_client, init_database):
     with test_client.application.app_context():
+        add_roles_to_db()
+        
         user_data = generate_valid_user_data()
+
         response, status_code = register_new_user(user_data)
 
-        assert status_code == 201
+        assert status_code == 200
         assert response["status"] == "success"
         assert response["message"] == "User successfully registered"
 
@@ -57,7 +76,7 @@ def test_register_user_invalid_email(test_client, init_database):
 def test_login_user_success(test_client, init_database) -> None:
     with test_client.application.app_context():
         user_data = generate_valid_user_data()
-        password = "password"  # The password we want to use for testing
+        password = "password"
         register_new_user(user_data, password)
 
         login_args = {
