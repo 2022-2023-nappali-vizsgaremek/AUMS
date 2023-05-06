@@ -22,7 +22,10 @@
             <span>Schedule</span>
           </router-link>
           <router-link class="nav-link text-white" to="/admin" :class="{ 'router-link-active': currentRoute.value === '/admin' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 5">
-            <span>Admin</span>
+            <span>User Management</span>
+          </router-link>
+          <router-link class="nav-link text-white" to="/log_dump" :class="{ 'router-link-active': currentRoute.value === '/log_dump' }" @click="closeNavbar" v-if="isAuthenticated && role_level >= 5">
+            <span>Log</span>
           </router-link>
         </div>
       </div>

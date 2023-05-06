@@ -1,137 +1,129 @@
 <template>
-  <div class="container mt-5 pt-5">
-    <div class="d-flex flex-row-reverse">
-        <input type="text" class="form-control mb-3 w-50" placeholder="Search..." v-model="searchTerm" />
-    </div>
-    <div class="table-responsive">
-    <table class="table table-dark table-bordered table-striped table-hover bg-white text-center rounded rounded-3 overflow-hidden">
-        <thead>
-            <tr class="align-middle">
-                <th role="button" class="p-3" @click="toggleSort('id')">
-                    <span class="nowrap">
-                        ID
-                        <i v-if="sortBy.field === 'id' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'id'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('name')">
-                    <span class="nowrap">
-                        Name
-                        <i v-if="sortBy.field === 'name' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'name'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('username')">
-                    <span class="nowrap">
-                        Username
-                        <i v-if="sortBy.field === 'username' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'username'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('company_email')">
-                    <span class="nowrap">
-                        Company Email
-                        <i v-if="sortBy.field === 'company_email' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'company_email'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('personal_email')">
-                    <span class="nowrap">
-                        Personal Email
-                        <i v-if="sortBy.field === 'personal_email' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'personal_email'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('birth_date')">
-                    <span class="nowrap">
-                        Date of Birth
-                        <i v-if="sortBy.field === 'birth_date' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'birth_date'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('phone_number')">
-                    <span class="nowrap">
-                        Phone Number
-                        <i v-if="sortBy.field === 'phone_number' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'phone_number'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th role="button" @click="toggleSort('address')">
-                    <span class="nowrap">
-                        Address
-                        <i v-if="sortBy.field === 'address' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>
-                        <i v-else-if="sortBy.field === 'address'" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort"></i>
-                    </span>
-                </th>
-                <th>
-                    Remove
-                </th>
-            </tr>
-        </thead>
-      <tbody>
-        <tr class="align-middle" v-for="user in filteredUsers" :key="user.id" @click="openInfoModal(user.id)">
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.company_email }}</td>
-            <td>{{ user.personal_email }}</td>
-            <td>{{ user.birth_date }}</td>
-            <td>{{ user.phone_number }}</td>
-            <td>{{ user.address }}</td>
-            <td>
-                <i role="button" class="fa fa-remove" @click.stop="removeUser(user.id)" style="font-size:48px;color:red"></i>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-</div>
+    <div class="container mt-5 pt-5">
+        <div class="d-flex flex-row-reverse">
+            <input type="text" class="form-control mb-3 w-50" placeholder="Search..." v-model="searchTerm" />
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-bordered table-striped table-hover bg-white text-center rounded rounded-3 overflow-hidden">
+                <thead>
+                    <tr class="align-middle">
+                        <th role="button" class="p-3" @click="toggleSort('id')">
+                            <span class="nowrap">
+                                ID
+                                <i v-if="sortBy.field === 'id'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('name')">
+                            <span class="nowrap">
+                                Name
+                                <i v-if="sortBy.field === 'name'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('username')">
+                            <span class="nowrap">
+                                Username
+                                <i v-if="sortBy.field === 'username'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('company_email')">
+                            <span class="nowrap">
+                                Company Email
+                                <i v-if="sortBy.field === 'company_email'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('personal_email')">
+                            <span class="nowrap">
+                                Personal Email
+                                <i v-if="sortBy.field === 'personal_email'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('birth_date')">
+                            <span class="nowrap">
+                                Date of Birth
+                                <i v-if="sortBy.field === 'birth_date'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('phone_number')">
+                            <span class="nowrap">
+                                Phone Number
+                                <i v-if="sortBy.field === 'phone_number'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th role="button" @click="toggleSort('address')">
+                            <span class="nowrap">
+                                Address
+                                <i v-if="sortBy.field === 'address'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
+                                <i v-else class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th>
+                            Remove
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="align-middle" v-for="user in filteredUsers" :key="user.id" @click="openInfoModal(user.id)">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.company_email }}</td>
+                        <td>{{ user.personal_email }}</td>
+                        <td>{{ user.birth_date }}</td>
+                        <td>{{ user.phone_number }}</td>
+                        <td>{{ user.address }}</td>
+                        <td>
+                            <i role="button" class="fa fa-remove" @click.stop="removeUser(user.id)" style="font-size:48px;color:red"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<!-- Info Modal -->
-<transition name="fade">
-        <div v-if="selectedUser" v-show="showInfoModal" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Update user</h5>
-                        <button type="button" class="btn-close" @click="closeInfoModal"></button>
-                    </div>
-                    <form @submit.prevent="">
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="selectedUser.name">
+        <!-- Info Modal -->
+        <transition name="fade">
+            <div v-if="selectedUser" v-show="showInfoModal" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Update user</h5>
+                            <button type="button" class="btn-close" @click="closeInfoModal"></button>
+                        </div>
+                        <form @submit.prevent="">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" v-model="selectedUser.name">
 
-                                <label for="birth_date" class="form-label">Date of Birth</label>
-                                <input type="date" class="form-control" id="birth_date" v-model="selectedUser.birth_date">
+                                    <label for="birth_date" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="birth_date" v-model="selectedUser.birth_date">
 
-                                <label for="phone_number" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="phone_number" v-model="selectedUser.phone_number">
+                                    <label for="phone_number" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="phone_number" v-model="selectedUser.phone_number">
 
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" v-model="selectedUser.address">
-                                
-                                <label for="personal_email" class="form-label">Personal Email</label>
-                                <input type="email" class="form-control" id="personal_email" v-model="selectedUser.personal_email">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="address" v-model="selectedUser.address">
+                                    
+                                    <label for="personal_email" class="form-label">Personal Email</label>
+                                    <input type="email" class="form-control" id="personal_email" v-model="selectedUser.personal_email">
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="closeInfoModal">Close</button>
-                            <button type="submit" class="btn btn-primary" @click="updateUser">Submit</button>
-                        </div>
-                    </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" @click="closeInfoModal">Close</button>
+                                <button type="submit" class="btn btn-primary" @click="updateUser">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </transition>
-  </div>
+        </transition>
+    </div>
 </template>
 
 <script>

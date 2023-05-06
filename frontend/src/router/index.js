@@ -37,7 +37,13 @@ const router = createRouter({
       name: 'admin',
       meta: { requiresAuth: true, requiredRoleLevel: 5 },
       component: () => import('../views/AdminView.vue')
-    }
+    },
+    {
+      path: '/log_dump',
+      name: 'log_dump',
+      meta: { requiresAuth: true, requiredRoleLevel: 5 },
+      component: () => import('../views/LogDumpView.vue')
+    },
   ]
 });
 
