@@ -2,7 +2,7 @@ from models import db
 
 class UserRole(db.Model):
     id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         unique=True,
         nullable=False,
         primary_key=True,
@@ -17,7 +17,7 @@ class UserRole(db.Model):
         autoincrement=False)
 
     role_id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         db.ForeignKey("role.id"),
         unique=False,
         nullable=False,

@@ -19,6 +19,7 @@ class Test(Base):
 
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SEND_EMAILS = False
 
 class Localhost(Base):
     """
@@ -29,6 +30,7 @@ class Localhost(Base):
     """
 
     SQLALCHEMY_DATABASE_URI = "mysql://root:@localhost:3306/aums"
+    SEND_EMAILS = False
 
 class Production(Base):
     """

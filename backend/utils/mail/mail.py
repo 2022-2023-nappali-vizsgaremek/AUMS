@@ -1,4 +1,5 @@
 # Local imports
+from flask import current_app
 from utils.env import get_env
 from utils.close import exit_app
 from utils.mail.mail_settings import mail
@@ -21,6 +22,8 @@ def send_mail(subject: str, body: str, sender_name: str, recipients: list) -> di
     Returns:
         dict | None: Returns a dict with the status and message if the email was failed to send
     """
+    if not current_app.config.get("SEND_EMAILS", True):
+        return None
 
     message = Message(subject, body=body, sender=(sender_name, get_env("MAIL_USERNAME")), recipients=recipients)
 

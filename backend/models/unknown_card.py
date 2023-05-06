@@ -2,7 +2,7 @@ from models import db
 
 class UnknownCard(db.Model):
     id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         unique=True,
         nullable=False,
         primary_key=True,

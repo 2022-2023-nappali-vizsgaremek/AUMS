@@ -17,7 +17,7 @@ try: import bcrypt
 except ImportError as import_error:
     exit_app(f"Module not found: {import_error}")
 
-def register_new_user(args: dict, password: Optional[str] = None) -> dict:
+def register_new_user(args: dict, password: Optional[str] = None, return_password: bool = False) -> dict:
     """
     Backend validation and registration of a new user with email notification
 
@@ -114,6 +114,11 @@ def register_new_user(args: dict, password: Optional[str] = None) -> dict:
             "message": str(e) }, 500
 
     log.info(f"New user registered: {company_email}")
+
+    if return_password:
+        return {
+            "status": "success",
+            "message": "User successfully registered" }, 201, password
     return {
         "status": "success",
         "message": "User successfully registered" }, 201
@@ -134,9 +139,9 @@ def login_user(args: dict) -> dict:
     user = User.query.filter((User.company_email == company_email) | (User.username == company_email)).first()
 
     if not user or not bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
-        return {
-            "status": "failed",
-            "message": "Invalid company email or password" }, 401
+      return {
+          "status": "failed",
+           "message": "Invalid company email or password" }, 401
 
     token_chars = string.ascii_letters + string.digits
     access_token = "".join(Random().choice(token_chars) for i in range(128))
@@ -238,7 +243,6 @@ def change_user_password(args) -> dict:
         "status": "success",
         "message": "Password successfully changed" }, 200
 
-
 def _update_user(model, attribute, value, args) -> tuple:
     """
     Update a user
@@ -324,7 +328,6 @@ def _delete_user(model, attribute, value) -> tuple:
     return {
         "status": "success",
         "message": "User successfully deleted" }, 200
-
 
 def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple:
     username = f"{first_name.lower()}.{last_name.lower()}"

@@ -2,8 +2,8 @@
 import random
 from models import db
 from datetime import date
-from tests.test_config import test_client, init_database, add_roles_to_db
 from services.user_service import register_new_user, login_user
+from tests.test_config import test_client, init_database, add_roles_to_db
 
 def generate_valid_user_data():
     """
@@ -38,89 +38,87 @@ def connect_role_to_user(user_id: int, role_id: int):
     db.session.add(user_role)
     db.session.commit()
 
-def test_register_user_success(test_client, init_database):
-    with test_client.application.app_context():
-        add_roles_to_db()
-        
-        user_data = generate_valid_user_data()
+class TestRegisterUser:
+    def test_register_user_success(self, test_client, init_database):
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            response, status_code = register_new_user(user_data)
 
-        response, status_code = register_new_user(user_data)
+            assert status_code == 201
+            assert response["status"] == "success"
+            assert response["message"] == "User successfully registered"
 
-        assert status_code == 200
-        assert response["status"] == "success"
-        assert response["message"] == "User successfully registered"
+    def test_register_user_empty_field(self, test_client, init_database):
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            user_data["first_name"] = ""
 
-def test_register_user_empty_field(test_client, init_database):
-    with test_client.application.app_context():
-        user_data = generate_valid_user_data()
-        user_data["first_name"] = ""
+            response, status_code = register_new_user(user_data)
 
-        response, status_code = register_new_user(user_data)
+            assert status_code == 400
+            assert response["status"] == "failed"
+            assert response["message"] == "One or more fields are empty"
 
-        assert status_code == 400
-        assert response["status"] == "failed"
-        assert response["message"] == "One or more fields are empty"
+    def test_register_user_invalid_email(self, test_client, init_database):
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            user_data["personal_email"] = "invalid_email"
 
-def test_register_user_invalid_email(test_client, init_database):
-    with test_client.application.app_context():
-        user_data = generate_valid_user_data()
-        user_data["personal_email"] = "invalid_email"
+            response, status_code = register_new_user(user_data)
 
-        response, status_code = register_new_user(user_data)
+            assert status_code == 400
+            assert response["status"] == "failed"
+            assert response["message"] == "The personal email is invalid"
 
-        assert status_code == 400
-        assert response["status"] == "failed"
-        assert response["message"] == "The personal email is invalid"
+class TestLoginUser:
+    def test_login_user_success(self, test_client, init_database) -> None:
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            _, _, password = register_new_user(user_data, return_password=True)
 
+            fn = (user_data["first_name"]).lower()
+            ln = (user_data["last_name"]).lower()
 
-def test_login_user_success(test_client, init_database) -> None:
-    with test_client.application.app_context():
-        user_data = generate_valid_user_data()
-        password = "password"
-        register_new_user(user_data, password)
+            company_email = fn + "." + ln + "@proj-aums.hu"
+            login_args = {
+                "company_email": company_email,
+                "password": password
+            }
 
-        login_args = {
-            "company_email": user_data["personal_email"],
-            "password": password
-        }
+            response, status_code = login_user(login_args)
 
-        print(login_args)
+            assert status_code == 200
+            assert response["status"] == "success"
+            assert response["message"] == "User successfully logged in"
 
-        response, status_code = login_user(login_args)
+    def test_login_user_invalid_password(self, test_client, init_database) -> None:
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            register_new_user(user_data)
 
-        assert status_code == 200
-        assert response["status"] == "success"
-        assert response["message"] == "User successfully logged in"
+            login_args = {
+                "company_email": user_data["personal_email"],
+                "password": "wrong_password"
+            }
 
-def test_login_user_invalid_password(test_client, init_database) -> None:
-    with test_client.application.app_context():
-        user_data = generate_valid_user_data()
-        register_new_user(user_data)
+            response, status_code = login_user(login_args)
 
-        login_args = {
-            "company_email": user_data["personal_email"],
-            "password": "wrong_password"
-        }
+            assert status_code == 401
+            assert response["status"] == "failed"
+            assert response["message"] == "Invalid company email or password"
 
-        response, status_code = login_user(login_args)
+    def test_login_user_invalid_company_email(self, test_client, init_database) -> None:
+        with test_client.application.app_context():
+            user_data = generate_valid_user_data()
+            register_new_user(user_data)
 
-        assert status_code == 401
-        assert response["status"] == "failed"
-        assert response["message"] == "Invalid company email or password"
+            login_args = {
+                "company_email": "shady.person@injection.com",
+                "password": "password"
+            }
 
-def test_login_user_invalid_company_email(test_client, init_database) -> None:
-    with test_client.application.app_context():
-        user_data = generate_valid_user_data()
-        print(user_data)
-        register_new_user(user_data)
+            response, status_code = login_user(login_args)
 
-        login_args = {
-            "company_email": "shady.person@injection.com",
-            "password": "password"
-        }
-
-        response, status_code = login_user(login_args)
-
-        assert status_code == 401
-        assert response["status"] == "failed"
-        assert response["message"] == "Invalid company email or password"
+            assert status_code == 401
+            assert response["status"] == "failed"
+            assert response["message"] == "Invalid company email or password"

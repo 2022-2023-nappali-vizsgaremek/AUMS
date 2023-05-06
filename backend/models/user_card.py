@@ -2,7 +2,7 @@ from models import db
 
 class UserCard(db.Model):
     id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         unique=True,
         nullable=False,
         primary_key=True,
@@ -17,7 +17,7 @@ class UserCard(db.Model):
         autoincrement=False)
 
     card_id = db.Column(
-        db.SmallInteger,
+        db.Integer,
         db.ForeignKey("card.id"),
         unique=True,
         nullable=False,
