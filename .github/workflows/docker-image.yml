@@ -42,6 +42,8 @@ jobs:
         sed -i 's|http://127.0.0.1:5000/user_cards|https://api.proj-aums.hu/user_cards|' frontend/src/components/Cards.vue
         sed -i 's|http://127.0.0.1:5000/user_cards|https://api.proj-aums.hu/user_cards|' frontend/src/components/Cards.vue
         sed -i 's|http://127.0.0.1:5000/user_cards/${del_userCard.id}|https://api.proj-aums.hu/user_cards/${del_userCard.id}|' frontend/src/components/Cards.vue
+        
+        sed -i 's|http://127.0.0.1:5000/log_dump|https://api.proj-aums.hu/log_dump|' frontend/src/views/LogDumpView.vue
 
     - name: Set Up Docker Build
       uses: docker/setup-buildx-action@v1
