@@ -71,6 +71,22 @@ class Update(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Updating user")
         return service.update_user_byId(user_id, args)
+    
+class Delete(MethodResource, Resource):
+    @doc(description="Remove a user", tags=["User"])
+    def delete(self, user_id: int) -> dict:
+        """
+        Removes a user
+
+        Args:
+            user_id (int): The id of the user
+
+        Returns:
+            dict: A dictionary containing the response and the status code of the request
+        """
+
+        log.info("Removing user")
+        return service.remove_user_byId(user_id)
 
 class ChangePassword(MethodResource, Resource):
     @doc(description="Change a user's password", tags=["User"])

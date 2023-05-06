@@ -71,8 +71,9 @@
                         <i v-else class="fas fa-sort"></i>
                     </span>
                 </th>
-
-
+                <th>
+                    Remove
+                </th>
             </tr>
         </thead>
       <tbody>
@@ -85,6 +86,9 @@
             <td>{{ user.birth_date }}</td>
             <td>{{ user.phone_number }}</td>
             <td>{{ user.address }}</td>
+            <td>
+                <i role="button" class="fa fa-remove" @click.stop="removeUser(user.id)" style="font-size:48px;color:red"></i>
+            </td>
         </tr>
       </tbody>
     </table>
@@ -175,6 +179,14 @@ export default {
             fetchUsers();
         }
 
+        const removeUser = async (userId) => {
+            if(window.confirm('Are you sure you want to delete this user?') === false) return;
+            const response = await axios.delete(`http://127.0.0.1:5000/users/${userId}`, header)
+            alert(response.data.message);
+
+            fetchUsers();
+        }
+
         const formatDate = (dateString) => {
             const date = new Date(dateString);
             return date.toISOString().split('T')[0];
@@ -235,6 +247,7 @@ export default {
             toggleSort,
             sortBy,
             searchTerm,
+            removeUser
         };
     },
 };

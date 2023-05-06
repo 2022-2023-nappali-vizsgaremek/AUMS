@@ -5,6 +5,9 @@ from random import Random
 from utils.log import log
 from utils.close import exit_app
 from models.user import User, db
+from models.user_role import UserRole
+from models.schedule import Schedule
+from models.user_card import UserCard
 from utils.mail.mail import send_mail
 
 # External imports
@@ -168,6 +171,19 @@ def update_user_byId(user_id: int, args: dict) -> dict:
 
     return _update_user(User, "id", user_id, args)
 
+def remove_user_byId(user_id: int) -> dict:
+    """
+    Backend validation and removal of a user by id
+
+    Args:
+        user_id (int): The id of the user
+
+    Returns:
+        dict: A dictionary containing the response and the status code of the request
+    """
+
+    return _delete_user(User, "id", user_id)
+
 def change_user_password(args) -> dict:
     """
     Backend validation and password change of a user by id
@@ -265,6 +281,44 @@ def _update_user(model, attribute, value, args) -> tuple:
     return {
         "status": "success",
         "message": "User successfully updated" }, 200
+
+def _delete_user(model, attribute, value) -> tuple:
+    """
+    Delete a user and its related records in other tables.
+
+    Args:
+        model (Any): The model of the user
+        attribute (Any): The attribute of the user
+        value (Any): The value of the attribute
+
+    Returns:
+        tuple: The response and the status code of the request
+    """
+
+    user = model.query.filter_by(**{attribute: value}).first()
+
+    if not user:
+        return {
+            "status": "failed",
+            "message": "User not found" }, 404
+
+    UserRole.query.filter_by(user_id=user.id).delete()
+    Schedule.query.filter_by(user_id=user.id).delete()
+    UserCard.query.filter_by(user_id=user.id).delete()
+
+    db.session.delete(user)
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        return {
+            "status": "failed",
+            "message": str(e) }, 500
+
+    return {
+        "status": "success",
+        "message": "User successfully deleted" }, 200
+
 
 def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple:
     username = f"{first_name.lower()}.{last_name.lower()}"
