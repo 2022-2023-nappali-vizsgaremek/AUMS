@@ -269,10 +269,14 @@ def _update_user(model, attribute, value, args) -> tuple:
 def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple:
     username = f"{first_name.lower()}.{last_name.lower()}"
     company_email = f"{username}@proj-aums.hu"
-    
+
     invalid_chars = ["ö", "ü", "ó", "ő", "ú", "é", "á", "ű", "í"]
     valid_chars = ["o", "u", "o", "o", "u", "e", "a", "u", "i"]
-    
+
+    for i in range(len(invalid_chars)):
+        username = username.replace(invalid_chars[i], valid_chars[i])
+        company_email = company_email.replace(invalid_chars[i], valid_chars[i])
+
     while User.query.filter_by(username=username).first():
         random = Random().randint(0, 100)
         username = f"{first_name.lower()}.{last_name.lower()}{random}"
