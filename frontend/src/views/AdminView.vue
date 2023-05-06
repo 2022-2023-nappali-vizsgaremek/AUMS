@@ -91,6 +91,7 @@
 </div>
 
 <!-- Info Modal -->
+<transition name="fade">
         <div v-if="selectedUser" v-show="showInfoModal" class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -125,6 +126,7 @@
                 </div>
             </div>
         </div>
+    </transition>
   </div>
 </template>
 
