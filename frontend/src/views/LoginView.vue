@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <transition name="alert-fade">
                 <div role="alert" v-if="errorAlertVisible" style="z-index: 1000"
                     class="alert alert-danger text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
