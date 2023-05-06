@@ -168,7 +168,7 @@ def update_user_byId(user_id: int, args: dict) -> dict:
 
     return _update_user(User, "id", user_id, args)
 
-def change_user_password(user_id: int, args: dict) -> dict:
+def change_user_password(args) -> dict:
     """
     Backend validation and password change of a user by id
 
@@ -180,7 +180,42 @@ def change_user_password(user_id: int, args: dict) -> dict:
         dict: A dictionary containing the response and the status code of the request
     """
 
-    return _update_user(User, "id", user_id, args)
+    access_token = args["access_token"]
+    new_password = args["new_password"]
+    current_password = args["current_password"]
+    confirm_password = args["confirm_password"]
+
+    validations = [
+        (new_password, r'^[a-zA-Z0-9_\-\.]+$', "New password contains invalid characters"),
+        (current_password, r'^[a-zA-Z0-9_\-\.]+$', "Current password contains invalid characters"),
+        (confirm_password, r'^[a-zA-Z0-9_\-\.]+$', "Confirm password contains invalid characters")
+    ]
+
+    for value, regex, message in validations:
+        if not re.match(regex, value):
+            return {
+                "status": "failed",
+                "message": message }, 400
+
+    if new_password != confirm_password:
+        return {
+            "status": "failed",
+            "message": "New password and confirm password do not match" }, 400
+
+    user = User.query.filter_by(access_token=access_token).first()
+
+    if not user or not bcrypt.checkpw(current_password.encode("utf-8"), user.password.encode("utf-8")):
+        return {
+            "status": "failed",
+            "message": "Invalid current password" }, 401
+
+    user.password = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    db.session.commit()
+
+    return {
+        "status": "success",
+        "message": "Password successfully changed" }, 200
+
 
 def _update_user(model, attribute, value, args) -> tuple:
     """
@@ -238,13 +273,13 @@ def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple
     invalid_chars = ["ö", "ü", "ó", "ő", "ú", "é", "á", "ű", "í"]
     valid_chars = ["o", "u", "o", "o", "u", "e", "a", "u", "i"]
     
-    for i in range(len(invalid_chars)):
-        username = username.replace(invalid_chars[i], valid_chars[i])
-        company_email = company_email.replace(invalid_chars[i], valid_chars[i])
-
     while User.query.filter_by(username=username).first():
         random = Random().randint(0, 100)
         username = f"{first_name.lower()}.{last_name.lower()}{random}"
         company_email = f"{username}@proj-aums.hu"
+
+        for i in range(len(invalid_chars)):
+            username = username.replace(invalid_chars[i], valid_chars[i])
+            company_email = company_email.replace(invalid_chars[i], valid_chars[i])
 
     return username, company_email
