@@ -158,11 +158,6 @@
   /*//////////////////////////////////////////////////////////////////
   [ login ]*/
   
-  .limiter {
-    width: 100%;
-    margin: 0 auto;
-  }
-  
   .container-login100 {
     width: 100%;  
     overflow: hidden;
@@ -498,7 +493,7 @@
   [ Responsive ]*/
   @media (max-width: 992px) {
     .wrap-login100 {
-      padding: 100px 80px 33px 80px;
+      padding: 30px 20px 30px 20px;
     }
   
     .login100-pic {
@@ -519,7 +514,7 @@
   
   @media (max-width: 768px) {
     .wrap-login100 {
-      padding: 100px 80px 33px 80px;
+      padding: 30px 20px 30px 20px;
     }
   
     .login100-pic {
@@ -539,13 +534,28 @@
   }
   
   @media (max-width: 576px) {
+
+    
     .wrap-login100 {
-      padding: 100px 15px 33px 15px;
+      padding: 20px 15px 20px 15px;
     }
 
     .login100-form {
       margin: 0 auto;
-      width: 100%;
+      width: 80%;
+    }
+
+    .login100-form-title {
+      padding-bottom: 20px;
+    }
+
+    .input100 {
+      height: 50px;
+      
+    }
+
+    .login100-pic {
+      width: 50%;
     }
   }
 

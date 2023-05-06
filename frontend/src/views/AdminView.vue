@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3">
+  <div class="container mt-5 pt-5">
     <div class="d-flex flex-row-reverse">
         <input type="text" class="form-control mb-3 w-50" placeholder="Search..." v-model="searchTerm" />
     </div>
@@ -7,7 +7,7 @@
     <table class="table table-dark table-bordered table-striped table-hover bg-white text-center rounded rounded-3 overflow-hidden">
         <thead>
             <tr class="align-middle">
-                <th role="button" @click="toggleSort('id')">
+                <th role="button" class="p-3" @click="toggleSort('id')">
                     <span class="nowrap">
                         ID
                         <i v-if="sortBy.field === 'id' && sortBy.order === 'asc'" class="fas fa-sort-up"></i>

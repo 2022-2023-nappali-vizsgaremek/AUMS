@@ -1,5 +1,5 @@
 <template>
-    <div class="container text-center">
+    <div class="container text-center pt-5 mt-5">
       <div>
         <Cards ref="activeCardsComponent" />
       </div>

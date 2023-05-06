@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container pt-5 mt-5">
         <transition name="alert-fade">
             <div role="alert" v-if="errorAlertVisible"
                     class="alert alert-danger text-center shadow mx-auto rounded rounded-3 mb-5 w-75 fs-5 alert-fade">
