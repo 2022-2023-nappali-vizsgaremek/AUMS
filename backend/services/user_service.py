@@ -1,12 +1,14 @@
 # Local imports
 import re
 import string
-from random import Random
 from utils.log import log
+from datetime import date
+from random import Random
+from typing import Optional
 from utils.close import exit_app
 from models.user import User, db
-from models.user_role import UserRole
 from models.schedule import Schedule
+from models.user_role import UserRole
 from models.user_card import UserCard
 from utils.mail.mail import send_mail
 
@@ -15,7 +17,7 @@ try: import bcrypt
 except ImportError as import_error:
     exit_app(f"Module not found: {import_error}")
 
-def register_new_user(args: dict) -> dict:
+def register_new_user(args: dict, password: Optional[str] = None) -> dict:
     """
     Backend validation and registration of a new user with email notification
 
@@ -62,6 +64,9 @@ def register_new_user(args: dict) -> dict:
     ]
 
     for value, pattern, error_message in validations:
+        if isinstance(value, date):
+            value = value.isoformat()
+
         if not re.match(pattern, value):
             return {
                 "status": "failed",
@@ -75,8 +80,9 @@ def register_new_user(args: dict) -> dict:
 
     username, company_email = generate_unique_username_and_email(first_name, last_name)
 
-    pw_characters = string.ascii_letters + string.digits
-    password = "".join(Random().choice(pw_characters) for i in range(8))
+    if password is None:
+        pw_characters = string.ascii_letters + string.digits
+        password = "".join(Random().choice(pw_characters) for i in range(8))
 
     hashed =  bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
     user = User(first_name=first_name, last_name=last_name, birth_date=birth_date, phone_number=phone_number, address=address, company_email=company_email, personal_email=personal_email, username=username, password=hashed)

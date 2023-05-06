@@ -49,10 +49,39 @@ def init_database(test_client):
             create_database(engine)
 
         db.create_all()
+        add_roles_to_db()
         db.session.commit()
 
         yield
         db.drop_all()
+
+def add_roles_to_db():
+    """
+    Add roles to database
+    """
+
+    from models.role import Role
+
+    role1 = Role(id=1, name="Admin", level=5)
+    role2 = Role(id=2, name="User", level=1)
+
+    db.session.add(role1)
+    db.session.add(role2)
+
+def connect_role_to_user(user_id: int, role_id: int):
+    """
+    Connect role to user
+
+    Args:
+        user_id (int): The id of the user
+        role_id (int): The id of the role
+    """
+
+    from models.user_role import UserRole
+
+    user_role = UserRole(user_id=user_id, role_id=role_id)
+    db.session.add(user_role)
+    db.session.commit()
 
 def test_app_config(test_client):
     """

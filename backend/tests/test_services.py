@@ -1,130 +1,106 @@
 # Local imports
+import random
 from datetime import date
 from tests.test_config import test_client, init_database
 from services.user_service import register_new_user, login_user
 
-def register_user_args() -> dict:
+def generate_valid_user_data():
     """
-    Creates an argument dictionary for testing user registration
+    Generate valid user data
 
     Returns:
-        dict: A dictionary containing the arguments for testing user registration
+        dict: A dictionary containing valid user data
     """
 
-    args = {
-        "first_name": "Test",
-        "last_name": "User",
-        "birth_date": date(1999, 1, 1),
-        "phone_number": "12345678",
-        "address": "123 Test St.",
-        "personal_email": "user.email@gmail.com",
-        "username": "test_user",
-        "password": "password"
+    return {
+        "address": "123 Example St.",
+        "last_name": "Doe",
+        "first_name": "John",
+        "birth_date": date(1990, 1, 1),
+        "role_level": random.randint(1, 5),
+        "phone_number": "12345678901",
+        "personal_email": "john.doe@example.com",
     }
 
-    return args
-
-def login_user_args() -> dict:
-    """
-    Creates an argument dictionary for testing user login
-
-    Returns:
-        dict: A dictionary containing the arguments for testing user login
-    """
-
-    args = {
-        "company_email": "test.user@proj-aums.hu",
-        "password": "password"
-    }
-
-    return args
-
-def test_register_user(test_client, init_database) -> None:
-    """
-    Test user registration with valid data
-
-    Args:
-        test_client (FlaskClient): A test client
-        init_database (Database): A database instance
-    """
-
+def test_register_user_success(test_client, init_database):
     with test_client.application.app_context():
-        response, status_code = register_new_user(register_user_args())
+        user_data = generate_valid_user_data()
+        response, status_code = register_new_user(user_data)
 
         assert status_code == 201
         assert response["status"] == "success"
         assert response["message"] == "User successfully registered"
 
-def test_register_user_wrong_fields(test_client, init_database) -> None:
-    """
-    Test user registration with wrong fields
-
-    Args:
-        test_client (FlaskClient): A test client
-        init_database (Database): A database instance
-    """
-
-    modified_args = register_user_args()
-    modified_args["username"] = ""
-
-    response, status_code = register_new_user(modified_args)
-
-    assert status_code == 400
-    assert response["status"] == "failed"
-    assert response["message"] == "All fields are required"
-
-def test_login_user(test_client, init_database) -> None:
-    """
-    Test user login with valid data
-
-    Args:
-        test_client (FlaskClient): A test client
-        init_database (Database): A database instance
-    """
-
+def test_register_user_empty_field(test_client, init_database):
     with test_client.application.app_context():
-        register_new_user(register_user_args())
-        response, status_code = login_user(login_user_args())
+        user_data = generate_valid_user_data()
+        user_data["first_name"] = ""
+
+        response, status_code = register_new_user(user_data)
+
+        assert status_code == 400
+        assert response["status"] == "failed"
+        assert response["message"] == "One or more fields are empty"
+
+def test_register_user_invalid_email(test_client, init_database):
+    with test_client.application.app_context():
+        user_data = generate_valid_user_data()
+        user_data["personal_email"] = "invalid_email"
+
+        response, status_code = register_new_user(user_data)
+
+        assert status_code == 400
+        assert response["status"] == "failed"
+        assert response["message"] == "The personal email is invalid"
+
+
+def test_login_user_success(test_client, init_database) -> None:
+    with test_client.application.app_context():
+        user_data = generate_valid_user_data()
+        password = "password"  # The password we want to use for testing
+        register_new_user(user_data, password)
+
+        login_args = {
+            "company_email": user_data["personal_email"],
+            "password": password
+        }
+
+        print(login_args)
+
+        response, status_code = login_user(login_args)
 
         assert status_code == 200
         assert response["status"] == "success"
         assert response["message"] == "User successfully logged in"
 
 def test_login_user_invalid_password(test_client, init_database) -> None:
-    """
-    Test user login with invalid password
-
-    Args:
-        test_client (FlaskClient): A test client
-        init_database (Database): A database instance
-    """
-
     with test_client.application.app_context():
-        register_new_user(register_user_args())
+        user_data = generate_valid_user_data()
+        register_new_user(user_data)
 
-        modified_args = login_user_args()
-        modified_args["password"] = "wrong_password"
-        response, status_code = login_user(modified_args)
+        login_args = {
+            "company_email": user_data["personal_email"],
+            "password": "wrong_password"
+        }
+
+        response, status_code = login_user(login_args)
 
         assert status_code == 401
         assert response["status"] == "failed"
         assert response["message"] == "Invalid company email or password"
 
 def test_login_user_invalid_company_email(test_client, init_database) -> None:
-    """
-    Test user login with invalid company email
-
-    Args:
-        test_client (FlaskClient): A test client
-        init_database (Database): A database instance
-    """
-
     with test_client.application.app_context():
-        register_new_user(register_user_args())
+        user_data = generate_valid_user_data()
+        print(user_data)
+        register_new_user(user_data)
 
-        modified_args = login_user_args()
-        modified_args["company_email"] = "shady.person@injection.com"
-        response, status_code = login_user(modified_args)
+        login_args = {
+            "company_email": "shady.person@injection.com",
+            "password": "password"
+        }
+
+        response, status_code = login_user(login_args)
 
         assert status_code == 401
         assert response["status"] == "failed"
