@@ -3,6 +3,7 @@ from utils.log import log
 from utils.close import exit_app
 import services.index_service as service
 from services.index_service import auth_required
+from services.index_service import role_level_required
 
 try:
     # External imports
@@ -27,6 +28,7 @@ class Index(MethodResource, Resource):
 
 class IsAuthenticated(MethodResource, Resource):
     @auth_required
+    @role_level_required(2)
     def post(self, access_token: str) -> dict:
         """
         Check if user is authenticated
@@ -38,6 +40,8 @@ class IsAuthenticated(MethodResource, Resource):
         return service.is_authenticated(access_token)
 
 class LogDump(MethodResource, Resource):
+    @auth_required
+    @role_level_required(5)
     def get(self) -> dict:
         """
         Get log dump
