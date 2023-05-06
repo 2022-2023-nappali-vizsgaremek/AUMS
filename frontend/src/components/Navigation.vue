@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg sticky-top">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand text-white" href="/login">AUMS</a>
-      <div class="navicon" @click="closeNavbar">
+      <a class="navbar-brand text-white ms-2" href="/login">AUMS</a>
+      <div class="navicon me-2" @click="closeNavbar">
         <div class="burger burgerIcon navbar-toggler">
           <input class="hidden" id="burgerIcon" type="checkbox"/><span></span>
         </div>
@@ -91,7 +91,7 @@
     width: 3rem;
     height: 3rem;
     border-radius: 3px;
-    box-shadow: 0 0 4.1666666667vw rgba(214, 51, 132, 0.25), 0 0 0.8333333333vw rgba(214, 51, 132, 0.1);
+    box-shadow: 0 0 4.1666666667vw rgba(0, 0, 0, 0.25), 0 0 0.8333333333vw rgba(214, 51, 132, 0.1);
     margin: 0.5rem;
   }
   .burger span {

@@ -1,7 +1,7 @@
 <template>
-  <div class="my-3 mx-5 center-select">
+  <div class="mx-5 center-select pt-5 mt-5">
     <select
-      class="form-select select-custom"
+      class="form-select select-custom mt-2"
       id="userSelect"
       v-model="selectedUserId" 
       required @change="loadEventsByUser(selectedUserId)">
@@ -154,7 +154,13 @@
       
       async loadEventsByUser(userid) {
         let events = [];
-        const response = await axios.get('http://127.0.0.1:5000/schedule', header);
+        const response = await axios.get('http://127.0.0.1:5000/schedule', header)
+        .catch(error => {
+          if(error.response.status == 404){
+            alert('No schedule found for this user');
+          }
+        });
+        
         const raw_events = response.data;
         let colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 		                  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',

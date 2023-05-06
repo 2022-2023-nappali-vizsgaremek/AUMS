@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <transition name="alert-fade">
@@ -109,6 +110,13 @@
                     </div>
                 </div>
             </div>
+=======
+  <div class="h-100 d-flex align-items-center justify-content-center p-2">
+    <div class="container-login100">
+      <div class="wrap-login100 justify-content-center">
+        <div class="login100-pic" data-tilt v-if="!isAuthenticated">
+          <img src="../images/img-01.png" alt="IMG">
+>>>>>>> 5285f15c27c0126b4d8c963aa1fd080f0f293dcb
         </div>
 
         <div class="modal fade  blur" :class="{ show: showModal }" tabindex="-1"
