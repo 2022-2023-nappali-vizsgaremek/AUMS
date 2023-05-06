@@ -125,7 +125,9 @@ with app.app_context():
 
             from models.role import Role
             base_user_role = Role(name="Base User", level=1); db.session.add(base_user_role)
-            authenticated_user_role = Role(name="Authenticated User", level=2); db.session.add(authenticated_user_role)
+            authorized_user_role = Role(name="Authorized User", level=2); db.session.add(authorized_user_role)
+            secretary_role = Role(name="Secretary", level=3); db.session.add(secretary_role)
+            manager_role = Role(name="Manager", level=4); db.session.add(manager_role)
             admin_role = Role(name="Admin", level=5); db.session.add(admin_role)
             db.session.commit()
 

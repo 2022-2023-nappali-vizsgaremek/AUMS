@@ -3,6 +3,7 @@ from utils.log import log
 from utils.close import exit_app
 import services.user_card_service as service
 from services.index_service import auth_required
+from services.index_service import role_level_required
 
 try:
     # External imports
@@ -17,6 +18,7 @@ parser.add_argument("user_id", type=int)
 class UserCard(MethodResource, Resource):
     @doc(description="Connect card to user", tags=["UserCard"])
     @auth_required
+    @role_level_required(5)
     def post(self) -> dict:
         """
         Connect card to user
@@ -33,6 +35,7 @@ class UserCard(MethodResource, Resource):
 
     @doc(description="Get all user cards", tags=["UserCard"])
     @auth_required
+    @role_level_required(5)
     def get(self) -> dict:
         """
         Get all user cards
@@ -46,6 +49,7 @@ class UserCard(MethodResource, Resource):
 
     @doc(description="Delete user-card connection", tags=["UserCard"])
     @auth_required
+    @role_level_required(5)
     def delete(self, id: int) -> dict:
         """
         Delete user-card connection
@@ -60,6 +64,7 @@ class UserCard(MethodResource, Resource):
 class Users(MethodResource, Resource):
     @doc(description="Get users", tags=["Users"])
     @auth_required
+    @role_level_required(5)
     def get(self) -> dict:
         """
         Get users

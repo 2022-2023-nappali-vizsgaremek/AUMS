@@ -3,6 +3,7 @@ from utils.log import log
 from utils.close import exit_app
 import services.user_service as service
 from services.index_service import auth_required
+from services.index_service import role_level_required
 
 try:
     # External imports
@@ -29,6 +30,7 @@ parser.add_argument("current_password", type=str)
 class Register(MethodResource, Resource):
     @doc(description="Register a new user", tags=["User"])
     @auth_required
+    @role_level_required(5)
     def post(self) -> dict:
         """
         Registers a new user
@@ -57,6 +59,8 @@ class Login(MethodResource, Resource):
 
 class Update(MethodResource, Resource):
     @doc(description="Update a user", tags=["User"])
+    @auth_required
+    @role_level_required(5)
     def patch(self, user_id: int) -> dict:
         """
         Updates a user
@@ -71,9 +75,11 @@ class Update(MethodResource, Resource):
         args = parser.parse_args()
         log.info("Updating user")
         return service.update_user_byId(user_id, args)
-    
+
 class Delete(MethodResource, Resource):
     @doc(description="Remove a user", tags=["User"])
+    @auth_required
+    @role_level_required(5)
     def delete(self, user_id: int) -> dict:
         """
         Removes a user
@@ -91,6 +97,7 @@ class Delete(MethodResource, Resource):
 class ChangePassword(MethodResource, Resource):
     @doc(description="Change a user's password", tags=["User"])
     @auth_required
+    @role_level_required(1)
     def post(self) -> dict:
         """
         Changes a user's password

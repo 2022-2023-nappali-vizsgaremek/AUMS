@@ -11,6 +11,29 @@ def auth_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def role_level_required(required_role):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            header_data = request.headers.get('Authorization')
+            access_token = header_data.split(' ')[1]
+
+            if access_token and is_authenticated(access_token)[0]["status"] == "success":
+                from models.user import User
+                from models.role import Role
+                from models.user_role import UserRole
+
+                user = User.query.filter_by(access_token=access_token).first()
+                user_role_id = UserRole.query.filter_by(user_id=user.id).first().role_id
+                user_role_level = Role.query.filter_by(id=user_role_id).first().level
+
+                if user_role_level < required_role:
+                    return make_response(jsonify({'message': 'Insufficient role level'}), 401)
+            else: return make_response(jsonify({'message': 'Invalid or missing access token'}), 401)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 def get_index_message() -> dict:
     """
     Returns the message of the index page
