@@ -5,7 +5,6 @@ import { createApp } from 'vue'
 import "../src/assets/form.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import 'bootstrap';
 
 const app = createApp(App)
 
