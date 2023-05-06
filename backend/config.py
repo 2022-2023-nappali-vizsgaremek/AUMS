@@ -38,4 +38,7 @@ class Production(Base):
         Base (object): Base configurations
     """
 
-    SQLALCHEMY_DATABASE_URI = get_env("PRODUCTION_DATABASE_URI")
+    try:
+        SQLALCHEMY_DATABASE_URI = get_env("PRODUCTION_DATABASE_URI")
+    except SystemExit:
+        SQLALCHEMY_DATABASE_URI = None
