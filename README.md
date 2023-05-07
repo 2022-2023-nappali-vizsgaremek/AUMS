@@ -62,7 +62,7 @@ A projekt célja egy egyszerű, de könnyen használható beléptető és felhas
   - A kezelői felület elérhető a https://proj-aums.hu/ címen keresztül.
   - Ehhez továbbá tartozik a https://pma.proj-aums.hu/ amely a phpMyAdmin felületet adja meg.
   - Illetve a https://api.proj-aums.hu/ alap megadásával érhetőek el a különböző backend API endpointok.
-  - Végül a https://email.proj-aums.hu/ átirányítja a felhasználókat a belső levelezési rendszer oldalára.
+  - Végül a https://mail.proj-aums.hu/ átirányítja a felhasználókat a belső levelezési rendszer oldalára.
 ### GitHub
   - A GitHub tartalmazza a projekt forráskódját, illetve az itt megtalálható action végzi az új kiadások ellenőrzését és feltöltését a szerverre.
   - Továbbá a GitHub action feladata a desktop alkalmazás ellenőrzuése és telepítő készletének létrehozása, amit Release elemként csatol a projekt oldalához.
