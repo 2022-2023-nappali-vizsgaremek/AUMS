@@ -140,7 +140,7 @@
     .burger span:before { top: -0.525rem; }
 
     .navicon { display: flex; }
-    .burgerIcon input:checked + span:before, .burgerIcon input:checked + span:afte
+    .burgerIcon input:checked + span:before, .burgerIcon input:checked + span:after
     {
         top: 0px;
         margin-top: -0.5875rem;
