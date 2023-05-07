@@ -4,7 +4,8 @@
             <div class="text-center col-12 mt-5 ">
                 <select id="userSelect" v-model="selectedUserId"
                     required @change="loadEventsByUser(selectedUserId)"
-                    class="form-select shadow rounded text-center mx-auto w-50 rounded-3 fs-5 mt-5 mb-3 p-3">
+                    class="form-select shadow rounded bg-dark bg-opacity-50 text-light blur
+                    text-center mx-auto w-50 rounded-3 fs-5 mt-5 mb-3 p-3">
 
                 <option disabled value="">SELECT A USER</option>
                 <option v-for="user in users.value" :key="user.id" :value="user.id">

@@ -169,31 +169,31 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
-    import axios from 'axios';
+    import { ref } from "vue";
+    import axios from "axios";
 
     const alertMessage = ref();
     const errorAlertVisible = ref(false);
     const successAlertVisible = ref(false);
 
-    const email = ref('');
-    const password = ref('');
+    const email = ref("");
+    const password = ref("");
     const showModal = ref(false);
     const isAuthenticated = ref(false);
 
-    const newPassword = ref('');
-    const currentPassword = ref('');
-    const confirmPassword = ref('');
+    const newPassword = ref("");
+    const currentPassword = ref("");
+    const confirmPassword = ref("");
 
     const currentUser = ref(
     {
-        name: localStorage.getItem('name'),
-        address: localStorage.getItem('address'),
-        username: localStorage.getItem('username'),
-        birth_date: localStorage.getItem('birth_date'),
-        phone_number: localStorage.getItem('phone_number'),
-        company_email: localStorage.getItem('company_email'),
-        personal_email: localStorage.getItem('personal_email'),
+        name: localStorage.getItem("name"),
+        address: localStorage.getItem("address"),
+        username: localStorage.getItem("username"),
+        birth_date: localStorage.getItem("birth_date"),
+        phone_number: localStorage.getItem("phone_number"),
+        company_email: localStorage.getItem("company_email"),
+        personal_email: localStorage.getItem("personal_email"),
     });
 
     const usernameRegex = /^[a-zA-Z0-9_\-\.]+$/;
@@ -224,7 +224,7 @@
             company_email: email.value,
         };
 
-        const response = await axios.post('http://127.0.0.1:5000/login', data).catch((error) =>
+        const response = await axios.post("http://127.0.0.1:5000/login", data).catch((error) =>
         {
             alertMessage.value = error.response.data.message.toUpperCase();
             setTimeout(() => { errorAlertVisible.value = false; }, 3000);
@@ -236,15 +236,15 @@
             {
                 isAuthenticated.value = true;
 
-                localStorage.setItem('name', response.data["name"]);
-                localStorage.setItem('address', response.data["address"]);
-                localStorage.setItem('username', response.data["username"]);
-                localStorage.setItem('role_level', response.data["role_level"]);
-                localStorage.setItem('birth_date', response.data["birth_date"]);
-                localStorage.setItem('phone_number', response.data["phone_number"]);
-                localStorage.setItem('access_token', response.data["access_token"]);
-                localStorage.setItem('company_email', response.data["company_email"]);
-                localStorage.setItem('personal_email', response.data["personal_email"]);
+                localStorage.setItem("name", response.data["name"]);
+                localStorage.setItem("address", response.data["address"]);
+                localStorage.setItem("username", response.data["username"]);
+                localStorage.setItem("role_level", response.data["role_level"]);
+                localStorage.setItem("birth_date", response.data["birth_date"]);
+                localStorage.setItem("phone_number", response.data["phone_number"]);
+                localStorage.setItem("access_token", response.data["access_token"]);
+                localStorage.setItem("company_email", response.data["company_email"]);
+                localStorage.setItem("personal_email", response.data["personal_email"]);
 
                 location.reload();
             }
@@ -282,16 +282,16 @@
             new_password: newPassword.value,
             current_password: currentPassword.value,
             confirm_password: confirmPassword.value,
-            access_token: localStorage.getItem('access_token'),
+            access_token: localStorage.getItem("access_token"),
         };
 
         const header =
         {
             headers:
-            { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
+            { "Authorization": "Bearer " + localStorage.getItem("access_token") }
         };
 
-        const response = await axios.post('http://127.0.0.1:5000/change_password', data, header).catch((error) =>
+        const response = await axios.post("http://127.0.0.1:5000/change_password", data, header).catch((error) =>
         {
             alertMessage.value = error.response.data.message.toUpperCase();
             setTimeout(() => { errorAlertVisible.value = false; }, 3000);
@@ -319,11 +319,11 @@
 
     const logout = () =>
     {
-        localStorage.removeItem('access_token');
+        localStorage.removeItem("access_token");
         isAuthenticated.value = false;
         location.reload();
     };
-    if (localStorage.getItem('access_token'))  isAuthenticated.value = true
+    if (localStorage.getItem("access_token"))  isAuthenticated.value = true
 </script>
 
 <style>
@@ -400,10 +400,7 @@
         background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .fade-enter-from,
-    .fade-leave-to { opacity: 0; }
-    .fade-enter-to,
-    .fade-leave-from { opacity: 1; }
-    .fade-enter-active,
-    .fade-leave-active { transition: opacity 0.25s; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; }
+    .fade-enter-to, .fade-leave-from { opacity: 1; }
+    .fade-enter-active, .fade-leave-active { transition: opacity 0.25s; }
 </style>

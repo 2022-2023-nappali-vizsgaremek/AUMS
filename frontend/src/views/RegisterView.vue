@@ -106,22 +106,22 @@
 </template>
 
 <script setup>
-    import axios from 'axios';
-    import { ref, computed } from 'vue';
+    import axios from "axios";
+    import { ref } from "vue";
 
     const header =
     {
         headers:
-        { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
+        { "Authorization": "Bearer " + localStorage.getItem("access_token") }
     };
 
-    const phone = ref('');
-    const email = ref('');
-    const address = ref('');
-    const lastName = ref('');
-    const firstName = ref('');
-    const birthDate = ref('');
-    const roleLevel = ref('');
+    const phone = ref("");
+    const email = ref("");
+    const address = ref("");
+    const lastName = ref("");
+    const firstName = ref("");
+    const birthDate = ref("");
+    const roleLevel = ref("");
 
     let alertMessage = ref();
     let errorAlertVisible = ref(false);
@@ -132,9 +132,9 @@
         const roleRegex = /^[1-5]$/;
         const phoneRegex = /^\d{11}$/;
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-        const addressRegex = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+        const addressRegex = /^[a-zA-Z0-9\s,."-]{3,}$/;
         const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-        const nameRegex = /^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$/;
+        const nameRegex = /^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\" ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$/;
 
         if (!nameRegex.test(firstName.value))
         {
@@ -203,7 +203,7 @@
             role_level: roleLevel.value
         };
 
-        const response = await axios.post('http://127.0.0.1:5000/register', data, header)
+        const response = await axios.post("http://127.0.0.1:5000/register", data, header)
         .catch((error) =>
         {
             if (error.response)
@@ -223,7 +223,7 @@
                 setTimeout(() =>
                 {
                     successAlertVisible.value = false;
-                    window.location.href = '/login';
+                    window.location.href = "/login";
                 }, 3000);
             }
             else
