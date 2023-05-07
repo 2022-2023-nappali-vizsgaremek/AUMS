@@ -118,7 +118,7 @@ def register_new_user(args: dict, password: Optional[str] = None, return_passwor
     if return_password:
         return {
             "status": "success",
-            "message": "User successfully registered" }, 201, password
+            "message": "User successfully registered" }, 201, password, username
     return {
         "status": "success",
         "message": "User successfully registered" }, 201

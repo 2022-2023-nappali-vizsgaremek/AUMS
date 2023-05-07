@@ -106,14 +106,10 @@ class TestLoginUser:
 
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
-            _, _, password = register_new_user(user_data, return_password=True)
+            _, _, password, username = register_new_user(user_data, return_password=True)
 
-            fn = (user_data["first_name"]).lower()
-            ln = (user_data["last_name"]).lower()
-
-            company_email = fn + "." + ln + "@proj-aums.hu"
             login_args = {
-                "company_email": company_email,
+                "company_email": username,
                 "password": password
             }
 
