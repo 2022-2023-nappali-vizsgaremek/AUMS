@@ -126,24 +126,24 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { ref, computed } from 'vue';
+import axios from "axios";
+import { ref, computed } from "vue";
 
 const header =
 {
     headers:
-    { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
+    { "Authorization": "Bearer " + localStorage.getItem("access_token") }
 };
 
 const users = ref([]);
 const selectedUser = ref();
-const searchTerm = ref('');
+const searchTerm = ref("");
 const showInfoModal = ref(false);
-const sortBy = ref({ field: '', order: 'asc' });
+const sortBy = ref({ field: "", order: "asc" });
 
 const fetchUsers = async () =>
 {
-    const response = await axios.get('http://127.0.0.1:5000/users', header)
+    const response = await axios.get("http://127.0.0.1:5000/users", header)
     response.data.forEach(user => { user.birth_date = formatDate(user.birth_date); });
 
     users.value = response.data;
@@ -158,8 +158,8 @@ const updateUser = async () =>
         birth_date: selectedUser.value.birth_date,
         phone_number: selectedUser.value.phone_number,
         company_email: selectedUser.value.company_email,
-        last_name: selectedUser.value.name.split(' ')[1],
-        first_name: selectedUser.value.name.split(' ')[0],
+        last_name: selectedUser.value.name.split(" ")[1],
+        first_name: selectedUser.value.name.split(" ")[0],
         personal_email: selectedUser.value.personal_email,
     }
 
@@ -172,7 +172,7 @@ const updateUser = async () =>
 
 const removeUser = async (userId) =>
 {
-    if(window.confirm('Are you sure you want to delete this user?') === false) return;
+    if(window.confirm("Are you sure you want to delete this user?") === false) return;
     const response = await axios.delete(`http://127.0.0.1:5000/users/${userId}`, header)
     alert(response.data.message);
 
@@ -182,7 +182,7 @@ const removeUser = async (userId) =>
 const formatDate = (dateString) =>
 {
     const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
 };
 
 const openInfoModal = (userId) =>
@@ -196,11 +196,11 @@ const closeInfoModal = () =>
 
 const toggleSort = (field) =>
 {
-    if (sortBy.value.field === field) sortBy.value.order = sortBy.value.order === 'asc' ? 'desc' : 'asc';
+    if (sortBy.value.field === field) sortBy.value.order = sortBy.value.order === "asc" ? "desc" : "asc";
     else
     {
         sortBy.value.field = field;
-        sortBy.value.order = 'asc';
+        sortBy.value.order = "asc";
     }
 };
 
@@ -208,19 +208,19 @@ const filteredUsers = computed(() =>
 {
     let filtered = users.value;
 
-    if (searchTerm.value !== '')
+    if (searchTerm.value !== "")
     {
         filtered = filtered.filter((user) =>
         Object.values(user).some((value) =>
             String(value).toLowerCase().includes(searchTerm.value.toLowerCase()) ));
     }
 
-    if (sortBy.value.field !== '')
+    if (sortBy.value.field !== "")
     {
         filtered.sort((a, b) =>
         {
-            if (a[sortBy.value.field] < b[sortBy.value.field]) return sortBy.value.order === 'asc' ? -1 : 1;
-            if (a[sortBy.value.field] > b[sortBy.value.field]) return sortBy.value.order === 'asc' ? 1 : -1;
+            if (a[sortBy.value.field] < b[sortBy.value.field]) return sortBy.value.order === "asc" ? -1 : 1;
+            if (a[sortBy.value.field] > b[sortBy.value.field]) return sortBy.value.order === "asc" ? 1 : -1;
             return 0;
         });
     }

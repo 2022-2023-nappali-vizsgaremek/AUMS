@@ -337,7 +337,7 @@ watchEffect(() => {
 }
 
 .alert-danger{
-  background-color: rgba(203, 11, 1, 0.75);
+  background-color: rgba(203, 11, 1, 0.30);
   border-color: #cb0b01;
   color: #fff;
 }

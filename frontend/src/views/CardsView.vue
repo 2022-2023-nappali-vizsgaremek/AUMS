@@ -11,9 +11,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import Cards from '../components/Cards.vue';
-import UnknownCards from '../components/UnknownCards.vue';
+import { ref } from "vue";
+import Cards from "../components/Cards.vue";
+import UnknownCards from "../components/UnknownCards.vue";
 
 const activeCardsComponent = ref(null);
 
