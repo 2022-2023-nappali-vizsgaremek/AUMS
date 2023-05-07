@@ -51,9 +51,9 @@
     {
         if(window.innerWidth > 992) return;
 
+        const navbarCollapseElement = document.getElementById("navbarCollapse");
         const collapseInstance = new Collapse(navbarCollapseElement);
         const burgerCheckbox = document.getElementById("burgerIcon");
-        const navbarCollapseElement = document.getElementById("navbarCollapse");
 
         burgerInput.value = !burgerInput.value;
 
