@@ -120,22 +120,22 @@
 </template>
 
 <script setup>
-    import axios from 'axios';
-    import { ref, computed, watchEffect } from 'vue';
+    import axios from "axios";
+    import { ref, computed, watchEffect } from "vue";
 
     const header =
     {
         headers:
-        { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
+        { "Authorization": "Bearer " + localStorage.getItem("access_token") }
     };
 
-    const msg = ref('');
+    const msg = ref("");
     const users = ref([]);
     const cards = ref([]);
     const userCards = ref([]);
-    const cardNumber = ref('');
+    const cardNumber = ref("");
     const showInfo = ref(false);
-    const selectedUserId = ref('');
+    const selectedUserId = ref("");
     const unassignedUsers = ref([]);
     const selectedCardId = ref(null);
     const showModifyCardModal = ref(false);
@@ -147,7 +147,7 @@
 
     const fetchCards = async () =>
     {
-        const response = await axios.get('http://127.0.0.1:5000/cards', header)
+        const response = await axios.get("http://127.0.0.1:5000/cards", header)
         .then((response) =>
         {
             msg.value = "ACTIVE CARDS"
@@ -172,7 +172,7 @@
 
     const fetchUserCards = async () =>
     {
-        const response = await axios.get('http://127.0.0.1:5000/user_cards', header).
+        const response = await axios.get("http://127.0.0.1:5000/user_cards", header).
         then((response) => {userCards.value = response.data; })
         .catch((error) => {})
     };
