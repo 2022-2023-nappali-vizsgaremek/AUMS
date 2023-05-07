@@ -116,9 +116,9 @@ onUnmounted(() => { clearInterval(intervalId); });
 </script>
 
 <style scoped>
-    .log-warning { background-color: #f0ad4e; }
     .log-error { background-color: #d9534f; }
     .log-info { background-color: #2bacd469; }
+    .log-warning { background-color: #f0ad4e; }
 
     .table tbody tr td:nth-child(2) { font-weight: bold; }
     .table tbody tr td:last-child { word-break: break-word; }

@@ -1,9 +1,9 @@
 <template>
-    <div class="container mt-5 pt-5">
+    <div class="container-fluid mt-5 pt-5">
         <div class="d-flex flex-row-reverse">
-            <input type="text" class="form-control mb-3 w-50" placeholder="Search..." v-model="searchTerm" />
+            <input type="text" class="form-control shadow mx-auto p-2 mb-3 w-50" placeholder="Search" v-model="searchTerm" />
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive p-5">
             <table class="table table-dark table-bordered table-striped table-hover bg-white text-center rounded rounded-3 overflow-hidden">
                 <thead>
                     <tr class="align-middle">
@@ -60,7 +60,7 @@
                             <span class="nowrap">
                                 Address
                                 <i v-if="sortBy.field === 'address'" :class="sortBy.order === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'"></i>
-                                <i v-else class="fas fa-sort"></i>
+                            <i v-else class="fas fa-sort"></i>
                             </span>
                         </th>
                         <th>
@@ -79,17 +79,16 @@
                         <td>{{ user.phone_number }}</td>
                         <td>{{ user.address }}</td>
                         <td>
-                            <i role="button" class="fa fa-remove" @click.stop="removeUser(user.id)" style="font-size:48px;color:red"></i>
+                            <i role="button" class="fa fa-remove" @click.stop="removeUser(user.id)" style="font-size:35px;color:red"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Info Modal -->
         <transition name="fade">
             <div v-if="selectedUser" v-show="showInfoModal" class="modal" tabindex="-1">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Update user</h5>
@@ -109,7 +108,7 @@
 
                                     <label for="address" class="form-label">Address</label>
                                     <input type="text" class="form-control" id="address" v-model="selectedUser.address">
-                                    
+
                                     <label for="personal_email" class="form-label">Personal Email</label>
                                     <input type="email" class="form-control" id="personal_email" v-model="selectedUser.personal_email">
                                 </div>
@@ -126,148 +125,130 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
 import { ref, computed } from 'vue';
 
-export default {
-    setup() {
-
-        const header = {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-            }
-        };
-
-        const users = ref([]);
-        const sortBy = ref({ field: '', order: 'asc' });
-        const selectedUser = ref();
-        const searchTerm = ref('');
-        const showInfoModal = ref(false);
-
-        const fetchUsers = async () => {
-            const response = await axios.get('http://127.0.0.1:5000/users', header)
-                response.data.forEach(user => {
-                    user.birth_date = formatDate(user.birth_date);
-                });
-                users.value = response.data;
-        }
-
-        const updateUser = async () => {
-            const data = {
-                first_name: selectedUser.value.name.split(' ')[0],
-                last_name: selectedUser.value.name.split(' ')[1],
-                username: selectedUser.value.username,
-                birth_date: selectedUser.value.birth_date,
-                phone_number: selectedUser.value.phone_number,
-                address: selectedUser.value.address,
-                company_email: selectedUser.value.company_email,
-                personal_email: selectedUser.value.personal_email,
-            }
-            const response = await axios.patch(`http://127.0.0.1:5000/users/${selectedUser.value.id}`, data, header)
-            .catch((error) => {
-                console.log(error);
-            });
-            fetchUsers();
-        }
-
-        const removeUser = async (userId) => {
-            if(window.confirm('Are you sure you want to delete this user?') === false) return;
-            const response = await axios.delete(`http://127.0.0.1:5000/users/${userId}`, header)
-            alert(response.data.message);
-
-            fetchUsers();
-        }
-
-        const formatDate = (dateString) => {
-            const date = new Date(dateString);
-            return date.toISOString().split('T')[0];
-        };
-
-        const openInfoModal = (userId) => {
-            selectedUser.value = users.value.find(user => user.id === userId);
-            showInfoModal.value = true;
-        };
-
-        const closeInfoModal = () => {
-            showInfoModal.value = false;
-        };
-
-        const toggleSort = (field) => {
-            if (sortBy.value.field === field) {
-                sortBy.value.order = sortBy.value.order === 'asc' ? 'desc' : 'asc';
-            } else {
-                sortBy.value.field = field;
-                sortBy.value.order = 'asc';
-            }
-        };
-
-        const filteredUsers = computed(() => {
-            let filtered = users.value;
-
-            if (searchTerm.value !== '') {
-                filtered = filtered.filter((user) =>
-                Object.values(user).some((value) =>
-                    String(value).toLowerCase().includes(searchTerm.value.toLowerCase())
-                )
-                );
-            }
-
-            if (sortBy.value.field !== '') {
-                filtered.sort((a, b) => {
-                if (a[sortBy.value.field] < b[sortBy.value.field]) return sortBy.value.order === 'asc' ? -1 : 1;
-                if (a[sortBy.value.field] > b[sortBy.value.field]) return sortBy.value.order === 'asc' ? 1 : -1;
-                return 0;
-                });
-            }
-
-            return filtered;
-        });
-
-        fetchUsers();
-
-        return {
-            fetchUsers,
-            users,
-            formatDate,
-            selectedUser,
-            showInfoModal,
-            openInfoModal,
-            closeInfoModal,
-            updateUser,
-            filteredUsers,
-            toggleSort,
-            sortBy,
-            searchTerm,
-            removeUser
-        };
-    },
+const header =
+{
+    headers:
+    { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') }
 };
+
+const users = ref([]);
+const selectedUser = ref();
+const searchTerm = ref('');
+const showInfoModal = ref(false);
+const sortBy = ref({ field: '', order: 'asc' });
+
+const fetchUsers = async () =>
+{
+    const response = await axios.get('http://127.0.0.1:5000/users', header)
+    response.data.forEach(user => { user.birth_date = formatDate(user.birth_date); });
+
+    users.value = response.data;
+}
+
+const updateUser = async () =>
+{
+    const data =
+    {
+        address: selectedUser.value.address,
+        username: selectedUser.value.username,
+        birth_date: selectedUser.value.birth_date,
+        phone_number: selectedUser.value.phone_number,
+        company_email: selectedUser.value.company_email,
+        last_name: selectedUser.value.name.split(' ')[1],
+        first_name: selectedUser.value.name.split(' ')[0],
+        personal_email: selectedUser.value.personal_email,
+    }
+
+    const response = await axios.patch(`http://127.0.0.1:5000/users/${selectedUser.value.id}`, data, header)
+    .catch((error) => { alert("FAILED TO UPDATE USER") })
+    .then(() => { alert("USER UPDATED") });
+
+    fetchUsers();
+}
+
+const removeUser = async (userId) =>
+{
+    if(window.confirm('Are you sure you want to delete this user?') === false) return;
+    const response = await axios.delete(`http://127.0.0.1:5000/users/${userId}`, header)
+    alert(response.data.message);
+
+    fetchUsers();
+}
+
+const formatDate = (dateString) =>
+{
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+};
+
+const openInfoModal = (userId) =>
+{
+    selectedUser.value = users.value.find(user => user.id === userId);
+    showInfoModal.value = true;
+};
+
+const closeInfoModal = () =>
+{ showInfoModal.value = false; };
+
+const toggleSort = (field) =>
+{
+    if (sortBy.value.field === field) sortBy.value.order = sortBy.value.order === 'asc' ? 'desc' : 'asc';
+    else
+    {
+        sortBy.value.field = field;
+        sortBy.value.order = 'asc';
+    }
+};
+
+const filteredUsers = computed(() =>
+{
+    let filtered = users.value;
+
+    if (searchTerm.value !== '')
+    {
+        filtered = filtered.filter((user) =>
+        Object.values(user).some((value) =>
+            String(value).toLowerCase().includes(searchTerm.value.toLowerCase()) ));
+    }
+
+    if (sortBy.value.field !== '')
+    {
+        filtered.sort((a, b) =>
+        {
+            if (a[sortBy.value.field] < b[sortBy.value.field]) return sortBy.value.order === 'asc' ? -1 : 1;
+            if (a[sortBy.value.field] > b[sortBy.value.field]) return sortBy.value.order === 'asc' ? 1 : -1;
+            return 0;
+        });
+    }
+
+    return filtered;
+});
+
+fetchUsers();
 </script>
 
+
 <style scoped>
-    .modal {
-        position: fixed;
+    .modal
+    {
         top: 0;
         left: 0;
-        font-weight: bold;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
         display: flex;
-        justify-content: center;
+        z-index: 9999;
+        position: fixed;
+        font-weight: bold;
         align-items: center;
-        z-index: 9999; /* Increase the z-index value */
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.3s;
-    }
-
-    .fade-enter-from, .fade-leave-to {
-        opacity: 0;
-    }
-    .nowrap {
-        white-space: nowrap;
-    }
+    .nowrap { white-space: nowrap; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; }
+    .fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
 </style>
