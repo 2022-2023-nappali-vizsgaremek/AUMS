@@ -21,81 +21,81 @@
                     <div class="card-body rounded rounded-4 p-5">
                         <h2 class="text-uppercase text-center mb-5">Register new user</h2>
                         <form>
-                            <div class="form-outline wrap-input100">
-                                <input type="text" id="firstName" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="text" id="firstName" class="inputcss shadow rounded rounded-3"
                                 placeholder="First Name" v-model="firstName">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
-                                <input type="text" id="lastName" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="text" id="lastName" class="inputcss shadow rounded rounded-3"
                                 placeholder="Last Name" v-model="lastName">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
-                                <input type="date" id="birthDate" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="date" id="birthDate" class="inputcss shadow rounded rounded-3"
                                 placeholder="BirthDate" v-model="birthDate">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
-                                <input type="text" id="address" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="text" id="address" class="inputcss shadow rounded rounded-3"
                                 placeholder="Address" v-model="address">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
-                                <input type="text" id="phone" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="text" id="phone" class="inputcss shadow rounded rounded-3"
                                 placeholder="Phone number" v-model="phone">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-phone" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
-                                <input type="email" id="email" class="input100 shadow rounded rounded-3"
+                            <div class="form-outline wrap-inputcss">
+                                <input type="email" id="email" class="inputcss shadow rounded rounded-3"
                                 placeholder="Email Address" v-model="email">
 
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                 </span>
                             </div>
 
-                            <div class="form-outline wrap-input100">
+                            <div class="form-outline wrap-inputcss">
                                 <select id="roleLevel"
-                                    v-model="roleLevel" class="input100 shadow rounded rounded-3" >
+                                    v-model="roleLevel" class="inputcss shadow rounded rounded-3" >
                                         <option value="" disabled selected>Role Level</option>
                                         <option v-for="i in 5" :key="i" :value="i">{{ i }}</option>
                                 </select>
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
+                                <span class="focus-inputcss"></span>
+                                <span class="symbol-inputcss">
                                     <i class="fa fa-level-up" aria-hidden="true"></i>
                                 </span>
                             </div>
 
                             <div class="d-flex justify-content-center mt-4">
                                 <button type="button" @click="register" class="btn-lg rounded
-                                login100-form-btn btn-block gradient-custom-4 shadow rounded-3">Register</button>
+                                logincss-form-btn btn-block gradient-custom-4 shadow rounded-3">Register</button>
                             </div>
                         </form>
                     </div>

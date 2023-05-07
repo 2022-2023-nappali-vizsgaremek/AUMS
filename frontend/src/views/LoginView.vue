@@ -25,22 +25,22 @@
                                 class="p-3 shadow rounded rounded-5 img-fluid" style="border-radius: 50%">
 
                             <form class="mt-5">
-                                <div class="form-outline wrap-input100">
-                                    <input type="text" id="email" class="input100 shadow rounded rounded-3"
+                                <div class="form-outline wrap-inputcss">
+                                    <input type="text" id="email" class="inputcss shadow rounded rounded-3"
                                         placeholder="Company Email/Username" v-model="email">
 
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
+                                    <span class="focus-inputcss"></span>
+                                    <span class="symbol-inputcss">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                     </span>
                                 </div>
 
-                                <div class="form-outline wrap-input100">
-                                    <input type="password" id="password" class="input100 shadow rounded rounded-3"
+                                <div class="form-outline wrap-inputcss">
+                                    <input type="password" id="password" class="inputcss shadow rounded rounded-3"
                                         placeholder="Password" v-model="password">
 
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
+                                    <span class="focus-inputcss"></span>
+                                    <span class="symbol-inputcss">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -119,36 +119,36 @@
                         <h2 class="text-uppercase text-center m-0">CHANGE PASSWORD</h2>
                     </div>
                     <form class="mt-4">
-                        <div class="form-outline wrap-input100 mb-3">
-                            <input type="password" id="currentPassword" class="input100 shadow rounded rounded-3"
+                        <div class="form-outline wrap-inputcss mb-3">
+                            <input type="password" id="currentPassword" class="inputcss shadow rounded rounded-3"
                                 placeholder="Current Password" v-model="currentPassword">
 
-                            <span class="focus-input100"></span>
-                            <span class="symbol-input100">
+                            <span class="focus-inputcss"></span>
+                            <span class="symbol-inputcss">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </span>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-outline wrap-input100 mt-3 mb-3">
-                                    <input type="password" id="newPassword" class="input100 shadow rounded rounded-3"
+                                <div class="form-outline wrap-inputcss mt-3 mb-3">
+                                    <input type="password" id="newPassword" class="inputcss shadow rounded rounded-3"
                                         placeholder="New Password" v-model="newPassword">
 
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
+                                    <span class="focus-inputcss"></span>
+                                    <span class="symbol-inputcss">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-outline wrap-input100 mt-3 mb-3">
-                                    <input type="password" id="confirmPassword" class="input100 shadow rounded rounded-3"
+                                <div class="form-outline wrap-inputcss mt-3 mb-3">
+                                    <input type="password" id="confirmPassword" class="inputcss shadow rounded rounded-3"
                                         placeholder="Confirm Password" v-model="confirmPassword">
 
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
+                                    <span class="focus-inputcss"></span>
+                                    <span class="symbol-inputcss">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
