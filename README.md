@@ -68,7 +68,7 @@ A projekt célja egy egyszerű, de könnyen használható beléptető és felhas
   - Továbbá a GitHub action feladata a desktop alkalmazás ellenőrzuése és telepítő készletének létrehozása, amit Release elemként csatol a projekt oldalához.
   - A szerveren található automatikus megfigyelő észleli a github által létrehozott új kiadást és ezt frissíti a szerveren is, így mindig a legújabb verzió kerül az éles rendszerre.
 ### Desktop
-  - Telepítás után, az indítást követően megjelenik és használhatóvá válik a frontend rendszer.
+  - Telepítés után, az indítást követően megjelenik és használhatóvá válik a frontend rendszer.
   - A desktop alkalmazás electron felhasználásával készült, multi platform lehetőséget biztosítva.
 ### Frontend
   - Felhasználásra került benne többek között: axios, router, bootstrap stb.
