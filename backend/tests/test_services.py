@@ -40,6 +40,14 @@ def connect_role_to_user(user_id: int, role_id: int):
 
 class TestRegisterUser:
     def test_register_user_success(self, test_client, init_database):
+        """
+        Test register user success
+
+        Args:
+            test_client (_type_): _description_
+            init_database (_type_): _description_
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             response, status_code = register_new_user(user_data)
@@ -49,6 +57,14 @@ class TestRegisterUser:
             assert response["message"] == "User successfully registered"
 
     def test_register_user_empty_field(self, test_client, init_database):
+        """
+        Test register user empty field
+
+        Args:
+            test_client (FlaskClient): The test client
+            init_database (None): The database
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             user_data["first_name"] = ""
@@ -60,6 +76,14 @@ class TestRegisterUser:
             assert response["message"] == "One or more fields are empty"
 
     def test_register_user_invalid_email(self, test_client, init_database):
+        """
+        Test register user invalid email
+
+        Args:
+            test_client (FlaskClient): The test client
+            init_database (None): The database
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             user_data["personal_email"] = "invalid_email"
@@ -72,6 +96,14 @@ class TestRegisterUser:
 
 class TestLoginUser:
     def test_login_user_success(self, test_client, init_database) -> None:
+        """
+        Test login user success
+
+        Args:
+            test_client (FlaskClient): The test client
+            init_database (None): The database
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             _, _, password = register_new_user(user_data, return_password=True)
@@ -92,6 +124,14 @@ class TestLoginUser:
             assert response["message"] == "User successfully logged in"
 
     def test_login_user_invalid_password(self, test_client, init_database) -> None:
+        """
+        Test login user invalid password
+
+        Args:
+            test_client (FlaskClient): The test client
+            init_database (None): The database
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             register_new_user(user_data)
@@ -108,6 +148,14 @@ class TestLoginUser:
             assert response["message"] == "Invalid company email or password"
 
     def test_login_user_invalid_company_email(self, test_client, init_database) -> None:
+        """
+        Test login user invalid company email
+
+        Args:
+            test_client (FlaskClient): The test client
+            init_database (None): The database
+        """
+
         with test_client.application.app_context():
             user_data = generate_valid_user_data()
             register_new_user(user_data)

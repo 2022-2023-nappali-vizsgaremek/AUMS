@@ -18,8 +18,8 @@ class Test(Base):
     """
 
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     SEND_EMAILS = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
 
 class Localhost(Base):
     """
@@ -42,5 +42,4 @@ class Production(Base):
 
     try:
         SQLALCHEMY_DATABASE_URI = get_env("PRODUCTION_DATABASE_URI")
-    except SystemExit:
-        SQLALCHEMY_DATABASE_URI = None
+    except SystemExit: SQLALCHEMY_DATABASE_URI = None

@@ -138,6 +138,14 @@ class TestConfig:
 
 class TestRole:
     def test_add_role(self, test_client, init_database):
+        """
+        Test role creation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             role = Role(name="Super Admin", level=6)
             db.session.add(role)
@@ -146,14 +154,19 @@ class TestRole:
             assert role.id is not None
 
     def test_update_role(self, test_client, init_database):
-        with test_client.application.app_context():
-            # Count roles before adding a new one
-            initial_role_count = Role.query.count()
+        """
+        Test role updation
 
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
+        with test_client.application.app_context():
+            initial_role_count = Role.query.count()
             self.test_add_role(test_client, init_database)
 
             roles = Role.query.all()
-
             assert len(roles) == initial_role_count + 1
 
             role = roles[-1]
@@ -164,14 +177,19 @@ class TestRole:
             assert updated_role.name == "Super Duper Admin"
 
     def test_delete_role(self, test_client, init_database):
-        with test_client.application.app_context():
-            # Count roles before adding a new one
-            initial_role_count = Role.query.count()
+        """
+        Test role deletion
 
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
+        with test_client.application.app_context():
+            initial_role_count = Role.query.count()
             self.test_add_role(test_client, init_database)
 
             roles = Role.query.all()
-
             assert len(roles) == initial_role_count + 1
 
             role = roles[-1]
@@ -183,6 +201,14 @@ class TestRole:
 
 class TestCard:
     def test_add_card(self, test_client, init_database):
+        """
+        Test card creation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             card = Card(card_number="1234567890")
             db.session.add(card)
@@ -191,10 +217,17 @@ class TestCard:
             assert card.id is not None
 
     def test_update_card(self, test_client, init_database):
+        """
+        Test card updation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_card(test_client, init_database)
             cards = Card.query.all()
-
             assert len(cards) == 1
 
             card = cards[0]
@@ -205,10 +238,17 @@ class TestCard:
             assert updated_card.card_number == "0987654321"
 
     def test_delete_card(self, test_client, init_database):
+        """
+        Test card deletion
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_card(test_client, init_database)
             cards = Card.query.all()
-
             assert len(cards) == 1
 
             card = cards[0]
@@ -220,6 +260,14 @@ class TestCard:
 
 class TestUserRole:
     def test_add_user_role(self, test_client, init_database):
+        """
+        Test user role creation
+        
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             user_role = UserRole(id=1, user_id=1, role_id=1)
             db.session.add(user_role)
@@ -228,10 +276,17 @@ class TestUserRole:
             assert user_role.id is not None
 
     def test_update_user_role(self, test_client, init_database):
+        """
+        Test user role updation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_user_role(test_client, init_database)
             user_roles = UserRole.query.all()
-
             assert len(user_roles) == 1
 
             user_role = user_roles[0]
@@ -242,10 +297,17 @@ class TestUserRole:
             assert updated_user_role.role_id == 2
 
     def test_delete_user_role(self, test_client, init_database):
+        """
+        Test user role deletion
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_user_role(test_client, init_database)
             user_roles = UserRole.query.all()
-
             assert len(user_roles) == 1
 
             user_role = user_roles[0]
@@ -257,6 +319,14 @@ class TestUserRole:
 
 class TestUserCard:
     def test_add_user_card(self, test_client, init_database):
+        """
+        Test user card creation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             user_card = UserCard(user_id=1, card_id=1)
             db.session.add(user_card)
@@ -265,6 +335,14 @@ class TestUserCard:
             assert user_card.id is not None
 
     def test_update_user_card(self, test_client, init_database):
+        """
+        Test user card updation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_user_card(test_client, init_database)
             user_cards = UserCard.query.all()
@@ -279,10 +357,17 @@ class TestUserCard:
             assert updated_user_card.card_id == 2
 
     def test_delete_user_card(self, test_client, init_database):
+        """
+        Test user card deletion
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_user_card(test_client, init_database)
             user_cards = UserCard.query.all()
-
             assert len(user_cards) == 1
 
             user_card = user_cards[0]
@@ -294,6 +379,14 @@ class TestUserCard:
 
 class TestSchedule:
     def test_add_schedule(self, test_client, init_database):
+        """
+        Test schedule creation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             enter_date = datetime(2020, 1, 1, 8, 0, 0)
             leave_date = datetime(2020, 1, 1, 16, 0, 0)
@@ -304,9 +397,18 @@ class TestSchedule:
             assert schedule.id is not None
 
     def test_add_schedule_enter_date(self, test_client, init_database):
+        """
+        Test schedule creation
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             enter_date = datetime(2020, 1, 1, 8, 0, 0)
             leave_date = None
+
             schedule = Schedule(user_id=1, enter_date=enter_date, leave_date=leave_date)
             db.session.add(schedule)
             db.session.commit()
@@ -314,10 +416,17 @@ class TestSchedule:
             assert schedule.enter_date == enter_date
 
     def test_delete_schedule(self, test_client, init_database):
+        """
+        Test schedule deletion
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_add_schedule(test_client, init_database)
             schedules = Schedule.query.all()
-
             assert len(schedules) == 1
 
             schedule = schedules[0]
@@ -329,6 +438,14 @@ class TestSchedule:
 
 class TestUserRoleConnection:
     def test_connect_role_to_user(self, test_client, init_database):
+        """
+        Test user role connection
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             user_role = UserRole(user_id=1, role_id=1)
             db.session.add(user_role)
@@ -337,10 +454,17 @@ class TestUserRoleConnection:
             assert user_role.id is not None
 
     def test_disconnect_role_from_user(self, test_client, init_database):
+        """
+        Test user role disconnection
+
+        Args:
+            test_client (Flask): A test client
+            init_database (function): Initialize database
+        """
+
         with test_client.application.app_context():
             self.test_connect_role_to_user(test_client, init_database)
             user_roles = UserRole.query.all()
-
             assert len(user_roles) == 1
 
             user_role = user_roles[0]

@@ -35,4 +35,15 @@ def get_all_schedule() -> dict:
 
 
 def error_response(message, status_code):
+    """
+    Error response
+
+    Args:
+        message (str): The message of the response
+        status_code (int): The status code of the response
+
+    Returns:
+        dict: The response and the status code of the request
+    """
+
     return {"status": "failed", "message": message}, status_code

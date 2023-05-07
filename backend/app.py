@@ -10,7 +10,6 @@ from utils.mail.mail_settings import configure_mail
 import controllers.role_controller
 import controllers.user_role_controller
 
-
 # Local used controllers
 import controllers.user_controller as user_ctrl
 import controllers.card_controller as card_ctrl
@@ -34,10 +33,6 @@ elif selected_config == "Production": app, api = create_app(config.Production)
 
 configure_mail(app)
 
-# Index routes
-api.add_resource(index_ctrl.Index, "/")
-api.add_resource(index_ctrl.LogDump, "/log_dump")
-api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_token>")
 # User routes
 api.add_resource(user_ctrl.Login, "/login")
 api.add_resource(user_ctrl.Register, "/register")
@@ -46,6 +41,9 @@ api.add_resource(user_ctrl.Delete, "/users/<int:user_id>")
 api.add_resource(user_ctrl.ChangePassword, "/change_password")
 # Schedule routes
 api.add_resource(schedule_ctrl.Schedule, "/schedule")
+# UserCard routes
+api.add_resource(user_card_ctrl.Users, "/users")
+api.add_resource(user_card_ctrl.UserCard, "/user_cards", "/user_cards/<int:id>")
 # Card routes
 api.add_resource(card_ctrl.ActiveCards, "/cards")
 api.add_resource(card_ctrl.UnknownCards, "/unknown_cards")
@@ -53,10 +51,10 @@ api.add_resource(card_ctrl.ActiveCardById, "/cards/<int:card_id>")
 api.add_resource(card_ctrl.ActivateCard, "/activate_card/<int:uk_card_id>")
 api.add_resource(card_ctrl.UnknownCardById, "/unknown_cards/<int:uk_card_id>")
 api.add_resource(card_ctrl.CardValidation, "/card_validation/<string:card_number>")
-
-# UserCard routes
-api.add_resource(user_card_ctrl.UserCard, "/user_cards", "/user_cards/<int:id>")
-api.add_resource(user_card_ctrl.Users, "/users")
+# Index routes
+api.add_resource(index_ctrl.Index, "/")
+api.add_resource(index_ctrl.LogDump, "/log_dump")
+api.add_resource(index_ctrl.IsAuthenticated, "/is_authenticated/<string:access_token>")
 
 # Swagger docs
 docs = FlaskApiSpec(app)
@@ -69,6 +67,9 @@ docs.register(user_ctrl.Login)
 docs.register(user_ctrl.Register)
 # Schedule docs
 docs.register(schedule_ctrl.Schedule)
+# UserCard docs
+docs.register(user_card_ctrl.Users)
+docs.register(user_card_ctrl.UserCard)
 # Card docs
 docs.register(card_ctrl.ActiveCards)
 docs.register(card_ctrl.UnknownCards)
@@ -76,9 +77,6 @@ docs.register(card_ctrl.ActivateCard)
 docs.register(card_ctrl.ActiveCardById)
 docs.register(card_ctrl.CardValidation)
 docs.register(card_ctrl.UnknownCardById)
-# UserCard docs
-docs.register(user_card_ctrl.UserCard)
-docs.register(user_card_ctrl.Users)
 
 with app.app_context():
     """
@@ -108,7 +106,7 @@ with app.app_context():
                 personal_email="postmaster@proj-aums.hu",
                 username="admin.admin",
                 password=bcrypt.hashpw("admin".encode("utf-8"), bcrypt.gensalt()).decode("utf-8"))
-            db.session.add(user)
+
             hardware_user = User(
                 first_name="Hardware",
                 last_name="Hardware",
@@ -120,25 +118,36 @@ with app.app_context():
                 username="hardware",
                 password=bcrypt.hashpw("hardware".encode("utf-8"), bcrypt.gensalt()).decode("utf-8"),
                 access_token="OOkbqF8pliyFSWOQOti45PsQfkUTqMfc9MY2w0WshjbyM8li98ffW1eC2xz4kLhscoxSfQI8ajVS2lRRZH8Dqbx6AnvMS6rYhwfjwtVhyAsRSTcVIlnwT9dIGqWnd59f")
+
+            db.session.add(user)
             db.session.add(hardware_user)
             db.session.commit()
 
             from models.role import Role
-            base_user_role = Role(name="Base User", level=1); db.session.add(base_user_role)
-            authorized_user_role = Role(name="Authorized User", level=2); db.session.add(authorized_user_role)
-            secretary_role = Role(name="Secretary", level=3); db.session.add(secretary_role)
-            manager_role = Role(name="Manager", level=4); db.session.add(manager_role)
-            admin_role = Role(name="Admin", level=5); db.session.add(admin_role)
+            base_user_role = Role(name="Base User", level=1)
+            authorized_user_role = Role(name="Authorized User", level=2)
+            secretary_role = Role(name="Secretary", level=3)
+            manager_role = Role(name="Manager", level=4)
+            admin_role = Role(name="Admin", level=5)
+
+            db.session.add(base_user_role)
+            db.session.add(authorized_user_role)
+            db.session.add(secretary_role)
+            db.session.add(manager_role)
+            db.session.add(admin_role)
+
             db.session.commit()
 
             from models.user_role import UserRole
-            user_role = UserRole(user_id=user.id, role_id=admin_role.id); db.session.add(user_role)
-            hardware_user_role = UserRole(user_id=hardware_user.id, role_id=admin_role.id); db.session.add(hardware_user_role)
+            user_role = UserRole(user_id=user.id, role_id=admin_role.id)
+            hardware_user_role = UserRole(user_id=hardware_user.id, role_id=admin_role.id)
+
+            db.session.add(hardware_user_role)
+            db.session.add(user_role)
             db.session.commit()
 
         log.info("Db created")
-    except Exception as db_error:
-        exit_app(f"Db error: {db_error}")
+    except Exception as db_error: exit_app(f"Db error: {db_error}")
 
 if __name__ == "__main__":
     """

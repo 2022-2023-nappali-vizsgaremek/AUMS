@@ -2,21 +2,38 @@ from functools import wraps
 from flask import jsonify, request, make_response
 
 def auth_required(f):
+    """
+    Decorator for authentication
+
+    Args:
+        f (any): The function to be decorated
+
+    Returns:
+        any: The decorated function
+    """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        access_token = request.headers.get('Authorization')
+        access_token = request.headers.get("Authorization")
 
-        if not access_token or is_authenticated(access_token.split(' ')[1])[0]["status"] != "success":
-            return make_response(jsonify({'message': 'Invalid or missing access token' + str(access_token)}), 401)
+        if not access_token or is_authenticated(access_token.split(" ")[1])[0]["status"] != "success":
+            return make_response(jsonify({"message": "Invalid or missing access token" + str(access_token)}), 401)
         return f(*args, **kwargs)
     return decorated_function
 
 def role_level_required(required_role):
+    """
+    Decorator for role level authentication
+
+    Args:
+        required_role (int): The required role level
+    """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            header_data = request.headers.get('Authorization')
-            access_token = header_data.split(' ')[1]
+            header_data = request.headers.get("Authorization")
+            access_token = header_data.split(" ")[1]
 
             if access_token and is_authenticated(access_token)[0]["status"] == "success":
                 from models.user import User
@@ -28,8 +45,8 @@ def role_level_required(required_role):
                 user_role_level = Role.query.filter_by(id=user_role_id).first().level
 
                 if user_role_level < required_role:
-                    return make_response(jsonify({'message': 'Insufficient role level'}), 401)
-            else: return make_response(jsonify({'message': 'Invalid or missing access token'}), 401)
+                    return make_response(jsonify({"message": "Insufficient role level"}), 401)
+            else: return make_response(jsonify({"message": "Invalid or missing access token"}), 401)
             return f(*args, **kwargs)
         return decorated_function
     return decorator
@@ -93,4 +110,3 @@ def get_log_dump() -> dict:
         "status": "success",
         "message": "Log dump",
         "log_dump": log_dump }, 200
-    

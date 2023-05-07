@@ -54,13 +54,13 @@ def register_new_user(args: dict, password: Optional[str] = None, return_passwor
             "message": "One or more fields are empty" }, 400
 
     validations = [
-        (phone_number, r'^\d{11}$', "The phone number is invalid"),
-        (str(role_level), r'^[1-5]$', "The role level is invalid"),
-        (address, r'^[a-zA-Z0-9\s,.\'-]{3,}$', "The address is invalid"),
-        (birth_date, r'^\d{4}-\d{2}-\d{2}$', "The birth date is invalid"),
-        (personal_email, r'^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$', "The personal email is invalid"),
-        (last_name, r'^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$', "The last name is invalid"),
-        (first_name, r'^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\' ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$', "The first name is invalid")
+        (phone_number, r"^\d{11}$", "The phone number is invalid"),
+        (str(role_level), r"^[1-5]$", "The role level is invalid"),
+        (address, r"^[a-zA-Z0-9\s,.\"-]{3,}$", "The address is invalid"),
+        (birth_date, r"^\d{4}-\d{2}-\d{2}$", "The birth date is invalid"),
+        (personal_email, r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", "The personal email is invalid"),
+        (last_name, r"^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\" ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$", "The last name is invalid"),
+        (first_name, r"^[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]+(([\" ][a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ])?[a-zA-ZáÁéÉíÍóÓöÖőŐúÚüÜűŰ]*)*$", "The first name is invalid")
     ]
 
     for value, pattern, error_message in validations:
@@ -139,9 +139,9 @@ def login_user(args: dict) -> dict:
     user = User.query.filter((User.company_email == company_email) | (User.username == company_email)).first()
 
     if not user or not bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
-      return {
-          "status": "failed",
-           "message": "Invalid company email or password" }, 401
+        return {
+            "status": "failed",
+            "message": "Invalid company email or password" }, 401
 
     token_chars = string.ascii_letters + string.digits
     access_token = "".join(Random().choice(token_chars) for i in range(128))
@@ -213,9 +213,9 @@ def change_user_password(args) -> dict:
     confirm_password = args["confirm_password"]
 
     validations = [
-        (new_password, r'^[a-zA-Z0-9_\-\.]+$', "New password contains invalid characters"),
-        (current_password, r'^[a-zA-Z0-9_\-\.]+$', "Current password contains invalid characters"),
-        (confirm_password, r'^[a-zA-Z0-9_\-\.]+$', "Confirm password contains invalid characters")
+        (new_password, r"^[a-zA-Z0-9_\-\.]+$", "New password contains invalid characters"),
+        (current_password, r"^[a-zA-Z0-9_\-\.]+$", "Current password contains invalid characters"),
+        (confirm_password, r"^[a-zA-Z0-9_\-\.]+$", "Confirm password contains invalid characters")
     ]
 
     for value, regex, message in validations:
@@ -259,9 +259,9 @@ def _update_user(model, attribute, value, args) -> tuple:
 
     if (len(args) == 0):
         return {
-           "status": "failed",
-           "message": "No arguments given" }, 400
-    
+            "status": "failed",
+            "message": "No arguments given" }, 400
+
     user = model.query.filter_by(**{attribute: value}).first()
 
     if not user:
@@ -271,7 +271,7 @@ def _update_user(model, attribute, value, args) -> tuple:
 
     update_username_and_email = False
     for key, value in args.items():
-        if value is not None and value != '':
+        if value is not None and value != "":
             if key in ["first_name", "last_name"]:
                 update_username_and_email = True
             setattr(user, key, value)
@@ -281,8 +281,7 @@ def _update_user(model, attribute, value, args) -> tuple:
         user.username = new_username
         user.company_email = new_company_email
 
-    try:
-        db.session.commit()
+    try: db.session.commit()
     except Exception as e:
         return {
             "status": "failed",
@@ -318,8 +317,7 @@ def _delete_user(model, attribute, value) -> tuple:
 
     db.session.delete(user)
 
-    try:
-        db.session.commit()
+    try: db.session.commit()
     except Exception as e:
         return {
             "status": "failed",
@@ -330,6 +328,17 @@ def _delete_user(model, attribute, value) -> tuple:
         "message": "User successfully deleted" }, 200
 
 def generate_unique_username_and_email(first_name: str, last_name: str) -> tuple:
+    """
+    Generate a unique username and company email for a user.
+
+    Args:
+        first_name (str): The user's first_name
+        last_name (str): The user's last_name
+
+    Returns:
+        tuple: The generated username and company email
+    """
+
     username = f"{first_name.lower()}.{last_name.lower()}"
     company_email = f"{username}@proj-aums.hu"
 

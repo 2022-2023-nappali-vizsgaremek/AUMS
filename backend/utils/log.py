@@ -1,6 +1,6 @@
-# Logging setup and configuration
-
+# local imports
 import logging
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(
