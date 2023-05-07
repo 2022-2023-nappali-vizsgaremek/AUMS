@@ -1,27 +1,31 @@
 {
-  "name": "frontend",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test:unit": "vitest"
-  },
-  "dependencies": {
-    "@daypilot/daypilot-lite-vue": "^3.13.0",
-    "axios": "^1.3.4",
-    "bootstrap": "^5.2.3",
-    "bootstrap-vue": "^2.23.1",
-    "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/2023.2.5565.tar.gz",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/test-utils": "^2.3.0",
-    "jsdom": "^21.1.0",
-    "vite": "^4.2.1",
-    "vitest": "^0.29.1"
-  }
+    "private": true,
+    "name": "frontend",
+    "version": "0.0.0",
+
+    "scripts":
+    {
+        "dev": "vite",
+        "build": "vite build",
+        "test:unit": "vitest",
+        "preview": "vite preview"
+    },
+    "dependencies":
+    {
+        "vue": "^3.2.47",
+        "axios": "^1.3.4",
+        "bootstrap": "^5.2.3",
+        "vue-router": "^4.1.6",
+        "bootstrap-vue": "^2.23.1",
+        "@daypilot/daypilot-lite-vue": "^3.13.0",
+        "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/2023.2.5565.tar.gz"
+    },
+    "devDependencies":
+    {
+        "vite": "^4.2.1",
+        "jsdom": "^21.1.0",
+        "vitest": "^0.29.1",
+        "@vue/test-utils": "^2.3.0",
+        "@vitejs/plugin-vue": "^4.0.0"
+    }
 }

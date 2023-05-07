@@ -8,6 +8,7 @@
 constexpr uint8_t SS_PIN = D4;
 constexpr uint8_t RST_PIN = D3;
 
+// WiFi credentials
 const char* ssid = "AUMS";
 const char* password = "PROJ-AUMS";
 const char* server = "https://api.proj-aums.hu/card_validation/";
@@ -27,7 +28,7 @@ byte* stringToBytes(const char* str)
         bytes[i] = strtoul(str, NULL, 16);
 
         str += 2;
-        if (*str == ':') ++str;
+        if (*str == ":") ++str;
     }
     return bytes;
 }
@@ -39,10 +40,12 @@ void setup()
     SPI.begin();
     rfid.PCD_Init();
 
+    // State LED
     pinMode(D0, OUTPUT);
     pinMode(D1, OUTPUT);
     pinMode(D2, OUTPUT);
 
+    // Start LED sequence
     digitalWrite(D0, HIGH); delay(250);
     digitalWrite(D1, HIGH); delay(250);
     digitalWrite(D2, HIGH); delay(250);
@@ -53,6 +56,7 @@ void setup()
 
     WiFi.begin(ssid, password);
 
+    // Wait for wifi connection
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
@@ -66,6 +70,8 @@ WiFiClientSecure secureClient;
 void loop()
 {
     if (!rfid.PICC_IsNewCardPresent()) return;
+
+    // Card is present
     if (rfid.PICC_ReadCardSerial())
     {
         for (byte i = 0; i < 4; i++)
@@ -76,6 +82,7 @@ void loop()
 
         String url = String(server) + tag;
 
+        // Setup and send request
         secureClient.setInsecure();
         http.begin(secureClient, url);
 
@@ -84,6 +91,7 @@ void loop()
 
         int httpCode = http.POST("");
 
+        // Handle response
         if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_CREATED)
         {
             if (httpCode == HTTP_CODE_OK)

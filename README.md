@@ -9,14 +9,13 @@
 </div>
 
 <div align="center">
-  
+
 ### Összefoglaló
-  
-A projekt célja egy egyszerű, de könnyen használható beléptető és felhasználó kezelő rendszer létrehozása.<br>Az AUMS tartalmazza ezen, és további hasznos funckiókat amelyek lényegesen hatékonyabbá tehetik egy adott felhasználói kör munkafolyamatait.
-  
-  <hr>
-</div>
-<br>
+
+A projekt célja egy egyszerű, de könnyen használható beléptető és felhasználó kezelő rendszer létrehozása.
+<br>Az AUMS tartalmazza ezen, és további hasznos funckiókat amelyek lényegesen hatékonyabbá tehetik egy adott felhasználói kör munkafolyamatait.
+
+<hr></div><br>
 
 # Felhasználói folyamatok
 - Bejelentkezés: A főoldalon található bejelentkezési űrlap használatával a felhasználó eljuthat a komplexebb rendszerek megtekintéséhez.

@@ -14,7 +14,7 @@ except ImportError as ex: exit_app(f"Module not found: {ex}")
 class Schedule(MethodResource, Resource):
     @doc(description="Get all schedules", tags=["Schedule"])
     @auth_required
-    @role_level_required(5)
+    @role_level_required(2)
     def get(self):
         """
         Get all schedules

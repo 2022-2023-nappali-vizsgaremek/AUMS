@@ -75,11 +75,15 @@
             const matches = line.match(/\(([^)]+)\) (\w+): (.+)/);
 
             if (matches) {
-            logs.push({
-                timestamp: matches[1],
-                level: matches[2],
-                message: matches[3],
-            });
+                if (!matches[3].includes('dump')) {
+                    logs.push({
+                        timestamp: matches[1],
+                        level: matches[2],
+                        message: matches[3],
+                    });
+                }
+
+
             }
         });
 

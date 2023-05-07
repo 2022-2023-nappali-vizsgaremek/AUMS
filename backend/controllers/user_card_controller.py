@@ -64,7 +64,7 @@ class UserCard(MethodResource, Resource):
 class Users(MethodResource, Resource):
     @doc(description="Get users", tags=["Users"])
     @auth_required
-    @role_level_required(5)
+    @role_level_required(2)
     def get(self) -> dict:
         """
         Get users
